@@ -4503,6 +4503,8 @@ GameObject:
   - component: {fileID: 392159370}
   - component: {fileID: 392159369}
   - component: {fileID: 392159368}
+  - component: {fileID: 392159373}
+  - component: {fileID: 392159374}
   m_Layer: 0
   m_Name: Blocker
   m_TagString: Untagged
@@ -4617,13 +4619,59 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392159367}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5555702, y: 0, z: 0, w: 0.8314697}
-  m_LocalPosition: {x: 3.703, y: -4.377, z: -17.367}
+  m_LocalRotation: {x: -0.5555702, y: -0, z: -0, w: 0.8314697}
+  m_LocalPosition: {x: 3.703, y: -4.4914, z: -17.4144}
   m_LocalScale: {x: 0.05, y: 1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 662777179}
   m_LocalEulerAnglesHint: {x: -67.5, y: 0, z: 0}
+--- !u!114 &392159373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392159367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed11000c190cb4f4bb9938a14b4de852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hiddenPos: {x: 3.703, y: -4.4914, z: -17.4144}
+  readyPos: {x: 3.703, y: -4.377, z: -17.367}
+  activatedPos: {x: 3.816, y: -4.377, z: -17.64}
+  hiddenRot: {x: 292.5, y: 0, z: 0}
+  readyRot: {x: 292.5, y: 0, z: 0}
+  activatedRot: {x: 292.5, y: 67.5, z: 0}
+  movementSpeed: 1
+  blockingSpeed: 2
+  objectMovementSpeed: 2
+  ready: 1
+  activated: 0
+  movingObject: {fileID: 0}
+  fakeActivation: 0
+--- !u!65 &392159374
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392159367}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 0.030810596, z: 10.000001}
+  m_Center: {x: 0, y: 0.010101557, z: -0.0000000053071076}
 --- !u!4 &392840065 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8559772660787471312, guid: d478ef999a9d5dd448be5ffeb6ffa615, type: 3}
@@ -8902,6 +8950,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 392159372}
   - {fileID: 746437223}
   - {fileID: 276545934}
   - {fileID: 514868137}
@@ -19089,23 +19138,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bfa7e072c6ce4b4b82c8a09c8e8e184, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -90
+      value: -4.013103
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bfa7e072c6ce4b4b82c8a09c8e8e184, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.759
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bfa7e072c6ce4b4b82c8a09c8e8e184, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -6.035986
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bfa7e072c6ce4b4b82c8a09c8e8e184, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.24364047
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bfa7e072c6ce4b4b82c8a09c8e8e184, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.9698656
+      value: -0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bfa7e072c6ce4b4b82c8a09c8e8e184, type: 3}
       propertyPath: m_LocalRotation.y
@@ -21743,7 +21792,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 1.8464748e+25, z: 6.6778812e+22, w: -6.0836513e+31}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 8e-45, z: 2.3696e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -21936,11 +21985,12 @@ MonoBehaviour:
   spawner: {fileID: 1513314307}
   itemTag: Item
   vt:
-  - {fileID: 746437224}
   - {fileID: 276545935}
+  - {fileID: 746437224}
   - {fileID: 605580462}
   - {fileID: 1746599810656859038}
   trashCan: {fileID: 1603742298}
+  blocker: {fileID: 392159373}
   stopper: 1
   stopperTriggered: 0
   beltResumeEmpty: 0
@@ -24759,6 +24809,7 @@ MonoBehaviour:
     deliveryTime: 0.3
     stop: 0
     noFailure: 1
+    blocker: 0
     nbValidationTrays: 0
     validationType: 1
     traysReceivers: 0000000001000000
@@ -24788,7 +24839,8 @@ MonoBehaviour:
     deliveryTime: 0.3
     stop: 0
     noFailure: 0
-    nbValidationTrays: 2
+    blocker: 1
+    nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
     boxingTask:
@@ -24821,9 +24873,10 @@ MonoBehaviour:
     batchAmount: 10
     continuousBelt: 1
     continuousBatch: 0
-    deliveryTime: 0.3
+    deliveryTime: 0.5
     stop: 0
     noFailure: 0
+    blocker: 0
     nbValidationTrays: 1
     validationType: 4
     traysReceivers: 
@@ -24852,9 +24905,10 @@ MonoBehaviour:
     batchAmount: 10
     continuousBelt: 1
     continuousBatch: 0
-    deliveryTime: 0.3
+    deliveryTime: 0.5
     stop: 0
     noFailure: 0
+    blocker: 0
     nbValidationTrays: 1
     validationType: 3
     traysReceivers: 
@@ -24872,8 +24926,8 @@ MonoBehaviour:
     duration: 60
     items:
       itemShape: 01000000
-      itemColor: 02000000
-      itemNumber: 0100000002000000030000000400000005000000
+      itemColor: 000000000100000002000000
+      itemNumber: 00000000
       used: 1
     objects: []
     baseObjects:
@@ -24885,6 +24939,69 @@ MonoBehaviour:
     deliveryTime: 0.3
     stop: 0
     noFailure: 0
+    blocker: 0
+    nbValidationTrays: 0
+    validationType: 0
+    traysReceivers: 
+    boxingTask:
+      taskDifficulty: 0
+      itemShapes: 
+      itemColors: 
+      itemNumbers: 
+      boxingRequirements: []
+  - Name: 
+    initInstructions: 'Instruction : NBackHit validate when ready to start'
+    duringInstructions: NBack
+    taskType: 6
+    taskDifficulty: 3
+    duration: 60
+    items:
+      itemShape: 0100000000000000
+      itemColor: 020000000100000000000000
+      itemNumber: 00000000
+      used: 1
+    objects: []
+    baseObjects:
+    - {fileID: 8518271795071856002, guid: ebc0a82b5d29a1e49bb6bff641c447b8, type: 3}
+    objectGoal: []
+    batchAmount: 10
+    continuousBelt: 1
+    continuousBatch: 0
+    deliveryTime: 2
+    stop: 0
+    noFailure: 0
+    blocker: 0
+    nbValidationTrays: 0
+    validationType: 0
+    traysReceivers: 
+    boxingTask:
+      taskDifficulty: 0
+      itemShapes: 
+      itemColors: 
+      itemNumbers: 
+      boxingRequirements: []
+  - Name: 
+    initInstructions: 'Instruction : NBackHit validate when ready to start'
+    duringInstructions: NBack
+    taskType: 6
+    taskDifficulty: 5
+    duration: 60
+    items:
+      itemShape: 0100000000000000
+      itemColor: 020000000100000000000000
+      itemNumber: 010000000200000003000000
+      used: 1
+    objects: []
+    baseObjects:
+    - {fileID: 8518271795071856002, guid: ebc0a82b5d29a1e49bb6bff641c447b8, type: 3}
+    objectGoal: []
+    batchAmount: 10
+    continuousBelt: 1
+    continuousBatch: 0
+    deliveryTime: 0.5
+    stop: 0
+    noFailure: 0
+    blocker: 0
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
@@ -24913,6 +25030,14 @@ MonoBehaviour:
   experimentFirstPart:
   - conditionType: 0
     taskType: 6
+    taskDifficulty: 5
+    taskDuration: 600
+    nasaQ: 0
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
+  - conditionType: 0
+    taskType: 6
     taskDifficulty: 1
     taskDuration: 600
     nasaQ: 0
@@ -24920,16 +25045,8 @@ MonoBehaviour:
     compQ: 0
     postBreak: 0
   - conditionType: 0
-    taskType: 0
-    taskDifficulty: 1
-    taskDuration: 600
-    nasaQ: 0
-    stfaQ: 0
-    compQ: 0
-    postBreak: 0
-  - conditionType: 0
-    taskType: 0
-    taskDifficulty: 1
+    taskType: 6
+    taskDifficulty: 3
     taskDuration: 600
     nasaQ: 0
     stfaQ: 0
@@ -29636,4 +29753,3 @@ SceneRoots:
   - {fileID: 768668759}
   - {fileID: 167055686}
   - {fileID: 7853710630208024797}
-  - {fileID: 392159372}

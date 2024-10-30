@@ -10,6 +10,7 @@ public class InfoPannelSetter : MonoBehaviour
     
     public bool isMonitoring;
     public TaskType tracking;
+    public TaskManager tm;
 
     public ConveyorBelt conveyorBelt;
     void Start()
@@ -30,6 +31,9 @@ public class InfoPannelSetter : MonoBehaviour
                     break;
                 case TaskType.MATCHING:
                     UpdateMatch();
+                    break;
+                case TaskType.NBACK:
+                    UpdateNBack();
                     break;
             }
         }
@@ -126,18 +130,7 @@ public class InfoPannelSetter : MonoBehaviour
         int cptbox = 0;
         foreach(ValidationTray vt in conveyorBelt.vt){
             if(vt.type == ValidationTrayType.BINS && vt.activated){
-                string box = "";
-                switch(cptbox){
-                    case 0:
-                        box+="Left bin ";
-                        break;
-                    case 1:
-                        box+="Right bin ";
-                        break;
-                    default:
-                        box+="Bin ";
-                        break;
-                }
+                string box = "The bin";
                 box +="requires : ";
                 bool first = false;
                 foreach(Tuple<ItemShape,ItemColor,int> tp in vt.receiving){
@@ -154,10 +147,29 @@ public class InfoPannelSetter : MonoBehaviour
             }
             cptbox++;
         }
+        info+="Press the controller to put the object in the bin";
         infoText.text = info;
     }
     public void UpdateMatch(){
         string info = "Place connecting cable that connects red dot without touching black ones\n";
+        infoText.text = info;
+    }
+    public void UpdateNBack(){
+        Task t = tm.currentTask;
+        int nbackNumber = 0;
+        foreach (NBack nbt in tm.nBackTasks){
+            if(nbt.taskDifficulty == t.taskDifficulty){
+                nbackNumber = nbt.nbackNumber;
+            }
+        }
+        string info = "Ensure no repetition of same exact object in the next ";
+        if(nbackNumber == 1){
+            info +=" object";
+        }
+        else{
+            info +=nbackNumber.ToString()+" objects";
+        }
+        info+="\n Remove any repeated object";
         infoText.text = info;
     }
 }

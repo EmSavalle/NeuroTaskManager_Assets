@@ -170,11 +170,13 @@ public class Spawner : MonoBehaviour
         List<GameObject> items = t.objects;
         List<int> numbers = new List<int>(); 
         int countNb = 0;
+        int nbackNumber = -1;
         List<bool> nbacks = new List<bool>(); 
         foreach (NBack nb in tm.nBackTasks){
             if(nb.taskDifficulty == td){
                 numbers = nb.numbers;
                 nbacks = nb.nbacks; 
+                nbackNumber = nb.nbackNumber;
             }
         }
         float duration = t.duration;
@@ -190,15 +192,18 @@ public class Spawner : MonoBehaviour
 
                 int nb = numbers[countNb];
                 bool isNb = nbacks[countNb];
-                GameObject it = new GameObject();
-                foreach (GameObject itt in items){
-                    if(itt.GetComponent<Item>().itemNumber == nb){
-                        it = itt;
-                    }
-                }
                 Vector3 randomPosition = new Vector3((spreadMin.localPosition.x+ spreadMax.localPosition.x)/2, (spreadMin.localPosition.y+ spreadMax.localPosition.y)/2,(spreadMin.localPosition.z+ spreadMax.localPosition.z)/2)+spreadMax.parent.position;
-                GameObject go = Instantiate(it,randomPosition,Quaternion.identity);
+                GameObject go = Instantiate(t.objects[nb],randomPosition,Quaternion.identity);
                 go.SetActive(true);
+                isNb = false;
+                for (int i = 0; i <= nbackNumber; i ++){
+                    if(countNb - i >= 0){
+                        if(numbers[countNb-i] == nb){
+                            isNb = true;
+                        }
+                    }
+                    
+                }
                 if(isNb){
                     go.GetComponent<Item>().nback = isNb;
                     participantInfos.TaskSuccess();

@@ -17,6 +17,7 @@ public class ConveyorBelt : MonoBehaviour
     public string itemTag = "Item";
     public List<ValidationTray> vt;
     public TrashCan trashCan;
+    public Blocker blocker;
     public bool stopper;
     public bool stopperTriggered;
     public bool beltResumeEmpty;
@@ -48,6 +49,9 @@ public class ConveyorBelt : MonoBehaviour
         List<GameObject> items = t.objects;
         items = Shuffle(items);
         int assignedObject=0;
+        if(t.blocker){
+            StartCoroutine(blocker.Activate());
+        }
         foreach (ValidationTray v in vt){
             if(v.type == vType && nbTrays>0){
                 if(v.type == ValidationTrayType.DELIVERY){
@@ -102,7 +106,10 @@ public class ConveyorBelt : MonoBehaviour
     }
     public IEnumerator DeinitialyseBelt(Task t){
         deintialysingBelt=true;
-
+        
+        if(t.blocker){
+            StartCoroutine(blocker.Deactivate());
+        }
         // Trays setup
         ValidationTrayType vType = t.validationType;
         int nbTrays = t.nbValidationTrays;
@@ -150,29 +157,35 @@ public class ConveyorBelt : MonoBehaviour
     {
         // Check if the object on the conveyor has a Rigidbody component
         Rigidbody rb = other.attachedRigidbody;
-        if (rb != null)
-        {
-            if(other.gameObject.tag == "Item"){
-                if(!stopper){
-                    
-                    // Apply movement in the specified direction
-                    Vector3 movement = conveyorDirection * conveyorSpeed * Time.deltaTime;
-                    rb.MovePosition(rb.position + movement);
-                }
-                else if(stopperGO.activeSelf){
-                    if(!checkStopper()){
+        Item it = other.gameObject.GetComponent<Item>();
+        if(it == null && other.transform.parent != null){
+            it = other.transform.parent.gameObject.GetComponent<Item>();
+        }
+        if(it != null) {
+            if (rb != null && !it.blockerHold)
+            {
+                if(other.gameObject.tag == "Item"){
+                    if(!stopper){
+                        
+                        // Apply movement in the specified direction
+                        Vector3 movement = conveyorDirection * conveyorSpeed * Time.deltaTime;
+                        rb.MovePosition(rb.position + movement);
+                    }
+                    else if(stopperGO.activeSelf){
+                        if(!checkStopper()){
+                            // Apply movement in the specified direction
+                            Vector3 movement = conveyorDirection * conveyorSpeed * Time.deltaTime;
+                            rb.MovePosition(rb.position + movement);
+                        }
+                    }
+                    else{
                         // Apply movement in the specified direction
                         Vector3 movement = conveyorDirection * conveyorSpeed * Time.deltaTime;
                         rb.MovePosition(rb.position + movement);
                     }
                 }
-                else{
-                    // Apply movement in the specified direction
-                    Vector3 movement = conveyorDirection * conveyorSpeed * Time.deltaTime;
-                    rb.MovePosition(rb.position + movement);
-                }
+                
             }
-            
         }
     }
 

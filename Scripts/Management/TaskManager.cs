@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,7 +39,7 @@ public class TaskManager : MonoBehaviour
     [Header("User models")]
     public List<UserModel> models;
     public ConditionType currentCondition;
-    public TaskType currentTask;
+    public TaskType currentTaskType;
     public TaskDifficulty currentDifficulty;
     public Questionnaire nasa,stfa,comp;
     public int nbValidationTask;
@@ -54,6 +55,7 @@ public class TaskManager : MonoBehaviour
 
     public List<BoxingTask> boxingTasks;
     public List<NBack> nBackTasks;
+    public Task currentTask;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,13 +79,32 @@ public class TaskManager : MonoBehaviour
                 tasks[i]=GenerateItemsTask(tasks[i]);
             }       
         }
+        int relatedTask = -1;
         for (int i = 0; i < nBackTasks.Count; i++){
-            NBack nb = nBackTasks[i];
+            for( int j = 0; j < tasks.Count; j++){
+                if(tasks[j].taskType == TaskType.NBACK && tasks[j].taskDifficulty == nBackTasks[i].taskDifficulty){
+                    relatedTask = j;
+                }
+                    
+            }
+            if(relatedTask!=-1){
+                NBack nb = nBackTasks[i];
+                
+                var (nBackList, nBackCount, nBackIndicators) = GenerateNBackList(0, tasks[relatedTask].objects.Count-1, 200, 20, nb.nbackNumber);
+                nb.numbers = nBackList;
+                nb.nbacks = nBackIndicators;
+                nBackTasks[i]=nb;
+            }
+            else{
+                NBack nb = nBackTasks[i];
+                
+                var (nBackList, nBackCount, nBackIndicators) = GenerateNBackList(0, nb.maxNumber, 200, 20, nb.nbackNumber);
+                nb.numbers = nBackList;
+                nb.nbacks = nBackIndicators;
+                nBackTasks[i]=nb;
+            }
             
-            var (nBackList, nBackCount, nBackIndicators) = GenerateNBackList(nb.minNumber, nb.maxNumber, 200, 20, nb.nbackNumber);
-            nb.numbers = nBackList;
-            nb.nbacks = nBackIndicators;
-            nBackTasks[i]=nb;
+            
         }
 
     }
@@ -123,11 +144,12 @@ public class TaskManager : MonoBehaviour
     }
 
     public IEnumerator StartTask(Task t){
+        currentTask = t;
         if(verbose){
             Debug.Log("Task started");
         }
-        currentTask = t.taskType;
-        participantInfos.StartNewTask(t,currentTask,currentCondition);
+        currentTaskType = t.taskType;
+        participantInfos.StartNewTask(t,currentTaskType,currentCondition);
         taskOngoing=true;
         //1. Task setup
         string name = t.Name;
@@ -204,7 +226,6 @@ public class TaskManager : MonoBehaviour
         belt.spawner.stopper.SetActive(true);
         
         Debug.Log("Clearance attained");
-
         yield break;
     }
     
@@ -258,7 +279,7 @@ public class TaskManager : MonoBehaviour
                 }
             }
 
-            currentTask = tt;
+            currentTaskType = tt;
             currentDifficulty = t.taskDifficulty;
             currentCondition = ConditionType.CALIBRATION;
 
@@ -306,7 +327,7 @@ public class TaskManager : MonoBehaviour
                 }
             }
 
-            currentTask = tt;
+            currentTaskType = tt;
             currentDifficulty = t.taskDifficulty;
             currentCondition = ConditionType.VALIDATION;
             //Task
@@ -428,6 +449,7 @@ public struct Task{
     public float deliveryTime;
     public MicroTaskEnd stop;
     public bool noFailure;
+    public bool blocker;
     
     public int nbValidationTrays;
     public ValidationTrayType validationType;

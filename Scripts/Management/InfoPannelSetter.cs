@@ -147,7 +147,7 @@ public class InfoPannelSetter : MonoBehaviour
             }
             cptbox++;
         }
-        info+="Press the controller to put the object in the bin";
+        info+="Press the controller to have the object go in the bin";
         infoText.text = info;
     }
     public void UpdateMatch(){

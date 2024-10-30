@@ -86,11 +86,7 @@ public class Spawner : MonoBehaviour
                                 currentBatchItem = 0;
                             }
                         }
-                        Vector3 randomPosition = new Vector3(
-                            UnityEngine.Random.Range(spreadMin.localPosition.x, spreadMax.localPosition.x), 
-                            UnityEngine.Random.Range(spreadMin.localPosition.y, spreadMax.localPosition.y), 
-                            UnityEngine.Random.Range(spreadMin.localPosition.z, spreadMax.localPosition.z)
-                        )+spreadMax.parent.position;
+                        Vector3 randomPosition = new Vector3((spreadMin.localPosition.x+ spreadMax.localPosition.x)/2, (spreadMin.localPosition.y+ spreadMax.localPosition.y)/2,(spreadMin.localPosition.z+ spreadMax.localPosition.z)/2)+spreadMax.parent.position;
                         GameObject go = Instantiate(it,randomPosition,Quaternion.identity);
                         go.SetActive(true);
                         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, UnityEngine.Random.Range(0, 4) * 90, transform.eulerAngles.z);

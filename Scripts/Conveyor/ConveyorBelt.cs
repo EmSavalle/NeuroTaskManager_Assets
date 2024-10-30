@@ -42,7 +42,7 @@ public class ConveyorBelt : MonoBehaviour
     }
     public IEnumerator InitialyzeBelt(Task t){
         intialysingBelt=true;
-
+        conveyorSpeed = t.beltSpeed;
         // Trays setup
         ValidationTrayType vType = t.validationType;
         int nbTrays = t.nbValidationTrays;

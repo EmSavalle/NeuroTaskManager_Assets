@@ -159,7 +159,6 @@ public class TaskManager : MonoBehaviour
         List<string> objectGoal=t.objectGoal;
         bool continuousBelt=t.continuousBelt;
         float deliveryTime=t.deliveryTime;
-        MicroTaskEnd stop=t.stop;
         
         //Instantiate validation trays
         int nbValidationTrays=t.nbValidationTrays;
@@ -447,7 +446,7 @@ public struct Task{
     public bool continuousBelt;
     public bool continuousBatch;
     public float deliveryTime;
-    public MicroTaskEnd stop;
+    public float beltSpeed;
     public bool noFailure;
     public bool blocker;
     

@@ -78,7 +78,6 @@ public class InfoPannelSetter : MonoBehaviour
                         break;
                 }
                 cptbox++;
-                int cpt=0;
                 Box bb = bt.box.GetComponent<Box>();
                 
                 box +="requires "+bb.weightRequirement.ToString()+"kg.\n - Shapes: ";

@@ -24,6 +24,17 @@ public class ReceiverItem : Item
     // Start is called before the first frame update
     void Start()
     {
+        if(goodConnectorHolder == null){
+            for(int i = 0; i < gameObject.transform.childCount; i++){
+                if(gameObject.transform.GetChild(i).name == "Bad connectors"){
+                    badConnectorHolder = gameObject.transform.GetChild(i).gameObject;
+                }
+                else if(gameObject.transform.GetChild(i).name == "Good connectors"){
+                    goodConnectorHolder = gameObject.transform.GetChild(i).gameObject;
+                }
+            }
+            
+        }
         //Initialyze connectors
         myConnectors = new List<ReceiverConnector>();
         badConnectors = new List<ReceiverConnector>();

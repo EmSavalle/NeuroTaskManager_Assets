@@ -40,13 +40,13 @@ public class Blocker : MonoBehaviour
         if(inputDeviceLeft.role.ToString()!="LeftHanded" || inputDeviceRight.role.ToString()!="RightHanded"){
             
             UnityEngine.XR.InputDevices.GetDevicesWithCharacteristics(UnityEngine.XR.InputDeviceCharacteristics.Controller | UnityEngine.XR.InputDeviceCharacteristics.Left, inputDevices);
-            Debug.Log(inputDevices.Count.ToString() + " left controller found");
+            //Debug.Log(inputDevices.Count.ToString() + " left controller found");
             if (inputDevices.Count > 0)
             {
                 inputDeviceLeft = inputDevices[0];
             }
             UnityEngine.XR.InputDevices.GetDevicesWithCharacteristics(UnityEngine.XR.InputDeviceCharacteristics.Controller | UnityEngine.XR.InputDeviceCharacteristics.Right, inputDevices);
-            Debug.Log(inputDevices.Count.ToString() + " right controller found");
+            //Debug.Log(inputDevices.Count.ToString() + " right controller found");
             if (inputDevices.Count > 0)
             {
                 inputDeviceRight = inputDevices[0];

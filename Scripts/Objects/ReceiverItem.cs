@@ -55,6 +55,13 @@ public class ReceiverItem : Item
                 }
             }
         }
+        if(bases.Count == 0){
+            for (int i = 0; i < gameObject.transform.childCount; i++){
+                if(gameObject.transform.GetChild(i).name == "Grid"){
+                    bases = GetAllChildren(gameObject.transform.GetChild(i));
+                }
+            }
+        }
         if(participantInfos==null){
             participantInfos=GameObject.Find("--- Management ---").GetComponent<ParticipantInfos>();
         }
@@ -68,7 +75,16 @@ public class ReceiverItem : Item
             CompleteConnection();
         }
     }
-
+    public List<GameObject> GetAllChildren(Transform parent, List<GameObject> transformList = null)
+     {
+         if (transformList == null) transformList = new List<GameObject>();
+         
+         foreach (Transform child in parent) {
+             transformList.Add(child.gameObject);
+             GetAllChildren(child, transformList);
+         }
+         return transformList;
+     }
     public void ConnectorTouched(Cable touching){
         if(itemType != ItemType.COMPLETEDRECEIVER){
             if(touchingCable == null){
@@ -125,6 +141,9 @@ public class ReceiverItem : Item
             //TODO define alignment/snapping object
             GameObject contactPoint = touchingCable.contactPoint;
             Vector3 diffPosition = FindClosestObject(bases,contactPoint);
+            if(mainConnector == null){
+                mainConnector = myConnectors[0].GetComponent<ReceiverConnector>();
+            }
             float diffHeight = mainConnector.gameObject.transform.position.y - contactPoint.transform.position.y;
             Vector3 newPos = new Vector3(contactPoint.transform.position.x+diffPosition.x,contactPoint.transform.position.y+diffHeight,contactPoint.transform.position.z+diffPosition.z);
             touchingCable.gameObject.transform.position = newPos;

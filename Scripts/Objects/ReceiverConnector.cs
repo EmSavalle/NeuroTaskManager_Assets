@@ -16,6 +16,7 @@ public class ReceiverConnector : Item
     public bool badConnector;
     private void OnTriggerEnter(Collider other)
     {
+        
         Item i = other.gameObject.GetComponent<Item>();
         if(i == null && other.transform.parent != null){
             i = other.transform.parent.gameObject.GetComponent<Item>();
@@ -47,6 +48,14 @@ public class ReceiverConnector : Item
     }
     new void Update(){
         base.Update();
+        if(receiverItem == null){
+            if(transform.parent.name.Contains("Receiver")){
+                receiverItem = transform.parent.gameObject.GetComponent<ReceiverItem>();
+            }
+            else{
+                receiverItem = transform.parent.parent.gameObject.GetComponent<ReceiverItem>();
+            }
+        }
     }
 
 }

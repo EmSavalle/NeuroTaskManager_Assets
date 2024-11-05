@@ -9633,6 +9633,8 @@ MonoBehaviour:
   moveSpeed: 0
   type: 0
   participantInfos: {fileID: 2065340268}
+  left: 0
+  tm: {fileID: 0}
   noFailure: 0
   recordMiss: 
   recordNBack: 0
@@ -19710,6 +19712,8 @@ MonoBehaviour:
   moveSpeed: 0
   type: 0
   participantInfos: {fileID: 2065340268}
+  left: 0
+  tm: {fileID: 0}
   noFailure: 0
   recordMiss: 
   recordNBack: 0
@@ -20194,7 +20198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1647668044
 Transform:
   m_ObjectHideFlags: 0
@@ -21792,7 +21796,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 2.75506e-40, y: 9.1835e-41, z: 1.8e-43, w: 0}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 4e-45, z: 1.942e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -24799,7 +24803,7 @@ MonoBehaviour:
     items:
       itemShape: 
       itemColor: 
-      itemNumber: 
+      itemText: []
       used: 0
     objects: []
     baseObjects:
@@ -24812,6 +24816,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 0
+    clearForSpawn: 0
     nbValidationTrays: 1
     validationType: 3
     traysReceivers: 
@@ -24819,7 +24824,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Count objects   Hit validate when ready to start'
@@ -24830,7 +24835,7 @@ MonoBehaviour:
     items:
       itemShape: 0000000001000000
       itemColor: 0000000001000000
-      itemNumber: 00000000
+      itemText: []
       used: 1
     objects: []
     baseObjects: []
@@ -24842,6 +24847,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 1
     blocker: 0
+    clearForSpawn: 0
     nbValidationTrays: 0
     validationType: 1
     traysReceivers: 0000000001000000
@@ -24849,7 +24855,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Put corresponding item Hit validate when ready
@@ -24861,7 +24867,7 @@ MonoBehaviour:
     items:
       itemShape: 
       itemColor: 
-      itemNumber: 
+      itemText: []
       used: 0
     objects:
     - {fileID: 499671287175334744, guid: d83d8ee55475d7b4da037b349c51f0e6, type: 3}
@@ -24879,6 +24885,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 0
+    clearForSpawn: 0
     nbValidationTrays: 1
     validationType: 4
     traysReceivers: 
@@ -24886,7 +24893,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : NBackHit validate when ready to start'
@@ -24897,7 +24904,7 @@ MonoBehaviour:
     items:
       itemShape: 01000000
       itemColor: 000000000100000002000000
-      itemNumber: 00000000
+      itemText: []
       used: 1
     objects: []
     baseObjects:
@@ -24910,6 +24917,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 0
+    clearForSpawn: 0
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
@@ -24917,7 +24925,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : NBackHit validate when ready to start'
@@ -24928,7 +24936,7 @@ MonoBehaviour:
     items:
       itemShape: 0100000000000000
       itemColor: 020000000100000000000000
-      itemNumber: 00000000
+      itemText: []
       used: 1
     objects: []
     baseObjects:
@@ -24941,6 +24949,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 0
+    clearForSpawn: 0
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
@@ -24948,7 +24957,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : NBackHit validate when ready to start'
@@ -24959,7 +24968,7 @@ MonoBehaviour:
     items:
       itemShape: 0100000000000000
       itemColor: 020000000100000000000000
-      itemNumber: 010000000200000003000000
+      itemText: []
       used: 1
     objects: []
     baseObjects:
@@ -24972,6 +24981,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 0
+    clearForSpawn: 0
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
@@ -24979,7 +24989,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
@@ -24990,7 +25000,7 @@ MonoBehaviour:
     items:
       itemShape: 00000000
       itemColor: 0100000002000000
-      itemNumber: 00000000
+      itemText: []
       used: 1
     objects: []
     baseObjects: []
@@ -25002,6 +25012,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 1
+    clearForSpawn: 0
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
@@ -25009,7 +25020,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
@@ -25020,7 +25031,7 @@ MonoBehaviour:
     items:
       itemShape: 0000000001000000
       itemColor: 010000000200000000000000
-      itemNumber: 00000000
+      itemText: []
       used: 1
     objects: []
     baseObjects: []
@@ -25032,6 +25043,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 1
+    clearForSpawn: 0
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
@@ -25039,7 +25051,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
@@ -25050,7 +25062,7 @@ MonoBehaviour:
     items:
       itemShape: 0000000001000000
       itemColor: 010000000200000000000000
-      itemNumber: 0100000002000000030000000400000005000000
+      itemText: []
       used: 1
     objects: []
     baseObjects: []
@@ -25062,6 +25074,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 1
+    clearForSpawn: 0
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
@@ -25069,7 +25082,7 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
   onGoingTask: 0
   task1stDuration: 15
@@ -25089,14 +25102,6 @@ MonoBehaviour:
   participantInfos: {fileID: 2065340268}
   experimentFirstPart:
   - conditionType: 0
-    taskType: 1
-    taskDifficulty: 1
-    taskDuration: 600
-    nasaQ: 0
-    stfaQ: 0
-    compQ: 1
-    postBreak: 0
-  - conditionType: 0
     taskType: 6
     taskDifficulty: 3
     taskDuration: 600
@@ -25111,6 +25116,14 @@ MonoBehaviour:
     nasaQ: 0
     stfaQ: 0
     compQ: 0
+    postBreak: 0
+  - conditionType: 0
+    taskType: 6
+    taskDifficulty: 5
+    taskDuration: 600
+    nasaQ: 0
+    stfaQ: 0
+    compQ: 1
     postBreak: 0
   - conditionType: 0
     taskType: 0
@@ -25135,14 +25148,6 @@ MonoBehaviour:
     nasaQ: 0
     stfaQ: 0
     compQ: 0
-    postBreak: 0
-  - conditionType: 0
-    taskType: 6
-    taskDifficulty: 5
-    taskDuration: 600
-    nasaQ: 0
-    stfaQ: 0
-    compQ: 1
     postBreak: 0
   experimentSecondPart: []
   taskOngoing: 0
@@ -25272,7 +25277,7 @@ MonoBehaviour:
   - taskDifficulty: 1
     itemShapes: 0000000001000000
     itemColors: 000000000100000002000000
-    itemNumbers: 010000000200000005000000
+    itemTexts: []
     boxingRequirements:
     - itemShapes: 00000000
       itemColors: 01000000
@@ -25319,7 +25324,7 @@ MonoBehaviour:
     items:
       itemShape: 
       itemColor: 
-      itemNumber: 
+      itemText: []
       used: 0
     objects: []
     baseObjects: []
@@ -25331,6 +25336,7 @@ MonoBehaviour:
     beltSpeed: 0
     noFailure: 0
     blocker: 0
+    clearForSpawn: 0
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
@@ -25338,8 +25344,15 @@ MonoBehaviour:
       taskDifficulty: 0
       itemShapes: 
       itemColors: 
-      itemNumbers: 
+      itemTexts: []
       boxingRequirements: []
+  colorShapeDimensionEasy: 03000000
+  objectUntilChangeEasy: 
+  colorShapeDimensionMedium: 02000000
+  objectUntilChangeMedium: 
+  colorShapeDimensionHard: 010000000200000000000000
+  objectUntilChangeHard: 
+  colorShapeTasks: []
 --- !u!114 &2065340268
 MonoBehaviour:
   m_ObjectHideFlags: 0

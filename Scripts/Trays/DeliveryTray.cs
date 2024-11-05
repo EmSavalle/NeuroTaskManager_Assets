@@ -156,7 +156,7 @@ public class DeliveryTray : ValidationTray
             // Wait for the next frame before continuing
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        receiving= new List<System.Tuple<ItemShape, ItemColor, int>>();
+        receiving= new List<System.Tuple<ItemShape, ItemColor, string>>();
         activated = false;
         while (Vector3.Distance(transform.localPosition, startPosition) > 0.01f)  // 0.01 is tolerance for close enough
         {

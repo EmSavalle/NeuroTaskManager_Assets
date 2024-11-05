@@ -132,13 +132,18 @@ public class InfoPannelSetter : MonoBehaviour
                 string box = "The bin";
                 box +="requires : ";
                 bool first = false;
-                foreach(Tuple<ItemShape,ItemColor,int> tp in vt.receiving){
+                foreach(Tuple<ItemShape,ItemColor,string> tp in vt.receiving){
                     if(first){
                         box+=" and ";
                     }
                     box+=tp.Item2.ToString()+" "+tp.Item1.ToString();
-                    if(tp.Item3 != 0){
+                    
+                    bool isNumber = int.TryParse(tp.Item3, out _);
+                    if(tp.Item3 != "0" && isNumber){
                         box+=" with number "+tp.Item3.ToString();
+                    }
+                    else {
+                        box+=" with Letter "+tp.Item3.ToString();
                     }
                 }
                 

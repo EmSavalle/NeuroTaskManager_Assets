@@ -7,7 +7,7 @@ public class ValidationTray : MonoBehaviour
 {
     public bool destroyWhenReceived;
     //public ItemType receiving;
-    public List<Tuple<ItemShape,ItemColor,int>> receiving = new List<Tuple<ItemShape, ItemColor, int>>();
+    public List<Tuple<ItemShape,ItemColor,string>> receiving = new List<Tuple<ItemShape, ItemColor, string>>();
     public bool activated;
 
     public Vector3 startPosition, endPosition;
@@ -16,6 +16,8 @@ public class ValidationTray : MonoBehaviour
     public ValidationTrayType type;
 
     public ParticipantInfos participantInfos;
+    public bool left;
+    public TaskManager tm;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,8 +43,8 @@ public class ValidationTray : MonoBehaviour
         }
         Debug.Log("Tray activated");
         activated = true;
-        receiving= new List<Tuple<ItemShape, ItemColor, int>>();
-        Tuple<ItemShape, ItemColor, int> tp = new Tuple<ItemShape, ItemColor, int>(r.itemShape,r.itemColor,r.itemNumber);
+        receiving= new List<Tuple<ItemShape, ItemColor, string>>();
+        Tuple<ItemShape, ItemColor, string> tp = new Tuple<ItemShape, ItemColor, string>(r.itemShape,r.itemColor,r.itemText);
         receiving.Add(tp);
         yield break;
     }
@@ -59,9 +61,9 @@ public class ValidationTray : MonoBehaviour
         }
         Debug.Log("Tray activated");
         activated = true;
-        receiving= new List<Tuple<ItemShape, ItemColor, int>>();
+        receiving= new List<Tuple<ItemShape, ItemColor, string>>();
         foreach(Item r in rs){
-            Tuple<ItemShape, ItemColor, int> tp = new Tuple<ItemShape, ItemColor, int>(r.itemShape,r.itemColor,r.itemNumber);
+            Tuple<ItemShape, ItemColor, string> tp = new Tuple<ItemShape, ItemColor, string>(r.itemShape,r.itemColor,r.itemText);
             receiving.Add(tp);
         }
         yield break;
@@ -79,18 +81,18 @@ public class ValidationTray : MonoBehaviour
         }
         Debug.Log("Tray activated");
         activated = true;
-        receiving= new List<Tuple<ItemShape, ItemColor, int>>();
+        receiving= new List<Tuple<ItemShape, ItemColor, string>>();
         foreach(GameObject go in rs){
             Item r = go.GetComponent<Item>();
             if(r == null){r=go.transform.parent.GetComponent<Item>();}
-            Tuple<ItemShape, ItemColor, int> tp = new Tuple<ItemShape, ItemColor, int>(r.itemShape,r.itemColor,r.itemNumber);
+            Tuple<ItemShape, ItemColor, string> tp = new Tuple<ItemShape, ItemColor, string>(r.itemShape,r.itemColor,r.itemText);
             receiving.Add(tp);
         }
         yield break;
     }
 
     public IEnumerator DeactivateTray(){
-        receiving= new List<Tuple<ItemShape, ItemColor, int>>();
+        receiving= new List<Tuple<ItemShape, ItemColor, string>>();
         activated = false;
         while (Vector3.Distance(transform.localPosition, startPosition) > 0.01f)  // 0.01 is tolerance for close enough
         {
@@ -126,10 +128,94 @@ public class ValidationTray : MonoBehaviour
         }
     }
     public bool ValidateItem(Item i){
-        
-        Tuple<ItemShape, ItemColor, int> tp = new Tuple<ItemShape, ItemColor, int>(i.itemShape,i.itemColor,i.itemNumber);
+        if(tm.currentTaskType == TaskType.COLORSHAPE){return ValidateItemColorShape(i);}
+        Tuple<ItemShape, ItemColor, string> tp = new Tuple<ItemShape, ItemColor, string>(i.itemShape,i.itemColor,i.itemText);
 
         return receiving.Contains(tp);
+    }
+    public bool ValidateItemColorShape(Item i){
+        TaskDifficulty td = tm.currentDifficulty;
+        ItemColor itemColor = i.itemColor;
+        ItemShape itemShape = i.itemShape;
+        string itemText = i.itemText;
+        bool isNumber = int.TryParse(itemText, out _);
+        ColorShapeTask cst=tm.colorShapeTasks[0];
+        for (int j = 0; j < tm.colorShapeTasks.Count; j++){
+            if(tm.colorShapeTasks[j].taskDifficulty==td){
+                cst = tm.colorShapeTasks[j];
+            }
+        }
+        bool ret = false;
+        if(cst.hasHyperDimension){
+            ObjectDimension od = cst.currentDimension;
+            string newSort="";
+            switch(od){
+                case ObjectDimension.COLOR:
+                    newSort = cst.colorSorting[itemColor];
+                    break;
+                case ObjectDimension.TEXT:
+                    if(isNumber){
+                        newSort = cst.textSorting[ItemText.NUMBER];
+                    }
+                    else{
+                        
+                        newSort = cst.textSorting[ItemText.LETTER];
+                    }
+                    
+                    break;
+                case ObjectDimension.SHAPE:
+                    newSort = cst.shapeSorting[itemShape];
+                    break;
+
+            }
+            switch(newSort){
+                case "TEXT":
+                    if(isNumber && ((left && cst.textSort.Item1==ItemText.NUMBER)||(!left && cst.textSort.Item2==ItemText.NUMBER))){
+                        ret = true;
+                    }
+                    if(!isNumber && ((left && cst.textSort.Item1==ItemText.LETTER)||(!left && cst.textSort.Item2==ItemText.LETTER))){
+                        ret = true;
+                    }
+                    break;
+                case "SHAPE":
+                    if((left && cst.shapeSort.Item1 == itemShape)||(!left && cst.shapeSort.Item2 == itemShape)){
+                        ret = true;
+                    }
+                    break;
+                case "COLOR":
+                    if((left && cst.colorSort.Item1 == itemColor)||(!left && cst.colorSort.Item2 == itemColor)){
+                        ret = true;
+                    }
+                    break;
+            }
+            return ret;
+        }
+        else{
+            ObjectDimension od = cst.currentDimension;
+            switch(od){
+                case ObjectDimension.COLOR:
+                    if((left && cst.colorSort.Item1 == itemColor)||(!left && cst.colorSort.Item2 == itemColor)){
+                        ret = true;
+                    }
+                    break;
+                case ObjectDimension.TEXT:
+                    if(isNumber && ((left && cst.textSort.Item1==ItemText.NUMBER)||(!left && cst.textSort.Item2==ItemText.NUMBER))){
+                        ret = true;
+                    }
+                    if(!isNumber && ((left && cst.textSort.Item1==ItemText.LETTER)||(!left && cst.textSort.Item2==ItemText.LETTER))){
+                        ret = true;
+                    }
+                    break;
+                case ObjectDimension.SHAPE:
+                    if((left && cst.shapeSort.Item1 == itemShape)||(!left && cst.shapeSort.Item2 == itemShape)){
+                        ret = true;
+                    }
+                    break;
+
+            }
+            return ret;
+        }
+        //return false;
     }
 }
 

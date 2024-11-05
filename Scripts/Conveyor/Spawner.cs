@@ -71,8 +71,12 @@ public class Spawner : MonoBehaviour
         if(t.continuousBatch){
             items = Shuffle(items);
         }
-        while(Time.time<startTime+duration){
+        while(Time.time<startTime+duration && (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
             switch(t.taskType){
+                case TaskType.COLORSHAPE:
+                    
+                    yield return StartCoroutine(tm.UpdateColorShapeTask());
+                    break;
                 case TaskType.SORTING:
                     if(lastSpawn+t.deliveryTime<Time.time){
                         
@@ -241,9 +245,11 @@ public class Spawner : MonoBehaviour
                 }
                 ItemColor itemColor = it.itemColor;
                 ItemShape itemShape = it.itemShape;
-                int itemNumber = it.itemNumber;
+                string itemText = it.itemText;
                 string text = "Count " + itemColor.ToString()+" "+ itemShape.ToString();
-                if(itemNumber != 0){text+=" with number "+itemNumber.ToString();}
+                bool isNumber = int.TryParse(itemText, out _);
+                if(itemText != "0" && isNumber){text+=" with number "+itemText;}
+                else {text+=" with letter "+itemText;}
                 infosText.text = text;
                 yield return StartCoroutine(cTablet.LaunchCounting());
                 int returnedValued = cTablet.validatedAnswer;
@@ -358,5 +364,3 @@ public class Spawner : MonoBehaviour
         return list;  
     }
 }
-
-public enum SpawnerType {CONTINUOUS,BATCH}

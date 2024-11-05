@@ -56,9 +56,19 @@ public class TaskManager : MonoBehaviour
     public List<BoxingTask> boxingTasks;
     public List<NBack> nBackTasks;
     public Task currentTask;
+    public List<ObjectDimension> colorShapeDimensionEasy;
+    public List<int> objectUntilChangeEasy;
+    public List<ObjectDimension> colorShapeDimensionMedium;
+    public List<int> objectUntilChangeMedium;
+    public List<ObjectDimension> colorShapeDimensionHard;
+    public List<int> objectUntilChangeHard;
+    public List<ColorShapeTask> colorShapeTasks;
     // Start is called before the first frame update
     void Start()
     {
+        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionEasy, this));
+        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionMedium, this));
+        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionHard, this));
         for( int i = 0; i < tasks.Count; i++){
              
             if(tasks[i].taskType == TaskType.BOXING){
@@ -71,7 +81,7 @@ public class TaskManager : MonoBehaviour
                 }
                 tt.items.itemShape = tt.boxingTask.itemShapes;
                 tt.items.itemColor = tt.boxingTask.itemColors;
-                tt.items.itemNumber = tt.boxingTask.itemNumbers;
+                tt.items.itemText = tt.boxingTask.itemTexts;
                 tasks[i]=GenerateItemsTask(tt);
             }    
             else if(tasks[i].items.used){
@@ -113,12 +123,12 @@ public class TaskManager : MonoBehaviour
         t.objects = new List<GameObject>();
         foreach(ItemShape itemShape in items.itemShape){
             foreach(ItemColor itemColor in items.itemColor){
-                foreach(int itemNumber in items.itemNumber){
+                foreach(string itemText in items.itemText){
                     GameObject it = Instantiate(prefabItem,Vector3.zero,Quaternion.identity);
                     Item i = it.GetComponent<Item>();
                     i.itemColor = itemColor;
                     i.itemShape = itemShape;
-                    i.itemNumber = itemNumber;
+                    i.itemText = itemText;
                     i.SetUpItem();
                     it.SetActive(false);
                     //it.transform.position = new Vector3(1000,1000,1000);
@@ -427,6 +437,74 @@ public class TaskManager : MonoBehaviour
         return (result, Y, nBackIndicators); // Return the list, the count of n-back values, and the indicator list
     }
 
+    public IEnumerator UpdateColorShapeTask(){
+        ColorShapeTask cst; 
+        List<ObjectDimension> ods;
+        int currentTasColor= -1;
+        switch(currentDifficulty){
+            case TaskDifficulty.LOW:
+                cst = colorShapeTasks[0];
+                currentTasColor=0;
+                ods = colorShapeDimensionEasy;
+                break;
+            case TaskDifficulty.MEDIUM:
+                cst = colorShapeTasks[1];
+                currentTasColor=1;
+                ods = colorShapeDimensionMedium;
+                break;
+            case TaskDifficulty.HIGH:
+                cst = colorShapeTasks[2];
+                currentTasColor=2;
+                ods = colorShapeDimensionHard;
+                break;
+            default:
+                cst = colorShapeTasks[0];
+                currentTasColor=0;
+                ods = colorShapeDimensionEasy;
+                break;
+        }
+        cst.nbObjectSinceChange+=1;
+        if(cst.nbObjectSinceChange>=cst.currentObjectsUntilChange){
+            ObjectDimension od = cst.currentDimension;
+            ObjectDimension newOd = od;
+            if(ods.Count>1){
+                while(newOd==od){
+                    newOd = ods[UnityEngine.Random.Range(0,ods.Count)];
+                }
+                cst.currentDimension = newOd;
+            }
+            if(cst.swapMiniParameter){
+                // Randomize the selection of the hyper parameter
+                if(UnityEngine.Random.Range(0, 2)==0){
+                    // Swap values in textSorting
+                    var tempText = cst.textSorting[ItemText.NUMBER];
+                    cst.textSorting[ItemText.NUMBER] =cst.textSorting[ItemText.LETTER];
+                    cst.textSorting[ItemText.LETTER] = tempText;
+                }
+                if(UnityEngine.Random.Range(0, 2)==0){
+                    // Swap values in shapeSorting
+                    var tempShape = cst.shapeSorting[ItemShape.CUBE];
+                    cst.shapeSorting[ItemShape.CUBE] = cst.shapeSorting[ItemShape.SPHERE];
+                    cst.shapeSorting[ItemShape.SPHERE] = tempShape;
+                }
+                if(UnityEngine.Random.Range(0, 2)==0){
+                    // Swap values in colorSorting
+                    var tempColor = cst.colorSorting[ItemColor.RED];
+                    cst.colorSorting[ItemColor.RED] = cst.colorSorting[ItemColor.GREEN];
+                    cst.colorSorting[ItemColor.GREEN] = tempColor;
+                }
+            }
+
+
+
+
+
+
+        }
+        colorShapeTasks[currentTasColor]=cst;
+        Debug.Log("TODO");
+        yield break;
+    }
 }
 
 
@@ -449,6 +527,7 @@ public struct Task{
     public float beltSpeed;
     public bool noFailure;
     public bool blocker;
+    public bool clearForSpawn;
     
     public int nbValidationTrays;
     public ValidationTrayType validationType;
@@ -479,7 +558,7 @@ public struct ExperimentPart{
 public struct Items{
     public List<ItemShape> itemShape;
     public List<ItemColor> itemColor;
-    public List<int> itemNumber;
+    public List<string> itemText;
 
     public bool used;
 }
@@ -496,7 +575,7 @@ public enum RequirementType {COLOR,SHAPE,NUMBER};
 public enum ConditionType {CALIBRATION,VALIDATION,PREVALIDATION};
 public enum MicroTaskEnd {NONE,BUTTONPRESS,DELIVERY};
 
-public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,BOXING,COUNTING,NBACK,PREVALIDATION};
+public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,BOXING,COUNTING,NBACK,PREVALIDATION,COLORSHAPE};
 
 public enum TaskDifficulty {NONE,LOW,LOWMEDIUM, MEDIUM, MEDIUMHIGH,HIGH};
 
@@ -506,7 +585,7 @@ public struct BoxingTask{
 
     public List<ItemShape> itemShapes;
     public List<ItemColor> itemColors;
-    public List<int> itemNumbers;
+    public List<string> itemTexts;
 
     public List<BoxingRequirements> boxingRequirements;
 }
@@ -553,3 +632,81 @@ public struct NBack{
     public List<int> numbers;
     public List<bool> nbacks;
 }
+
+public enum SpawnerType {CONTINUOUS,BATCH}
+
+[Serializable]
+public struct ColorShapeTask{
+    public TaskDifficulty taskDifficulty;
+    public List<ObjectDimension> hyperDimension;
+
+    // Fixed parameters, which bin to put in
+    public Tuple<ItemColor,ItemColor> colorSort;
+    public Tuple<ItemShape,ItemShape> shapeSort;
+    public Tuple<ItemText,ItemText> textSort;
+    //Swappable parameters, hyper parameters decision
+    /*public Tuple<ItemColor,ItemColor> colorSortHyper;
+    public Tuple<ItemShape,ItemShape> shapeSortHyper;
+    public Tuple<ItemText,ItemText> textSortHyper;*/
+
+    public ObjectDimension currentDimension;
+    public List<int> objectsUntilChange;
+    public int currentObjectsUntilChange;
+    public bool test;
+    public bool swapMiniParameter;
+    public bool hasHyperDimension;
+    public Dictionary<ItemColor, string> colorSorting;
+    public Dictionary<ItemShape, string> shapeSorting;
+    public Dictionary<ItemText, string> textSorting;
+    public int nbObjectSinceChange;
+    public  ColorShapeTask(List<ObjectDimension> objectDimensions, TaskManager tm) { 
+        textSorting = new Dictionary<ItemText, string>();
+        textSorting[ItemText.NUMBER] = "COLOR";
+        textSorting[ItemText.LETTER] = "SHAPE";
+        
+        shapeSorting = new Dictionary<ItemShape, string>();
+        shapeSorting[ItemShape.CUBE] = "COLOR";
+        shapeSorting[ItemShape.SPHERE] = "TEXT";
+        
+        colorSorting = new Dictionary<ItemColor, string>();
+        colorSorting[ItemColor.RED] = "TEXT";
+        colorSorting[ItemColor.GREEN] = "SHAPE";
+        
+        hyperDimension = objectDimensions;
+        nbObjectSinceChange=0;
+        if(hyperDimension.Count == 1 && hyperDimension[0]==ObjectDimension.NONE){
+            taskDifficulty = TaskDifficulty.LOW;
+            objectsUntilChange = tm.objectUntilChangeEasy;
+            currentDimension = ObjectDimension.COLOR;
+            swapMiniParameter=false;
+            hasHyperDimension=false;
+        }
+        else if (hyperDimension.Count == 1){
+            currentDimension = ObjectDimension.COLOR;
+            taskDifficulty = TaskDifficulty.MEDIUM;
+            objectsUntilChange = tm.objectUntilChangeMedium;
+            swapMiniParameter=false;
+            hasHyperDimension=true;
+        }
+        else{
+            currentDimension = ObjectDimension.TEXT;
+            taskDifficulty = TaskDifficulty.HIGH;
+            objectsUntilChange = tm.objectUntilChangeHard;
+            swapMiniParameter=true;
+            hasHyperDimension=true;
+        }
+        currentObjectsUntilChange = objectsUntilChange[UnityEngine.Random.Range(0, objectsUntilChange.Count)];
+        colorSort = new Tuple<ItemColor, ItemColor>(ItemColor.RED,ItemColor.GREEN);
+        shapeSort = new Tuple<ItemShape, ItemShape>(ItemShape.CUBE,ItemShape.SPHERE);
+        textSort = new Tuple<ItemText, ItemText>(ItemText.LETTER, ItemText.NUMBER);
+        /*colorSortHyper = new Tuple<ItemColor, ItemColor>(ItemColor.RED,ItemColor.GREEN);
+        shapeSortHyper = new Tuple<ItemShape, ItemShape>(ItemShape.SPHERE,ItemShape.CUBE);
+        textSortHyper = new Tuple<ItemText, ItemText>(ItemText.NUMBER, ItemText.LETTER);*/
+        test = true;
+
+    }
+}
+
+public enum ItemText {NUMBER,LETTER};
+[Serializable]
+public enum ObjectDimension {COLOR,SHAPE,TEXT,NONE};

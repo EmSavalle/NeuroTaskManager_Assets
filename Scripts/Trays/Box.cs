@@ -59,7 +59,8 @@ public class Box : MonoBehaviour
         bool fit = false;
         ItemShape itemShape = boxedItem.itemShape;
         ItemColor itemColor = boxedItem.itemColor;
-        int itemNumber = boxedItem.itemNumber;
+        string itemText = boxedItem.itemText;
+        int itemNumber = Int32.Parse(itemText);
         Tuple<ItemShape,ItemColor> tp = new Tuple<ItemShape, ItemColor>(itemShape,itemColor);
         
         if(itemsGoals.Contains(tp)){fit=true;}
@@ -166,7 +167,10 @@ public class Box : MonoBehaviour
             int objCount = 0;
             foreach(GameObject c in content){
                 Item i = c.GetComponent<Item>() ?? c.transform.parent.GetComponent<Item>();
-                if(i.itemNumber==tp.weight){
+                
+                string itemText = i.itemText;
+                int itemNumber = Int32.Parse(itemText);
+                if(itemNumber==tp.weight){
                     objCount+=1;
                 }
             }

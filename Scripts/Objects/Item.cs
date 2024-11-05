@@ -16,7 +16,7 @@ public class Item : MonoBehaviour
     public XRGeneralGrabTransformer xRGeneralGrabTransformer;
     public XRGrabInteractable xRGrabInteractable;
     public Rigidbody selfRigidbody;
-    public int itemNumber;
+    public string itemText;
     public ItemShape itemShape;
     public ItemColor itemColor;
 
@@ -71,15 +71,15 @@ public class Item : MonoBehaviour
             else{
                 Debug.Log("No renderer");
             }
-            SetDescendantText(transform,itemNumber);
+            SetDescendantText(transform,itemText);
         }
         else if(itemShape == ItemShape.SPHERE){
             thisObject= Instantiate(sphere,transform.position,transform.rotation);
             thisObject.transform.parent=transform;
             thisObject.transform.localPosition = new Vector3(0,0,0);
             textureName="Sphere";
-            if(itemNumber != 0){
-                textureName+=itemNumber.ToString();
+            if(itemText != "0"){
+                textureName+=itemText.ToString();
             }
             switch(itemColor){
                 case ItemColor.WHITE:
@@ -111,22 +111,22 @@ public class Item : MonoBehaviour
         }
 
     }
-    private void SetDescendantText(Transform parent, int number)
+    private void SetDescendantText(Transform parent, string itemText)
     {
         foreach (Transform child in parent)
         {
             TMP_Text text = child.GetComponent<TMP_Text>();
             if (text != null)
             {
-                if(number!=0){
-                    text.text = number.ToString();
+                if(itemText!="0"){
+                    text.text =itemText;
                 }
                 else{
                     text.text = "";
                 }
             }
             else{
-                SetDescendantText(child, number);
+                SetDescendantText(child, itemText);
             }
             
         }

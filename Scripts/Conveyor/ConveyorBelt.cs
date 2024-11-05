@@ -153,6 +153,9 @@ public class ConveyorBelt : MonoBehaviour
         stopper = st;
         stopperTriggered = sttri;
     }
+    public bool isEmpty(){
+        return content.Count == 0;
+    }
     private void OnTriggerStay(Collider other)
     {
         // Check if the object on the conveyor has a Rigidbody component

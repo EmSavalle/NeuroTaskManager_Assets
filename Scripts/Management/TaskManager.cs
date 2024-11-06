@@ -126,17 +126,31 @@ public class TaskManager : MonoBehaviour
         t.objects = new List<GameObject>();
         foreach(ItemShape itemShape in items.itemShape){
             foreach(ItemColor itemColor in items.itemColor){
-                foreach(string itemText in items.itemText){
+                if(items.itemText.Count>0){
+                    foreach(string itemText in items.itemText){
+                        GameObject it = Instantiate(prefabItem,Vector3.zero,Quaternion.identity);
+                        Item i = it.GetComponent<Item>();
+                        i.itemColor = itemColor;
+                        i.itemShape = itemShape;
+                        i.itemText = itemText;
+                        i.SetUpItem();
+                        it.SetActive(false);
+                        //it.transform.position = new Vector3(1000,1000,1000);
+                        t.objects.Add(it);
+                    }
+                }
+                else{
                     GameObject it = Instantiate(prefabItem,Vector3.zero,Quaternion.identity);
                     Item i = it.GetComponent<Item>();
                     i.itemColor = itemColor;
                     i.itemShape = itemShape;
-                    i.itemText = itemText;
+                    i.itemText = "0";
                     i.SetUpItem();
                     it.SetActive(false);
                     //it.transform.position = new Vector3(1000,1000,1000);
                     t.objects.Add(it);
                 }
+                
             }   
         }
         return t;
@@ -468,6 +482,7 @@ public class TaskManager : MonoBehaviour
         }
         cst.nbObjectSinceChange+=1;
         if(cst.nbObjectSinceChange>=cst.currentObjectsUntilChange){
+            cst.nbObjectSinceChange=0;
             ObjectDimension od = cst.currentDimension;
             ObjectDimension newOd = od;
             if(ods.Count>1){

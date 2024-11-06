@@ -43,6 +43,7 @@ public class Blocker : MonoBehaviour
     public List<UnityEngine.XR.InputDevice> inputDevices;
     public UnityEngine.XR.InputDevice inputDeviceLeft;
     public UnityEngine.XR.InputDevice inputDeviceRight;
+    public bool stopMove = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -111,16 +112,30 @@ public class Blocker : MonoBehaviour
     public void StopMovingObject(){
         moveObject = false;
     }
-    public IEnumerator ObjectDetected(){
+    public void ObjectDetected(Item i){
+        Debug.Log("Object entered");
         TaskType tt = taskManager.currentTaskType;
+
+        i.gameObject.transform.parent = gameObject.transform;
+        // Set the new parent for father (blocker)
+        i.gameObject.transform.SetParent(transform,false);
+        
+        
+        
+        movingObject = i.gameObject;
         if(tt== TaskType.GONOGO){
-            yield return StartCoroutine(StartCountDown());
+            StartCoroutine(StartCountDown());
         }
-        yield break;
     }
     public IEnumerator ObjectExited(){
         StopMovingObject();
+        yield return null;
+        stopMove = false;
         TaskType tt = taskManager.currentTaskType;
+        if(movingObject!=null){
+            movingObject.transform.parent=null;
+        }
+        movingObject = null;
         switch(tt){
             case TaskType.COLORSHAPE:
                 yield return StartCoroutine(MoveBlocker(readyPosColorShape,readyRotColorShape));
@@ -177,7 +192,7 @@ public class Blocker : MonoBehaviour
         Vector3 previousPosition = transform.localPosition;
         Quaternion previousRotation = transform.localRotation;
 
-        while (Vector3.Distance(transform.localPosition, position) > 0.01f|| (Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f))  // 0.01 is tolerance for close enough
+        while (!stopMove && (Vector3.Distance(transform.localPosition, position) > 0.01f|| (Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f)))
         {
             // Move towards the target
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, position, speed * Time.deltaTime);
@@ -186,16 +201,7 @@ public class Blocker : MonoBehaviour
             // Calculate position and rotation changes
             Vector3 positionChange = transform.localPosition - previousPosition;
             Quaternion rotationChange = transform.localRotation * Quaternion.Inverse(previousRotation);
-
-            if (movingObject != null)
-            {
-                // Apply the same position and rotation change to movingObject
-                movingObject.transform.localPosition += positionChange;
-            }
-
-            // Update previous position and rotation for the next frame
-            previousPosition = transform.localPosition;
-            previousRotation = transform.localRotation;
+            //if(movingObject!=null){movingObject.transform.position+=positionChange;}
             // Wait for the next frame before continuing
             yield return new WaitForSeconds(Time.deltaTime);
         }
@@ -215,15 +221,19 @@ public class Blocker : MonoBehaviour
             i = other.transform.parent.gameObject.GetComponent<Item>();
         }
         if(i != null){
-            ObjectDetected();
+            Debug.Log("Object entered");
+            i.blockerHold = true;
+            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
+            rb.useGravity = false;
+            ObjectDetected(i);
         }
     }    
     private void OnTriggerStay(Collider other)
     {
         if(moveObject){
             Item it = other.gameObject.GetComponent<Item>();
-            if(it == null){it = other.transform.parent.gameObject.GetComponent<Item>();}
-            if( it != null){
+            if(it == null && other.transform.parent != null){it = other.transform.parent.gameObject.GetComponent<Item>();}
+            if( it != null && it.gameObject == movingObject){
                 it.blockerHold = true;
                 Vector3 newPosition = it.gameObject.transform.position+gameObject.transform.right*Time.deltaTime;
                 it.gameObject.transform.position=newPosition;
@@ -232,12 +242,20 @@ public class Blocker : MonoBehaviour
         }
     }
     private void OnTriggerExit(Collider other){
+        
         Item it = other.gameObject.GetComponent<Item>();
-        if(it == null){it = other.transform.parent.gameObject.GetComponent<Item>();}
+        if(it == null && other.transform.parent != null){it = other.transform.parent.gameObject.GetComponent<Item>();}
         if( it != null){
+            it.transform.parent=null;
             it.blockerHold = false;
+            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
+            rb.useGravity = true;
+            stopMove = true;
+            
+            StartCoroutine(ObjectExited());
+            Debug.Log("Object exited");
         }
-        StartCoroutine(ObjectExited());
+        
     }
     public void ActivateBlocker(){
         StartCoroutine(ObjectExited());

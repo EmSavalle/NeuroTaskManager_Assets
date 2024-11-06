@@ -71,12 +71,12 @@ public class Spawner : MonoBehaviour
         if(t.continuousBatch){
             items = Shuffle(items);
         }
-        while(Time.time<startTime+duration && (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
+        while(Time.time<startTime+duration ){
             switch(t.taskType){
                 case TaskType.COLORSHAPE:
                     
-                    yield return StartCoroutine(tm.UpdateColorShapeTask());
-                    if(lastSpawn+t.deliveryTime<Time.time){
+                    if(lastSpawn+t.deliveryTime<Time.time&& (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
+                        yield return StartCoroutine(tm.UpdateColorShapeTask());
                         
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];
@@ -95,7 +95,7 @@ public class Spawner : MonoBehaviour
                     }
                     break;
                 case TaskType.GONOGO:
-                    if(lastSpawn+t.deliveryTime<Time.time){
+                    if(lastSpawn+t.deliveryTime<Time.time&& (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
                         
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];
@@ -114,7 +114,7 @@ public class Spawner : MonoBehaviour
                     }
                     break;
                 case TaskType.MATCHING:
-                    if(lastSpawn+t.deliveryTime<Time.time){
+                    if(lastSpawn+t.deliveryTime<Time.time&& (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
                         
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];
@@ -137,7 +137,7 @@ public class Spawner : MonoBehaviour
                     }
                     break;
                 case TaskType.BOXING:
-                    if(lastSpawn+t.deliveryTime<Time.time){
+                    if(lastSpawn+t.deliveryTime<Time.time&& (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
                         
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];

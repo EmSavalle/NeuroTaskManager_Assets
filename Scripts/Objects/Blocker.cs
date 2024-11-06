@@ -6,8 +6,30 @@ using UnityEngine.InputSystem;
 
 public class Blocker : MonoBehaviour
 {
-    public Vector3 hiddenPos,readyPos, activatedPos;
-    public Vector3 hiddenRot,readyRot, activatedRot;
+    public TaskManager taskManager;
+    public Vector3 hiddenPos;
+    public Vector3 hiddenRot;
+    [Header("GoNoGo")]
+    public Vector3 readyPosGoNoGo;
+    public Vector3 readyRotGoNoGo;
+    public Vector3 hiddenPosGoNoGo;
+    public Vector3 hiddenRotGoNoGo;
+    public float discoverSpeedLow,discoverSpeedMedium,discoverSpeedHigh;
+    public bool moveObject;
+
+    [Header("NBack")]
+    public Vector3 readyPosNBack;
+    public Vector3 readyRotNBack;
+    public Vector3 activatedPosNBack;
+    public Vector3 activatedRotNBack;
+
+    [Header("ColorShape")]
+    public Vector3 readyPosColorShape;
+    public Vector3 readyRotColorShape;
+    public Vector3 leftPosColorShape;
+    public Vector3 leftRotColorShape;
+    public Vector3 rightPosColorShape;
+    public Vector3 rightRotColorShape;
 
     public float movementSpeed;
     public float blockingSpeed;
@@ -16,7 +38,7 @@ public class Blocker : MonoBehaviour
     public bool activated;
     public GameObject movingObject;
 
-    public bool fakeActivation;
+    public bool fakeActivationLeft,fakeActivationRight;
 
     public List<UnityEngine.XR.InputDevice> inputDevices;
     public UnityEngine.XR.InputDevice inputDeviceLeft;
@@ -55,87 +77,150 @@ public class Blocker : MonoBehaviour
         float triggerValue; bool triggerPressed;
         inputDeviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.trigger, out triggerValue);
         inputDeviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerPressed);
-        if(triggerValue != 0 || triggerPressed){
-            Debug.Log("Left trigger pressed");
-            StartCoroutine(StartBlocking());
+        if(triggerValue != 0 || triggerPressed || fakeActivationLeft){
+            fakeActivationLeft=false;
+            Debug.Log("Right trigger pressed");
+            StartCoroutine(Trigger(true));
         }
         inputDeviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.trigger, out triggerValue);
         inputDeviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerPressed);
-        if(triggerValue != 0 || triggerPressed){
+        if(triggerValue != 0 || triggerPressed ||fakeActivationRight){
+            fakeActivationRight = false;
             Debug.Log("Right trigger pressed");
-            StartCoroutine(StartBlocking());
-        }
-        if(fakeActivation){
-            fakeActivation = false;
-            StartCoroutine(StartBlocking());
+            StartCoroutine(Trigger(false));
         }
     }
-    public IEnumerator Activate(){
-        ready = false;
-        Debug.Log("Base tray - Activating tray");
-        //Animation tray activation
-        Quaternion targetRotation = Quaternion.Euler(readyRot);  
-        while (Vector3.Distance(transform.localPosition, readyPos) > 0.01f|| (Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f))  // 0.01 is tolerance for close enough
+    public IEnumerator Trigger(bool left){
+        TaskType tt = taskManager.currentTaskType;
+        switch(tt){
+            case TaskType.COLORSHAPE:
+                yield return StartCoroutine(TriggerColorShape(left));
+                break;
+            case TaskType.NBACK:
+                yield return StartCoroutine(TriggerNBack());
+                break;
+            case TaskType.GONOGO:
+                yield return StartCoroutine(TriggerSorting());
+                break;
+        }
+        yield break;
+    }
+    public void StartMovingObject(){
+        moveObject = true;
+    }
+    public void StopMovingObject(){
+        moveObject = false;
+    }
+    public IEnumerator ObjectDetected(){
+        TaskType tt = taskManager.currentTaskType;
+        if(tt== TaskType.GONOGO){
+            yield return StartCoroutine(StartCountDown());
+        }
+        yield break;
+    }
+    public IEnumerator ObjectExited(){
+        StopMovingObject();
+        TaskType tt = taskManager.currentTaskType;
+        switch(tt){
+            case TaskType.COLORSHAPE:
+                yield return StartCoroutine(MoveBlocker(readyPosColorShape,readyRotColorShape));
+                break;
+            case TaskType.NBACK:
+                yield return StartCoroutine(MoveBlocker(readyPosNBack,readyRotNBack));
+                break;
+            case TaskType.GONOGO:
+                yield return StartCoroutine(MoveBlocker(readyPosGoNoGo,readyRotGoNoGo));
+                break;
+        }
+        yield break;
+    }
+
+    public IEnumerator TriggerSorting(){
+        StartMovingObject();
+        StopCoroutine(StartCountDown());
+        yield return StartCoroutine(MoveBlocker(readyPosGoNoGo,readyRotGoNoGo));
+    }
+    public IEnumerator TriggerNBack(){
+        StartMovingObject();
+        yield return StartCoroutine(MoveBlocker(activatedPosNBack,activatedRotNBack));
+    }
+    public IEnumerator TriggerColorShape(bool left){
+        StartMovingObject();
+        if(left){
+            yield return StartCoroutine(MoveBlocker(leftPosColorShape,leftRotColorShape));
+        }
+        else{
+            yield return StartCoroutine(MoveBlocker(rightPosColorShape,rightRotColorShape));
+        }
+        
+    }
+    public IEnumerator StartCountDown(){
+        float applySpeed =0f;
+        switch(taskManager.currentDifficulty){
+            case TaskDifficulty.HIGH:
+                applySpeed = discoverSpeedHigh;
+                break;
+            case TaskDifficulty.MEDIUM:
+                applySpeed = discoverSpeedMedium;
+                break;
+            case TaskDifficulty.LOW:
+                applySpeed = discoverSpeedLow;
+                break;
+        }
+        yield return MoveBlocker(hiddenPosGoNoGo,hiddenRotGoNoGo,applySpeed);
+    }
+    public IEnumerator MoveBlocker(Vector3 position, Vector3 rotation){
+        yield return StartCoroutine(MoveBlocker(position,rotation,movementSpeed));
+    }
+    public IEnumerator MoveBlocker(Vector3 position, Vector3 rotation, float speed){
+        Quaternion targetRotation = Quaternion.Euler(rotation);  
+        Vector3 previousPosition = transform.localPosition;
+        Quaternion previousRotation = transform.localRotation;
+
+        while (Vector3.Distance(transform.localPosition, position) > 0.01f|| (Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f))  // 0.01 is tolerance for close enough
         {
             // Move towards the target
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, readyPos, movementSpeed * Time.deltaTime);
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, targetRotation, movementSpeed * Time.deltaTime);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, position, speed * Time.deltaTime);
+            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, targetRotation, speed * 20 * Time.deltaTime);
             
+            // Calculate position and rotation changes
+            Vector3 positionChange = transform.localPosition - previousPosition;
+            Quaternion rotationChange = transform.localRotation * Quaternion.Inverse(previousRotation);
+
+            if (movingObject != null)
+            {
+                // Apply the same position and rotation change to movingObject
+                movingObject.transform.localPosition += positionChange;
+            }
+
+            // Update previous position and rotation for the next frame
+            previousPosition = transform.localPosition;
+            previousRotation = transform.localRotation;
             // Wait for the next frame before continuing
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        Debug.Log("Blocker activated");
+    }
+    public IEnumerator Activate(){
+        Debug.Log("Blocker - Activating");
+        yield return StartCoroutine(ObjectExited());
         yield break;
     }
 
     public IEnumerator Deactivate(){
-        ready = false;
-        Quaternion targetRotation = Quaternion.Euler(hiddenRot);  
-        while (Vector3.Distance(transform.localPosition, hiddenPos) > 0.01f|| (Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f))  // 0.01 is tolerance for close enough
-        {
-            // Move towards the target
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, hiddenPos, movementSpeed * Time.deltaTime);
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, targetRotation, movementSpeed * Time.deltaTime);
-            
-            // Wait for the next frame before continuing
-            yield return null;
-        }
-        yield break;
+        yield return StartCoroutine(MoveBlocker(hiddenPos,hiddenRot));
     }
-
-    public IEnumerator StartBlocking(){
-        activated = true;
-        Quaternion targetRotation = Quaternion.Euler(activatedRot);  
-        while (Vector3.Distance(transform.localPosition, activatedPos) > 0.01f|| (Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f))  // 0.01 is tolerance for close enough
-        {
-            // Move towards the target
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, activatedPos, blockingSpeed*2 * Time.deltaTime);
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, targetRotation, blockingSpeed);
-            
-            // Wait for the next frame before continuing
-            yield return null;
+    private void OnTriggerEnter(Collider other){
+        Item i = other.gameObject.GetComponent<Item>();
+        if(i == null && other.transform.parent != null){
+            i = other.transform.parent.gameObject.GetComponent<Item>();
         }
-        yield break;
-    }
-
-    public IEnumerator StopBlocking(){
-        activated = false;
-        Quaternion targetRotation = Quaternion.Euler(readyRot);
-        while (Vector3.Distance(transform.localPosition, readyPos) > 0.01f|| (Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f))  // 0.01 is tolerance for close enough
-        {
-            // Move towards the target
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, readyPos, blockingSpeed * 2* Time.deltaTime);
-            transform.localRotation = Quaternion.RotateTowards(transform.localRotation, targetRotation, blockingSpeed);
-            
-            // Wait for the next frame before continuing
-            yield return null;
+        if(i != null){
+            ObjectDetected();
         }
-        yield break;
-    }
-    
+    }    
     private void OnTriggerStay(Collider other)
     {
-        if(activated){
+        if(moveObject){
             Item it = other.gameObject.GetComponent<Item>();
             if(it == null){it = other.transform.parent.gameObject.GetComponent<Item>();}
             if( it != null){
@@ -144,21 +229,18 @@ public class Blocker : MonoBehaviour
                 it.gameObject.transform.position=newPosition;
                 movingObject = it.gameObject;
             }
-            
         }
     }
     private void OnTriggerExit(Collider other){
-        if(activated){
-            Item it = other.gameObject.GetComponent<Item>();
-            if(it == null){it = other.transform.parent.gameObject.GetComponent<Item>();}
-            if(movingObject == it.gameObject && it != null){
-                StartCoroutine(StopBlocking());
-                it.blockerHold =false;
-            }
+        Item it = other.gameObject.GetComponent<Item>();
+        if(it == null){it = other.transform.parent.gameObject.GetComponent<Item>();}
+        if( it != null){
+            it.blockerHold = false;
         }
+        StartCoroutine(ObjectExited());
     }
     public void ActivateBlocker(){
-        StartCoroutine(StartBlocking());
+        StartCoroutine(ObjectExited());
     }
     
 }

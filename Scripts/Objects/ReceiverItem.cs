@@ -138,7 +138,6 @@ public class ReceiverItem : Item
             isConnected = true;
             itemType = ItemType.COMPLETEDRECEIVER;
             isValidated = CheckConnection(false);
-            //TODO define alignment/snapping object
             GameObject contactPoint = touchingCable.contactPoint;
             Vector3 diffPosition = FindClosestObject(bases,contactPoint);
             if(mainConnector == null){
@@ -153,30 +152,6 @@ public class ReceiverItem : Item
                 touched.useGravity = false;
                 touched.velocity = Vector3.zero;
             }
-            /*XRGeneralGrabTransformer xRGeneralGrabTransformer=touchingCable.gameObject.GetComponent<XRGeneralGrabTransformer>();
-            XRGrabInteractable xRGrabInteractable=touchingCable.gameObject.GetComponent<XRGrabInteractable>();
-            //Destroying connecting object utilities
-            if(xRGeneralGrabTransformer==null){                
-                Destroy(xRGeneralGrabTransformer);
-            }
-            if(xRGrabInteractable==null){
-                
-                Destroy(xRGrabInteractable);
-            }
-
-            Destroy(touched);
-            for (int i = 0; i < touchingCable.gameObject.transform.childCount; i++){
-                Rigidbody rb = touchingCable.gameObject.transform.GetChild(i).GetComponent<Rigidbody>();
-                if(rb!=null){Destroy(rb);}
-            }
-            // Check if the GameObject has a BoxCollider and remove it
-            BoxCollider boxCollider = touchingCable.gameObject.GetComponent<BoxCollider>();
-            Destroy(boxCollider);
-            for (int i = 0; i < touchingCable.gameObject.transform.childCount; i++){
-                BoxCollider bc = touchingCable.gameObject.transform.GetChild(i).GetComponent<BoxCollider>();
-                if(bc!=null){Destroy(bc);}
-            }
-            touchingCable.Ungrab();*/
             itemType = ItemType.COMPLETEDRECEIVER;
         }
     }

@@ -56,6 +56,7 @@ public class TaskManager : MonoBehaviour
     public List<BoxingTask> boxingTasks;
     public List<NBack> nBackTasks;
     public Task currentTask;
+    [Header("ColorShapeTask")]
     public List<ObjectDimension> colorShapeDimensionEasy;
     public List<int> objectUntilChangeEasy;
     public List<ObjectDimension> colorShapeDimensionMedium;
@@ -63,6 +64,8 @@ public class TaskManager : MonoBehaviour
     public List<ObjectDimension> colorShapeDimensionHard;
     public List<int> objectUntilChangeHard;
     public List<ColorShapeTask> colorShapeTasks;
+    public AudioClip soundColorShapeChange;
+    public float changeColorShapeTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -494,12 +497,14 @@ public class TaskManager : MonoBehaviour
                     cst.colorSorting[ItemColor.GREEN] = tempColor;
                 }
             }
-
-
-
-
-
-
+            infoPannelSetter.UpdateColorShape();
+            if(soundColorShapeChange != null){
+                AudioSource aso = gameObject.GetComponent<AudioSource>();
+                if(aso != null){
+                    aso.PlayOneShot(soundColorShapeChange);
+                }
+            }
+            yield return new WaitForSeconds(changeColorShapeTime);
         }
         colorShapeTasks[currentTasColor]=cst;
         Debug.Log("TODO");
@@ -575,7 +580,7 @@ public enum RequirementType {COLOR,SHAPE,NUMBER};
 public enum ConditionType {CALIBRATION,VALIDATION,PREVALIDATION};
 public enum MicroTaskEnd {NONE,BUTTONPRESS,DELIVERY};
 
-public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,BOXING,COUNTING,NBACK,PREVALIDATION,COLORSHAPE};
+public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,BOXING,COUNTING,NBACK,PREVALIDATION,COLORSHAPE,GONOGO};
 
 public enum TaskDifficulty {NONE,LOW,LOWMEDIUM, MEDIUM, MEDIUMHIGH,HIGH};
 

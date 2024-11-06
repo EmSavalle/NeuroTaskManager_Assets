@@ -34,7 +34,6 @@ public class Tablet : MonoBehaviour
         ended = false;
         starting = true;
         Quaternion targetRotation = Quaternion.Euler(endRotation);  
-        //TODO develop tablet
         while ( (Vector3.Distance(transform.localPosition, endPosition) > 0.01f && changePosition) || (changeRotation && Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f))  // 0.01 is tolerance for close enough
         {
             // Move towards the target
@@ -55,7 +54,6 @@ public class Tablet : MonoBehaviour
     
 
     public virtual IEnumerator EndTablet(){
-        //TODO End tablet
         ending = true;
         Quaternion targetRotation = Quaternion.Euler(startRotation);  
         while ( (Vector3.Distance(transform.localPosition, startPosition) > 0.01f && changePosition) || (changeRotation && Quaternion.Angle(transform.localRotation, targetRotation) > 0.01f))  // 0.01 is tolerance for close enough

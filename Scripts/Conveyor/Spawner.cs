@@ -76,8 +76,25 @@ public class Spawner : MonoBehaviour
                 case TaskType.COLORSHAPE:
                     
                     yield return StartCoroutine(tm.UpdateColorShapeTask());
+                    if(lastSpawn+t.deliveryTime<Time.time){
+                        
+                        lastSpawn = Time.time;
+                        GameObject it = items[rnd.Next(items.Count)];
+                        if(t.continuousBatch){
+                            it = items[currentBatchItem];
+                            currentBatchItem++;
+                            if(currentBatchItem == items.Count){
+                                items = Shuffle(items);
+                                currentBatchItem = 0;
+                            }
+                        }
+                        Vector3 randomPosition = new Vector3((spreadMin.localPosition.x+ spreadMax.localPosition.x)/2, (spreadMin.localPosition.y+ spreadMax.localPosition.y)/2,(spreadMin.localPosition.z+ spreadMax.localPosition.z)/2)+spreadMax.parent.position;
+                        GameObject go = Instantiate(it,randomPosition,Quaternion.identity);
+                        go.SetActive(true);
+                        go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, UnityEngine.Random.Range(0, 4) * 90, transform.eulerAngles.z);
+                    }
                     break;
-                case TaskType.SORTING:
+                case TaskType.GONOGO:
                     if(lastSpawn+t.deliveryTime<Time.time){
                         
                         lastSpawn = Time.time;

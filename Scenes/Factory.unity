@@ -4619,13 +4619,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392159367}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5555702, y: 0, z: 0, w: 0.8314697}
-  m_LocalPosition: {x: -3.604, y: 0.723, z: -5.553}
-  m_LocalScale: {x: 0.05, y: 1, z: 0.01}
+  m_LocalRotation: {x: 0.5555702, y: 0, z: 0, w: -0.83146966}
+  m_LocalPosition: {x: -3.604, y: 0.9062, z: -5.553}
+  m_LocalScale: {x: 0.061280802, y: 1, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 662777179}
-  m_LocalEulerAnglesHint: {x: -67.5, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!114 &392159373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4638,19 +4638,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed11000c190cb4f4bb9938a14b4de852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hiddenPos: {x: -3.604, y: 0.723, z: -5.553}
-  readyPos: {x: -3.604, y: 0.9, z: -5.61}
-  activatedPos: {x: -3.604, y: 0.9, z: -5.904}
+  taskManager: {fileID: 2065340267}
+  hiddenPos: {x: -3.604, y: 0.9062, z: -5.553}
   hiddenRot: {x: 292.5, y: 0, z: 0}
-  readyRot: {x: 292.5, y: 0, z: 0}
-  activatedRot: {x: 292.5, y: 67.5, z: 0}
+  readyPosGoNoGo: {x: -3.651, y: 0.8958, z: -5.91703}
+  readyRotGoNoGo: {x: 292.5, y: 90, z: 0}
+  hiddenPosGoNoGo: {x: -3.651, y: 0.8958, z: -5.355}
+  hiddenRotGoNoGo: {x: 292.5, y: 90, z: 0}
+  discoverSpeedLow: 0.5
+  discoverSpeedMedium: 1
+  discoverSpeedHigh: 2
+  moveObject: 0
+  readyPosNBack: {x: -3.651, y: 0.9062, z: -5.644}
+  readyRotNBack: {x: 292.5, y: 0, z: 0}
+  activatedPosNBack: {x: -3.651, y: 0.8958, z: -5.91703}
+  activatedRotNBack: {x: 292.5, y: 67.49999, z: -0.0000044620338}
+  readyPosColorShape: {x: -4.012, y: 0.9, z: -5.904}
+  readyRotColorShape: {x: 292.50003, y: 90, z: 0}
+  leftPosColorShape: {x: -4.1362, y: 0.8961, z: -5.95038}
+  leftRotColorShape: {x: 292.50003, y: 112.5, z: -0.0000044620338}
+  rightPosColorShape: {x: -3.91612, y: 0.8958, z: -5.91703}
+  rightRotColorShape: {x: 292.5, y: 67.49999, z: -0.0000044620338}
   movementSpeed: 1
   blockingSpeed: 2
   objectMovementSpeed: 2
   ready: 1
   activated: 0
   movingObject: {fileID: 0}
-  fakeActivation: 0
+  fakeActivationLeft: 0
+  fakeActivationRight: 0
 --- !u!65 &392159374
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15699,6 +15715,111 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290771285}
   m_CullTransparentMesh: 1
+--- !u!1 &1291081495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1291081499}
+  - component: {fileID: 1291081498}
+  - component: {fileID: 1291081497}
+  - component: {fileID: 1291081496}
+  m_Layer: 0
+  m_Name: Cube (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1291081496
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291081495}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1291081497
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291081495}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1291081498
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291081495}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1291081499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291081495}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.0508, y: -4.4274, z: -17.3708}
+  m_LocalScale: {x: 0.019578015, y: 0.019578015, z: 0.019578015}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1296920724
 GameObject:
   m_ObjectHideFlags: 0
@@ -21796,7 +21917,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 4e-45, z: 1.942e-41, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 9.1835e-41, z: 0, w: -5.5963633e-36}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -24794,108 +24915,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tasks:
   - Name: 
-    initInstructions: 'Instruction : Fill boxes based on requirements Hit validate
-      when ready to start'
-    duringInstructions: Fill box A with X kg of type 1
-    taskType: 4
-    taskDifficulty: 1
-    duration: 60
-    items:
-      itemShape: 
-      itemColor: 
-      itemText: []
-      used: 0
-    objects: []
-    baseObjects:
-    - {fileID: 8518271795071856002, guid: ebc0a82b5d29a1e49bb6bff641c447b8, type: 3}
-    objectGoal: []
-    batchAmount: 10
-    continuousBelt: 1
-    continuousBatch: 0
-    deliveryTime: 0.5
-    beltSpeed: 1
-    noFailure: 0
-    blocker: 0
-    clearForSpawn: 0
-    nbValidationTrays: 1
-    validationType: 3
-    traysReceivers: 
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
-  - Name: 
-    initInstructions: 'Instruction : Count objects   Hit validate when ready to start'
-    duringInstructions: 
-    taskType: 5
-    taskDifficulty: 1
-    duration: 6000
-    items:
-      itemShape: 0000000001000000
-      itemColor: 0000000001000000
-      itemText: []
-      used: 1
-    objects: []
-    baseObjects: []
-    objectGoal: []
-    batchAmount: 10
-    continuousBelt: 0
-    continuousBatch: 0
-    deliveryTime: 0.3
-    beltSpeed: 1
-    noFailure: 1
-    blocker: 0
-    clearForSpawn: 0
-    nbValidationTrays: 0
-    validationType: 1
-    traysReceivers: 0000000001000000
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
-  - Name: 
-    initInstructions: 'Instruction : Put corresponding item Hit validate when ready
-      to start'
-    duringInstructions: put corresponding item
-    taskType: 1
-    taskDifficulty: 1
-    duration: 60
-    items:
-      itemShape: 
-      itemColor: 
-      itemText: []
-      used: 0
-    objects:
-    - {fileID: 499671287175334744, guid: d83d8ee55475d7b4da037b349c51f0e6, type: 3}
-    - {fileID: 8225856243189177001, guid: ed225f7b2056d5b4f912a5d446a85c8a, type: 3}
-    - {fileID: 761389161413006514, guid: 3850084a520bb724389de47cdc0e54f0, type: 3}
-    baseObjects:
-    - {fileID: 4728984650117517604, guid: 3be70f62b5fc246428e8d79fa7da8a60, type: 3}
-    - {fileID: 509080931004059349, guid: 811a3bd2d549f124cb30e9a5e7592f32, type: 3}
-    - {fileID: 3683069507512348439, guid: d7adaa7de42db094291f70d0d1c9f954, type: 3}
-    objectGoal: []
-    batchAmount: 10
-    continuousBelt: 1
-    continuousBatch: 0
-    deliveryTime: 0.5
-    beltSpeed: 1
-    noFailure: 0
-    blocker: 0
-    clearForSpawn: 0
-    nbValidationTrays: 1
-    validationType: 4
-    traysReceivers: 
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
-  - Name: 
     initInstructions: 'Instruction : NBackHit validate when ready to start'
     duringInstructions: NBack
     taskType: 6
@@ -24916,8 +24935,8 @@ MonoBehaviour:
     deliveryTime: 0.5
     beltSpeed: 1
     noFailure: 0
-    blocker: 0
-    clearForSpawn: 0
+    blocker: 1
+    clearForSpawn: 1
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
@@ -24948,8 +24967,8 @@ MonoBehaviour:
     deliveryTime: 0.5
     beltSpeed: 1
     noFailure: 0
-    blocker: 0
-    clearForSpawn: 0
+    blocker: 1
+    clearForSpawn: 1
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
@@ -24980,8 +24999,8 @@ MonoBehaviour:
     deliveryTime: 0.5
     beltSpeed: 1
     noFailure: 0
-    blocker: 0
-    clearForSpawn: 0
+    blocker: 1
+    clearForSpawn: 1
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
@@ -24994,7 +25013,7 @@ MonoBehaviour:
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
     duringInstructions: Put object X in bin X and object Y in bin Y
-    taskType: 0
+    taskType: 9
     taskDifficulty: 1
     duration: 60
     items:
@@ -25012,7 +25031,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 1
-    clearForSpawn: 0
+    clearForSpawn: 1
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
@@ -25025,7 +25044,7 @@ MonoBehaviour:
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
     duringInstructions: Put object X in bin X and object Y in bin Y
-    taskType: 0
+    taskType: 9
     taskDifficulty: 3
     duration: 60
     items:
@@ -25043,7 +25062,7 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 1
-    clearForSpawn: 0
+    clearForSpawn: 1
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
@@ -25056,7 +25075,7 @@ MonoBehaviour:
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
     duringInstructions: Put object X in bin X and object Y in bin Y
-    taskType: 0
+    taskType: 9
     taskDifficulty: 5
     duration: 60
     items:
@@ -25074,7 +25093,124 @@ MonoBehaviour:
     beltSpeed: 1
     noFailure: 0
     blocker: 1
-    clearForSpawn: 0
+    clearForSpawn: 1
+    nbValidationTrays: 1
+    validationType: 1
+    traysReceivers: 0000000001000000
+    boxingTask:
+      taskDifficulty: 0
+      itemShapes: 
+      itemColors: 
+      itemTexts: []
+      boxingRequirements: []
+  - Name: 
+    initInstructions: 'Instruction : Sort objects based on category  Hit validate
+      when ready to start'
+    duringInstructions: Put object X in bin X and object Y in bin Y
+    taskType: 8
+    taskDifficulty: 1
+    duration: 60
+    items:
+      itemShape: 0000000001000000
+      itemColor: 0100000002000000
+      itemText:
+      - 0
+      used: 1
+    objects: []
+    baseObjects: []
+    objectGoal: []
+    batchAmount: 10
+    continuousBelt: 1
+    continuousBatch: 0
+    deliveryTime: 0.3
+    beltSpeed: 1
+    noFailure: 0
+    blocker: 1
+    clearForSpawn: 1
+    nbValidationTrays: 1
+    validationType: 1
+    traysReceivers: 0000000001000000
+    boxingTask:
+      taskDifficulty: 0
+      itemShapes: 
+      itemColors: 
+      itemTexts: []
+      boxingRequirements: []
+  - Name: 
+    initInstructions: 'Instruction : Sort objects based on category  Hit validate
+      when ready to start'
+    duringInstructions: Put object X in bin X and object Y in bin Y
+    taskType: 8
+    taskDifficulty: 3
+    duration: 60
+    items:
+      itemShape: 0000000001000000
+      itemColor: 0100000002000000
+      itemText:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - A
+      - B
+      - C
+      - D
+      - E
+      used: 1
+    objects: []
+    baseObjects: []
+    objectGoal: []
+    batchAmount: 10
+    continuousBelt: 1
+    continuousBatch: 0
+    deliveryTime: 0.3
+    beltSpeed: 1
+    noFailure: 0
+    blocker: 1
+    clearForSpawn: 1
+    nbValidationTrays: 1
+    validationType: 1
+    traysReceivers: 0000000001000000
+    boxingTask:
+      taskDifficulty: 0
+      itemShapes: 
+      itemColors: 
+      itemTexts: []
+      boxingRequirements: []
+  - Name: 
+    initInstructions: 'Instruction : Sort objects based on category  Hit validate
+      when ready to start'
+    duringInstructions: Put object X in bin X and object Y in bin Y
+    taskType: 8
+    taskDifficulty: 5
+    duration: 60
+    items:
+      itemShape: 0000000001000000
+      itemColor: 0100000002000000
+      itemText:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - A
+      - B
+      - C
+      - D
+      - E
+      used: 1
+    objects: []
+    baseObjects: []
+    objectGoal: []
+    batchAmount: 10
+    continuousBelt: 1
+    continuousBatch: 0
+    deliveryTime: 0.3
+    beltSpeed: 1
+    noFailure: 0
+    blocker: 1
+    clearForSpawn: 1
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
@@ -25101,6 +25237,30 @@ MonoBehaviour:
   prefabItem: {fileID: 8672582854217355001, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
   participantInfos: {fileID: 2065340268}
   experimentFirstPart:
+  - conditionType: 0
+    taskType: 8
+    taskDifficulty: 1
+    taskDuration: 600
+    nasaQ: 0
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
+  - conditionType: 0
+    taskType: 8
+    taskDifficulty: 3
+    taskDuration: 600
+    nasaQ: 0
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
+  - conditionType: 0
+    taskType: 8
+    taskDifficulty: 5
+    taskDuration: 600
+    nasaQ: 0
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
   - conditionType: 0
     taskType: 6
     taskDifficulty: 3
@@ -25346,13 +25506,15 @@ MonoBehaviour:
       itemColors: 
       itemTexts: []
       boxingRequirements: []
-  colorShapeDimensionEasy: 03000000
-  objectUntilChangeEasy: 
-  colorShapeDimensionMedium: 02000000
-  objectUntilChangeMedium: 
+  colorShapeDimensionEasy: 00000000
+  objectUntilChangeEasy: 030000000400000005000000
+  colorShapeDimensionMedium: 0000000001000000
+  objectUntilChangeMedium: 020000000300000004000000
   colorShapeDimensionHard: 010000000200000000000000
-  objectUntilChangeHard: 
+  objectUntilChangeHard: 010000000200000003000000
   colorShapeTasks: []
+  soundColorShapeChange: {fileID: 0}
+  changeColorShapeTime: 1
 --- !u!114 &2065340268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29820,3 +29982,4 @@ SceneRoots:
   - {fileID: 1526527596}
   - {fileID: 768668759}
   - {fileID: 167055686}
+  - {fileID: 1291081499}

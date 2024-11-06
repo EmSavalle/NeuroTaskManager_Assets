@@ -41,6 +41,7 @@ public class ConveyorBelt : MonoBehaviour
         stopperTriggered=false;
     }
     public IEnumerator InitialyzeBelt(Task t){
+        Debug.Log("Belt - Intializing belt");
         intialysingBelt=true;
         conveyorSpeed = t.beltSpeed;
         // Trays setup
@@ -83,7 +84,7 @@ public class ConveyorBelt : MonoBehaviour
             Debug.Log("Number of trays found under required amount");
         }
         trashCan.noFailure=t.noFailure;
-        if(t.taskType == TaskType.SORTING){
+        if(t.taskType == TaskType.GONOGO){
             trashCan.SetRecord(items.GetRange(0,assignedObject));
         }
         if(t.taskType == TaskType.NBACK){

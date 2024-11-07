@@ -34,7 +34,7 @@ public class ConveyorBelt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        content.RemoveAll(item => item == null);
     }
     
     public void ResumeBelt(){
@@ -60,14 +60,6 @@ public class ConveyorBelt : MonoBehaviour
                     Item it = items[assignedObject].GetComponent<Item>();
                     if(it==null){it = items[assignedObject].transform.parent.GetComponent<Item>();}
                     yield return StartCoroutine(dv.ActivateTray(it));
-                    assignedObject+=1;
-                    nbTrays-=1;
-                }
-                else if(v.type == ValidationTrayType.BOX){
-                    BoxingTray dv = (BoxingTray) v;
-                    Item it = items[assignedObject].GetComponent<Item>();
-                    if(it==null){it = items[assignedObject].transform.parent.GetComponent<Item>();}
-                    yield return StartCoroutine(dv.ActivateTray(t.boxingTask.boxingRequirements));
                     assignedObject+=1;
                     nbTrays-=1;
                 }

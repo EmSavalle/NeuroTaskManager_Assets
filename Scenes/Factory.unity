@@ -22029,7 +22029,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 9.1835e-41, z: 0, w: -5.5963633e-36}
+  m_BoundingSphereOverride: {x: 6.32e-43, y: 9.548153e+9, z: 6.32e-43, w: NaN}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -25052,12 +25052,6 @@ MonoBehaviour:
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : NBackHit validate when ready to start'
     duringInstructions: NBack
@@ -25084,12 +25078,6 @@ MonoBehaviour:
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : NBackHit validate when ready to start'
     duringInstructions: NBack
@@ -25116,12 +25104,6 @@ MonoBehaviour:
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
     duringInstructions: Put object X in bin X and object Y in bin Y
@@ -25147,12 +25129,6 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
     duringInstructions: Put object X in bin X and object Y in bin Y
@@ -25178,12 +25154,6 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects  Hit validate when ready to start'
     duringInstructions: Put object X in bin X and object Y in bin Y
@@ -25209,12 +25179,6 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
     traysReceivers: 0000000001000000
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects based on category  Hit validate
       when ready to start'
@@ -25242,12 +25206,6 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
     traysReceivers: 0000000001000000
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects based on category  Hit validate
       when ready to start'
@@ -25284,12 +25242,6 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
     traysReceivers: 0000000001000000
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   - Name: 
     initInstructions: 'Instruction : Sort objects based on category  Hit validate
       when ready to start'
@@ -25326,12 +25278,6 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
     traysReceivers: 0000000001000000
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   onGoingTask: 0
   task1stDuration: 15
   task2ndDuration: 10
@@ -25351,6 +25297,14 @@ MonoBehaviour:
   experimentFirstPart:
   - conditionType: 0
     taskType: 8
+    taskDifficulty: 5
+    taskDuration: 600
+    nasaQ: 0
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
+  - conditionType: 0
+    taskType: 9
     taskDifficulty: 1
     taskDuration: 600
     nasaQ: 0
@@ -25358,7 +25312,7 @@ MonoBehaviour:
     compQ: 0
     postBreak: 0
   - conditionType: 0
-    taskType: 8
+    taskType: 6
     taskDifficulty: 3
     taskDuration: 600
     nasaQ: 0
@@ -25367,14 +25321,14 @@ MonoBehaviour:
     postBreak: 0
   - conditionType: 0
     taskType: 8
-    taskDifficulty: 5
+    taskDifficulty: 1
     taskDuration: 600
     nasaQ: 0
     stfaQ: 0
     compQ: 0
     postBreak: 0
   - conditionType: 0
-    taskType: 6
+    taskType: 8
     taskDifficulty: 3
     taskDuration: 600
     nasaQ: 0
@@ -25398,24 +25352,16 @@ MonoBehaviour:
     compQ: 1
     postBreak: 0
   - conditionType: 0
-    taskType: 0
-    taskDifficulty: 1
-    taskDuration: 600
-    nasaQ: 0
-    stfaQ: 0
-    compQ: 0
-    postBreak: 0
-  - conditionType: 0
-    taskType: 0
-    taskDifficulty: 3
-    taskDuration: 600
-    nasaQ: 0
-    stfaQ: 0
-    compQ: 0
-    postBreak: 0
-  - conditionType: 0
-    taskType: 0
+    taskType: 9
     taskDifficulty: 5
+    taskDuration: 600
+    nasaQ: 0
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
+  - conditionType: 0
+    taskType: 9
+    taskDifficulty: 3
     taskDuration: 600
     nasaQ: 0
     stfaQ: 0
@@ -25612,12 +25558,6 @@ MonoBehaviour:
     nbValidationTrays: 0
     validationType: 0
     traysReceivers: 
-    boxingTask:
-      taskDifficulty: 0
-      itemShapes: 
-      itemColors: 
-      itemTexts: []
-      boxingRequirements: []
   colorShapeDimensionEasy: 00000000
   objectUntilChangeEasy: 030000000400000005000000
   colorShapeDimensionMedium: 0000000001000000
@@ -25627,6 +25567,22 @@ MonoBehaviour:
   colorShapeTasks: []
   soundColorShapeChange: {fileID: 0}
   changeColorShapeTime: 1
+  gonoGoTasks:
+  - taskDifficulty: 1
+    objectDimensions: 00000000
+    aimedColor: 0
+    aimedShape: 0
+    aimedText: 0
+  - taskDifficulty: 3
+    objectDimensions: 0000000001000000
+    aimedColor: 0
+    aimedShape: 0
+    aimedText: 0
+  - taskDifficulty: 0
+    objectDimensions: 000000000100000002000000
+    aimedColor: 0
+    aimedShape: 0
+    aimedText: 0
 --- !u!114 &2065340268
 MonoBehaviour:
   m_ObjectHideFlags: 0

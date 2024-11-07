@@ -52,10 +52,10 @@ public class TrashCan : ValidationTray
             if(it == null && other.transform.parent != null){
                 it = other.transform.parent.gameObject.GetComponent<Item>();
                 destroy = other.transform.parent.gameObject;
-                if(recordNBack && it.nback){
+                if(it.target){
                     participantInfos.TaskMissed();
                     Destroy(destroy);
-                }else if(it != null && !noFailure && !recordNBack){
+                }else if(it != null && !noFailure){
                     participantInfos.TaskMissed();
                     Destroy(destroy);
                 }

@@ -204,7 +204,7 @@ public class Spawner : MonoBehaviour
             items = Shuffle(items);
         }
         while(Time.time<startTime+duration && countNb < numbers.Count){
-            if(lastSpawn+t.deliveryTime<Time.time){
+            if(lastSpawn+t.deliveryTime<Time.time && (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
                 lastSpawn = Time.time;
 
                 int nb = numbers[countNb];
@@ -222,7 +222,7 @@ public class Spawner : MonoBehaviour
                     
                 }
                 if(isNb){
-                    go.GetComponent<Item>().nback = isNb;
+                    go.GetComponent<Item>().target = isNb;
                     participantInfos.TaskSuccess();
                 }
                 countNb++;

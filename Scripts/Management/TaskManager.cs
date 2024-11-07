@@ -66,6 +66,9 @@ public class TaskManager : MonoBehaviour
     public List<ColorShapeTask> colorShapeTasks;
     public AudioClip soundColorShapeChange;
     public float changeColorShapeTime;
+
+    [Header("Go NoGo tasks")]
+    public List<GonoGoTask> gonoGoTasks;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,20 +77,7 @@ public class TaskManager : MonoBehaviour
         colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionHard, this));
         for( int i = 0; i < tasks.Count; i++){
              
-            if(tasks[i].taskType == TaskType.BOXING){
-                Debug.Log("Setup tasks items "+tasks[i].taskType.ToString());
-                Task tt = tasks[i];
-                foreach(BoxingTask boxingTask in boxingTasks){
-                    if(boxingTask.taskDifficulty == tasks[i].taskDifficulty){
-                        tt.boxingTask = boxingTask;
-                    }
-                }
-                tt.items.itemShape = tt.boxingTask.itemShapes;
-                tt.items.itemColor = tt.boxingTask.itemColors;
-                tt.items.itemText = tt.boxingTask.itemTexts;
-                tasks[i]=GenerateItemsTask(tt);
-            }    
-            else if(tasks[i].items.used){
+            if(tasks[i].items.used){
                 Debug.Log("Setup tasks items "+tasks[i].taskType.ToString());
                 tasks[i]=GenerateItemsTask(tasks[i]);
             }       
@@ -191,7 +181,7 @@ public class TaskManager : MonoBehaviour
         int nbValidationTrays=t.nbValidationTrays;
         ValidationTrayType validationType=t.validationType;
         List<ItemType> traysReceivers = t.traysReceivers; 
-
+        prepTasks();
         //Initializing belt & spawner
         yield return StartCoroutine(belt.InitialyzeBelt(t));
         Debug.Log("Belt initialyzed");
@@ -525,6 +515,60 @@ public class TaskManager : MonoBehaviour
         Debug.Log("TODO");
         yield break;
     }
+
+    public void prepTasks(){
+        switch(currentTaskType){
+            case TaskType.GONOGO:
+                GonoGoTask g; int indGo=0;
+                Task t; int indTa=0;
+                for (int i = 0; i < gonoGoTasks.Count; i++){
+                    if(gonoGoTasks[i].taskDifficulty == currentDifficulty){
+                        indGo = i;
+                    }
+                }
+                for (int i = 0; i < tasks.Count; i++){
+                    if(tasks[i].taskDifficulty == currentDifficulty && tasks[i].taskType == TaskType.GONOGO){
+                        indTa = i;
+                    }
+                }
+                t = tasks[indTa];
+                g = gonoGoTasks[indGo];
+                Items it = tasks[indTa].items;
+                List<ItemColor> itc = it.itemColor;
+                List<ItemShape> its = it.itemShape;
+                List<string> itt = it.itemText;
+                g.aimedColor = itc[UnityEngine.Random.Range(0,itc.Count)];
+                g.aimedShape = its[UnityEngine.Random.Range(0,its.Count)];
+                string aimt="0";
+                if(itt.Count>0){
+                    aimt = itt[UnityEngine.Random.Range(0,itt.Count)];
+                }
+                 
+                bool isNumber = int.TryParse(aimt, out _);
+                g.aimedText = isNumber ? ItemText.NUMBER : ItemText.LETTER;
+                List<GameObject> objects = t.objects;
+                for(int j = 0; j < objects.Count; j++){
+                    GameObject go = objects[j];
+                    bool isTarget = true;
+                    if(g.objectDimensions.Contains(ObjectDimension.COLOR) && go.GetComponent<Item>().itemColor != g.aimedColor){
+                        isTarget = false;
+                    }
+                    if(g.objectDimensions.Contains(ObjectDimension.SHAPE) && go.GetComponent<Item>().itemShape != g.aimedShape){
+                        isTarget = false;
+                    }
+                    bool isGoNumber = int.TryParse(go.GetComponent<Item>().itemText, out _);
+                    if(g.objectDimensions.Contains(ObjectDimension.TEXT) && ((isGoNumber && g.aimedText == ItemText.NUMBER)|| (!isGoNumber && g.aimedText == ItemText.LETTER))){
+                        isTarget = false;
+                    }
+                    go.GetComponent<Item>().target = isTarget;
+                    objects[j]=go;
+                }
+                t.objects=objects;
+                tasks[indTa]=t;
+                gonoGoTasks[indGo]=g;
+                break;
+        }
+    }
 }
 
 
@@ -552,7 +596,10 @@ public struct Task{
     public int nbValidationTrays;
     public ValidationTrayType validationType;
     public List<ItemType> traysReceivers; //Length should be equal to nbValidationTrays
-    public BoxingTask boxingTask;
+    public void Initialize(){
+        items = new Items();
+        items.Initialize();
+    }
 }
 
 [Serializable]
@@ -581,6 +628,12 @@ public struct Items{
     public List<string> itemText;
 
     public bool used;
+    public void Initialize(){
+        itemShape = new List<ItemShape>();
+        itemColor = new List<ItemColor>();
+        itemText = new List<string>();
+        used = false;
+    }
 }
 
 [Serializable]
@@ -725,6 +778,15 @@ public struct ColorShapeTask{
         test = true;
 
     }
+}
+[Serializable]
+public struct GonoGoTask{
+    public TaskDifficulty taskDifficulty;
+    public List<ObjectDimension> objectDimensions;
+
+    public ItemColor aimedColor;
+    public ItemShape aimedShape;
+    public ItemText aimedText;
 }
 
 public enum ItemText {NUMBER,LETTER};

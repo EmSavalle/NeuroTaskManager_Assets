@@ -44,6 +44,8 @@ public class Blocker : MonoBehaviour
     public UnityEngine.XR.InputDevice inputDeviceLeft;
     public UnityEngine.XR.InputDevice inputDeviceRight;
     public bool stopMove = false;
+    
+    private List<Coroutine> activeCoroutines = new List<Coroutine>();
     // Start is called before the first frame update
     void Start()
     {
@@ -93,6 +95,7 @@ public class Blocker : MonoBehaviour
     }
     public IEnumerator Trigger(bool left){
         TaskType tt = taskManager.currentTaskType;
+        moveObject = true;
         switch(tt){
             case TaskType.COLORSHAPE:
                 yield return StartCoroutine(TriggerColorShape(left));
@@ -115,16 +118,13 @@ public class Blocker : MonoBehaviour
     public void ObjectDetected(Item i){
         Debug.Log("Object entered");
         TaskType tt = taskManager.currentTaskType;
-
-        i.gameObject.transform.parent = gameObject.transform;
-        // Set the new parent for father (blocker)
-        i.gameObject.transform.SetParent(transform,false);
-        
-        
-        
-        movingObject = i.gameObject;
         if(tt== TaskType.GONOGO){
             StartCoroutine(StartCountDown());
+        }
+        else{
+            i.gameObject.transform.parent = gameObject.transform;
+            i.gameObject.transform.SetParent(transform,false);
+            movingObject = i.gameObject;
         }
     }
     public IEnumerator ObjectExited(){
@@ -138,12 +138,15 @@ public class Blocker : MonoBehaviour
         movingObject = null;
         switch(tt){
             case TaskType.COLORSHAPE:
+                Debug.Log("Blocker - Readying ColorShape ");
                 yield return StartCoroutine(MoveBlocker(readyPosColorShape,readyRotColorShape));
                 break;
             case TaskType.NBACK:
+                Debug.Log("Blocker - Readying Nback");
                 yield return StartCoroutine(MoveBlocker(readyPosNBack,readyRotNBack));
                 break;
             case TaskType.GONOGO:
+                Debug.Log("Blocker - Readying GoNoGo");
                 yield return StartCoroutine(MoveBlocker(readyPosGoNoGo,readyRotGoNoGo));
                 break;
         }
@@ -184,10 +187,27 @@ public class Blocker : MonoBehaviour
         }
         yield return MoveBlocker(hiddenPosGoNoGo,hiddenRotGoNoGo,applySpeed);
     }
-    public IEnumerator MoveBlocker(Vector3 position, Vector3 rotation){
-        yield return StartCoroutine(MoveBlocker(position,rotation,movementSpeed));
+    public void StopAllMovements(){
+        if(activeCoroutines.Count>0){
+            foreach (Coroutine coroutine in activeCoroutines)
+            {
+                StopCoroutine(coroutine);
+            }
+            activeCoroutines.Clear(); 
+        }
     }
-    public IEnumerator MoveBlocker(Vector3 position, Vector3 rotation, float speed){
+    public IEnumerator MoveBlocker(Vector3 position, Vector3 rotation){
+        StopAllMovements();
+        Coroutine move = StartCoroutine(Move(position,rotation,movementSpeed));
+        activeCoroutines.Add(move); // Track this coroutine
+        yield return move;
+    }public IEnumerator MoveBlocker(Vector3 position, Vector3 rotation, float speed){
+        StopAllMovements();
+        Coroutine move = StartCoroutine(Move(position,rotation,speed));
+        activeCoroutines.Add(move); // Track this coroutine
+        yield return move;
+    }
+    public IEnumerator Move(Vector3 position, Vector3 rotation, float speed){
         Quaternion targetRotation = Quaternion.Euler(rotation);  
         Vector3 previousPosition = transform.localPosition;
         Quaternion previousRotation = transform.localRotation;
@@ -221,10 +241,15 @@ public class Blocker : MonoBehaviour
             i = other.transform.parent.gameObject.GetComponent<Item>();
         }
         if(i != null){
-            Debug.Log("Object entered");
             i.blockerHold = true;
-            Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
-            rb.useGravity = false;
+            TaskType tt = taskManager.currentTaskType;
+            if(tt != TaskType.GONOGO){
+                Debug.Log("Object entered");
+                Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
+                rb.useGravity = false;
+            }
+            movingObject = i.gameObject;
+            
             ObjectDetected(i);
         }
     }    
@@ -237,7 +262,6 @@ public class Blocker : MonoBehaviour
                 it.blockerHold = true;
                 Vector3 newPosition = it.gameObject.transform.position+gameObject.transform.right*Time.deltaTime;
                 it.gameObject.transform.position=newPosition;
-                movingObject = it.gameObject;
             }
         }
     }
@@ -246,12 +270,15 @@ public class Blocker : MonoBehaviour
         Item it = other.gameObject.GetComponent<Item>();
         if(it == null && other.transform.parent != null){it = other.transform.parent.gameObject.GetComponent<Item>();}
         if( it != null){
-            it.transform.parent=null;
             it.blockerHold = false;
+            TaskType tt = taskManager.currentTaskType;
+            if(tt != TaskType.GONOGO){
+                it.transform.parent=null;
+            }
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
             rb.useGravity = true;
             stopMove = true;
-            
+            moveObject = false;
             StartCoroutine(ObjectExited());
             Debug.Log("Object exited");
         }

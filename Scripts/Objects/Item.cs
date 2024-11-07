@@ -23,7 +23,7 @@ public class Item : MonoBehaviour
     public GameObject sphere,cube;
     public GameObject thisObject;
     public bool setup;
-    public bool nback;
+    public bool target;
     public bool blockerHold;
     // Start is called before the first frame update
     void Start()

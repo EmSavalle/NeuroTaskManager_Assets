@@ -30,7 +30,7 @@ public class InfoPannelSetter : MonoBehaviour
                     UpdateColorShape();
                     break;
                 case TaskType.GONOGO:
-                    UpdateSort();
+                    UpdateGoNoGo();
                     break;
                 case TaskType.MATCHING:
                     UpdateMatch();
@@ -127,34 +127,30 @@ public class InfoPannelSetter : MonoBehaviour
         }
         infoText.text = info;
     }
-    public void UpdateSort(){
-        string info = "Requirements : \n";
-        int cptbox = 0;
-        foreach(ValidationTray vt in conveyorBelt.vt){
-            if(vt.type == ValidationTrayType.BINS && vt.activated){
-                string box = "The bin";
-                box +="requires : ";
-                bool first = false;
-                foreach(Tuple<ItemShape,ItemColor,string> tp in vt.receiving){
-                    if(first){
-                        box+=" and ";
-                    }
-                    box+=tp.Item2.ToString()+" "+tp.Item1.ToString();
-                    
-                    bool isNumber = int.TryParse(tp.Item3, out _);
-                    if(tp.Item3 != "0" && isNumber){
-                        box+=" with number "+tp.Item3.ToString();
-                    }
-                    else {
-                        box+=" with Letter "+tp.Item3.ToString();
-                    }
-                }
-                
-                info+=box+"\n";
+    public void UpdateGoNoGo(){
+        TaskDifficulty td = tm.currentDifficulty;
+        int ind = 0;
+        for (int i = 0; i < tm.gonoGoTasks.Count; i++){
+            if(tm.gonoGoTasks[i].taskDifficulty == td){
+                ind = i;
             }
-            cptbox++;
         }
-        info+="Press the controller to have the object go in the bin";
+        GonoGoTask g = tm.gonoGoTasks[ind];
+        string info = "Select object which are ";
+        bool color=g.objectDimensions.Contains(ObjectDimension.COLOR);
+        bool shape = g.objectDimensions.Contains(ObjectDimension.SHAPE);
+        bool text = g.objectDimensions.Contains(ObjectDimension.TEXT);
+        if(color){
+            info +=g.aimedColor.ToString()+" ";
+        }
+        if(shape){
+            info +=g.aimedShape.ToString()+" ";
+        }
+        if(text){
+            info +="with a "+g.aimedText.ToString()+" written on it";
+        }
+        
+        info+="\nPress any trigger to select the current object";
         infoText.text = info;
     }
     public void UpdateMatch(){
@@ -189,48 +185,48 @@ public class InfoPannelSetter : MonoBehaviour
         }
         string text = "";
         if(!cst.hasHyperDimension){
-            text = "Sort by "+ cst.currentDimension.ToString();
+            text = "Sort by "+ cst.currentDimension.ToString()+"\n";
             switch(cst.currentDimension){
                 case ObjectDimension.COLOR:
-                    text+="\n - Left Bin : "+ cst.colorSort.Item1;
-                    text+="\n - Right Bin : "+ cst.colorSort.Item2;
+                    text+="- Left Bin : "+ cst.colorSort.Item1+"\n";
+                    text+="- Right Bin : "+ cst.colorSort.Item2+"\n";
                     break;
                 case ObjectDimension.SHAPE:
-                    text+="\n - Left Bin : "+ cst.shapeSort.Item1;
-                    text+="\n - Right Bin : "+ cst.shapeSort.Item2;
+                    text+="- Left Bin : "+ cst.shapeSort.Item1+"\n";
+                    text+="- Right Bin : "+ cst.shapeSort.Item2+"\n";
                     break;
                 case ObjectDimension.TEXT:
-                    text+="\n - Left Bin : "+ cst.textSort.Item1;
-                    text+="\n - Right Bin : "+ cst.textSort.Item2;
+                    text+="- Left Bin : "+ cst.textSort.Item1+"\n";
+                    text+="- Right Bin : "+ cst.textSort.Item2+"\n";
                     break;
             }
             
         }
         else if(cst.hasHyperDimension){
             ObjectDimension od = cst.currentDimension;
-            string newSort="Initial sorting : "+od.ToString();
+            string newSort="Initial sorting : "+od.ToString()+"\n";
             switch(od){
                 case ObjectDimension.COLOR:
                     List<ItemColor> colorSplit = new List<ItemColor>(cst.colorSorting.Keys);
                     text+="If object is color "+ colorSplit[0]+" sort by "+cst.colorSorting[colorSplit[0]]+"\n";
                     text+="If object is color "+ colorSplit[1]+" sort by "+cst.colorSorting[colorSplit[1]]+"\n";
                     
-                    text+=" - Left Bin : "+ cst.shapeSort.Item1.ToString() + " or "+ cst.textSort.Item1.ToString();
-                    text+=" - Right Bin : "+ cst.shapeSort.Item2.ToString() + " or "+ cst.textSort.Item2.ToString();
+                    text+=" - Left Bin : "+ cst.shapeSort.Item1.ToString() + " or "+ cst.textSort.Item1.ToString()+"\n";
+                    text+=" - Right Bin : "+ cst.shapeSort.Item2.ToString() + " or "+ cst.textSort.Item2.ToString()+"\n";
                     break;
                 case ObjectDimension.TEXT:
                     List<ItemText> textSplit = new List<ItemText>(cst.textSorting.Keys);
                     text+="If text is a  "+ textSplit[0]+" sort by "+cst.textSorting[textSplit[0]]+"\n";
                     text+="If text is a  "+ textSplit[1]+" sort by "+cst.textSorting[textSplit[1]]+"\n";
-                    text+=" - Left Bin : "+ cst.shapeSort.Item1.ToString() + " or "+ cst.colorSort.Item1.ToString();
-                    text+=" - Right Bin : "+ cst.shapeSort.Item2.ToString() + " or "+ cst.colorSort.Item2.ToString();
+                    text+=" - Left Bin : "+ cst.shapeSort.Item1.ToString() + " or "+ cst.colorSort.Item1.ToString()+"\n";
+                    text+=" - Right Bin : "+ cst.shapeSort.Item2.ToString() + " or "+ cst.colorSort.Item2.ToString()+"\n";
                     break;
                 case ObjectDimension.SHAPE:
                     List<ItemShape> shapeSplit = new List<ItemShape>(cst.shapeSorting.Keys);
                     text+="If object shape is "+ shapeSplit[0]+" sort by "+cst.shapeSorting[shapeSplit[0]]+"\n";
                     text+="If object shape is "+ shapeSplit[1]+" sort by "+cst.shapeSorting[shapeSplit[1]]+"\n";
-                    text+=" - Left Bin : "+ cst.colorSort.Item1.ToString() + " or "+ cst.textSort.Item1.ToString();
-                    text+=" - Right Bin : "+ cst.colorSort.Item2.ToString() + " or "+ cst.textSort.Item2.ToString();
+                    text+=" - Left Bin : "+ cst.colorSort.Item1.ToString() + " or "+ cst.textSort.Item1.ToString()+"\n";
+                    text+=" - Right Bin : "+ cst.colorSort.Item2.ToString() + " or "+ cst.textSort.Item2.ToString()+"\n";
                     break;
 
             }

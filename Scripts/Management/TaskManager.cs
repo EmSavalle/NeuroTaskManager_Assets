@@ -787,6 +787,7 @@ public struct GonoGoTask{
     public ItemColor aimedColor;
     public ItemShape aimedShape;
     public ItemText aimedText;
+    public int percentageGo;
 }
 
 public enum ItemText {NUMBER,LETTER};

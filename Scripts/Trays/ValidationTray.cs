@@ -129,9 +129,41 @@ public class ValidationTray : MonoBehaviour
     }
     public bool ValidateItem(Item i){
         if(tm.currentTaskType == TaskType.COLORSHAPE){return ValidateItemColorShape(i);}
+        if(tm.currentTaskType == TaskType.GONOGO){return ValidateItemGoNoGo(i);}
+        if(tm.currentTaskType == TaskType.NBACK){return ValidateItemNBack(i);}
         Tuple<ItemShape, ItemColor, string> tp = new Tuple<ItemShape, ItemColor, string>(i.itemShape,i.itemColor,i.itemText);
 
         return receiving.Contains(tp);
+    }
+    public bool ValidateItemNBack(Item i){
+        return i.target;
+    }
+    public bool ValidateItemGoNoGo(Item i){
+        TaskDifficulty td = tm.currentDifficulty;
+        ItemColor itemColor = i.itemColor;
+        ItemShape itemShape = i.itemShape;
+        string itemText = i.itemText;
+        bool isNumber = int.TryParse(itemText, out _);
+        GonoGoTask gng=tm.gonoGoTasks[0];
+        for (int j = 0; j < tm.gonoGoTasks.Count; j++){
+            if(tm.gonoGoTasks[j].taskDifficulty==td){
+                gng = tm.gonoGoTasks[j];
+            }
+        }
+        bool color=gng.objectDimensions.Contains(ObjectDimension.COLOR);
+        bool shape = gng.objectDimensions.Contains(ObjectDimension.SHAPE);
+        bool text = gng.objectDimensions.Contains(ObjectDimension.TEXT);
+        bool isFitting = true;
+        if(color && itemColor != gng.aimedColor){
+            isFitting = false;
+        }
+        if(shape&& itemShape != gng.aimedShape){
+            isFitting = false;
+        }
+        if(text && (isNumber != (gng.aimedText==ItemText.NUMBER))){
+            isFitting = false;
+        }
+        return isFitting;
     }
     public bool ValidateItemColorShape(Item i){
         TaskDifficulty td = tm.currentDifficulty;

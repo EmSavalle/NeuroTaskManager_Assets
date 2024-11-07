@@ -96,16 +96,18 @@ public class Spawner : MonoBehaviour
                     break;
                 case TaskType.GONOGO:
                     if(lastSpawn+t.deliveryTime<Time.time&& (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
-                        
+                        GonoGoTask g; int indGo=0;
+                        for (int i = 0; i < tm.gonoGoTasks.Count; i++){
+                            if(tm.gonoGoTasks[i].taskDifficulty == tm.currentDifficulty){
+                                indGo = i;
+                            }
+                        }
+                        g = tm.gonoGoTasks[indGo];
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];
-                        if(t.continuousBatch){
-                            it = items[currentBatchItem];
-                            currentBatchItem++;
-                            if(currentBatchItem == items.Count){
-                                items = Shuffle(items);
-                                currentBatchItem = 0;
-                            }
+                        bool isGo = UnityEngine.Random.Range(0,100) <= g.percentageGo;
+                        while(it.GetComponent<Item>().target != isGo){
+                            it = items[rnd.Next(items.Count)];
                         }
                         Vector3 randomPosition = new Vector3((spreadMin.localPosition.x+ spreadMax.localPosition.x)/2, (spreadMin.localPosition.y+ spreadMax.localPosition.y)/2,(spreadMin.localPosition.z+ spreadMax.localPosition.z)/2)+spreadMax.parent.position;
                         GameObject go = Instantiate(it,randomPosition,Quaternion.identity);

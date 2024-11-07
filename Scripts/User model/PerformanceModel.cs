@@ -12,7 +12,6 @@ public class PerformanceModel : UserModel
     {
         
         taskMaxPerformances[TaskType.MATCHING]=12*tm.task1stDuration;
-        taskMaxPerformances[TaskType.BOXING]=12*tm.task1stDuration;
         taskMaxPerformances[TaskType.COUNTING]=12*tm.task1stDuration;
         taskScore = new List<Tuple<TaskType, float>>();
     }

@@ -6,24 +6,19 @@ using TMPro;
 public class Spawner : MonoBehaviour
 {
     public TaskManager tm;
-    public List<Transform> spawnPositions;
 
     public Transform spreadMin,spreadMax;
     public bool spawning;
     public SpawnerType type;
 
     public GameObject stopper;
-    public ConveyorStopper cs;
     //Batch spawning
     public int[] objectCounts;
     public bool batchSpawned = false;
-    public bool batchCleared = true;
     public BoxCollider batchCheckerCollider; // Assign your BoxCollider in the inspector
     public string itemTag = "Item";
 
     //Interactions
-    public CountingTablet cTablet;
-    public TMP_Text infosText;
     public ConveyorBelt belt;
 
 
@@ -51,10 +46,7 @@ public class Spawner : MonoBehaviour
             Debug.Log("Spawner - Start spawning continuous");
             yield return StartCoroutine(StartSpawningContinuous(t));
         }
-        else if(type == SpawnerType.BATCH){
-            Debug.Log("Spawner - Start spawning batch");
-            yield return StartCoroutine(StartSpawningBatch(t));
-        }
+        
         participantInfos.EndProcess();
     }
     public IEnumerator StartSpawningContinuous(Task t){
@@ -68,9 +60,6 @@ public class Spawner : MonoBehaviour
         float lastSpawn = 0f;
         List<GameObject> items = t.objects;
         int currentBatchItem = 0;
-        if(t.continuousBatch){
-            items = Shuffle(items);
-        }
         while(Time.time<startTime+duration ){
             switch(t.taskType){
                 case TaskType.COLORSHAPE:
@@ -80,14 +69,6 @@ public class Spawner : MonoBehaviour
                         
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];
-                        if(t.continuousBatch){
-                            it = items[currentBatchItem];
-                            currentBatchItem++;
-                            if(currentBatchItem == items.Count){
-                                items = Shuffle(items);
-                                currentBatchItem = 0;
-                            }
-                        }
                         Vector3 randomPosition = new Vector3((spreadMin.localPosition.x+ spreadMax.localPosition.x)/2, (spreadMin.localPosition.y+ spreadMax.localPosition.y)/2,(spreadMin.localPosition.z+ spreadMax.localPosition.z)/2)+spreadMax.parent.position;
                         GameObject go = Instantiate(it,randomPosition,Quaternion.identity);
                         go.SetActive(true);
@@ -120,37 +101,7 @@ public class Spawner : MonoBehaviour
                         
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];
-                        if(t.continuousBatch){
-                            it = items[currentBatchItem];
-                            currentBatchItem++;
-                            if(currentBatchItem == items.Count){
-                                items = Shuffle(items);
-                                currentBatchItem = 0;
-                            }
-                        }
-                        Vector3 randomPosition = new Vector3(
-                            UnityEngine.Random.Range(spreadMin.localPosition.x, spreadMax.localPosition.x), 
-                            UnityEngine.Random.Range(spreadMin.localPosition.y, spreadMax.localPosition.y), 
-                            UnityEngine.Random.Range(spreadMin.localPosition.z, spreadMax.localPosition.z)
-                        )+spreadMax.parent.position;
-                        GameObject go = Instantiate(it,randomPosition,Quaternion.identity);
-                        go.SetActive(true);
-                        go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, UnityEngine.Random.Range(0, 4) * 90, transform.eulerAngles.z);
-                    }
-                    break;
-                case TaskType.BOXING:
-                    if(lastSpawn+t.deliveryTime<Time.time&& (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
                         
-                        lastSpawn = Time.time;
-                        GameObject it = items[rnd.Next(items.Count)];
-                        if(t.continuousBatch){
-                            it = items[currentBatchItem];
-                            currentBatchItem++;
-                            if(currentBatchItem == items.Count){
-                                items = Shuffle(items);
-                                currentBatchItem = 0;
-                            }
-                        }
                         Vector3 randomPosition = new Vector3(
                             UnityEngine.Random.Range(spreadMin.localPosition.x, spreadMax.localPosition.x), 
                             UnityEngine.Random.Range(spreadMin.localPosition.y, spreadMax.localPosition.y), 
@@ -161,6 +112,7 @@ public class Spawner : MonoBehaviour
                         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, UnityEngine.Random.Range(0, 4) * 90, transform.eulerAngles.z);
                     }
                     break;
+                
                 default:
                     Debug.Log("Default");
                     break;
@@ -202,9 +154,6 @@ public class Spawner : MonoBehaviour
         float startTime = Time.time;
         float lastSpawn = 0f;
         
-        if(t.continuousBatch){
-            items = Shuffle(items);
-        }
         while(Time.time<startTime+duration && countNb < numbers.Count){
             if(lastSpawn+t.deliveryTime<Time.time && (!t.clearForSpawn ||(t.clearForSpawn && belt.isEmpty()))){
                 lastSpawn = Time.time;
@@ -243,102 +192,7 @@ public class Spawner : MonoBehaviour
         }
         yield break;
     }
-    public IEnumerator StartSpawningBatch(Task t){
-        if(tm.verbose){
-            Debug.Log("Spawner - Spawning started");
-        }
-        spawning=true;
-        System.Random rnd = new System.Random();
-        float duration = t.duration;
-        float startTime = Time.time;
-        float lastSpawn = Time.time;
-        List<GameObject> items = t.objects;
-        while(Time.time<startTime+duration){
-            int[] objects = GenerateBatch(t);
-            if(t.taskType==TaskType.COUNTING){
-                System.Random rnd2 = new System.Random();
-                int selec  = rnd2.Next(0, t.objects.Count);  // creates a number between 1 and 12
-                Item it = t.objects[selec].GetComponent<Item>();
-                if(it == null){
-                    it = t.objects[selec].transform.parent.GetComponent<Item>();
-                }
-                ItemColor itemColor = it.itemColor;
-                ItemShape itemShape = it.itemShape;
-                string itemText = it.itemText;
-                string text = "Count " + itemColor.ToString()+" "+ itemShape.ToString();
-                bool isNumber = int.TryParse(itemText, out _);
-                if(itemText != "0" && isNumber){text+=" with number "+itemText;}
-                else {text+=" with letter "+itemText;}
-                infosText.text = text;
-                yield return StartCoroutine(cTablet.LaunchCounting());
-                int returnedValued = cTablet.validatedAnswer;
-                if(returnedValued == objects[selec]){
-                    participantInfos.TaskSuccess();
-                }else{
-                    
-                    participantInfos.TaskError();
-                }
-                cTablet.Reset();
-                yield return StartCoroutine(belt.EmptyBelt());
-            }
-            yield return null;
-        }
-        if(tm.verbose){
-            Debug.Log("Spawner - Spawning ended");
-        }
-        yield return StartCoroutine(belt.EmptyBelt());
-        spawning=false;
-        yield break;
-    }
-    public int[] GenerateBatch(Task t){
-        bool rndBatch = false;
-        if(t.taskType == TaskType.COUNTING){
-            rndBatch = true;
-        }
-        if(rndBatch){
-            objectCounts = new int[t.objects.Count];
-            for (int i = 0; i < t.batchAmount; i++)
-            {
-                // Randomly select an object type from the array
-                int randomIndex = UnityEngine.Random.Range(0, t.objects.Count);
-                GameObject selectedObject = t.objects[randomIndex];
-                objectCounts[randomIndex]++;
-
-                // Generate a random position within the bounds of minPosition and maxPosition
-                Vector3 randomPosition = new Vector3(
-                    UnityEngine.Random.Range(spreadMin.localPosition.x, spreadMax.localPosition.x), 
-                    UnityEngine.Random.Range(spreadMin.localPosition.y, spreadMax.localPosition.y), 
-                    UnityEngine.Random.Range(spreadMin.localPosition.z, spreadMax.localPosition.z)
-                )+spreadMax.parent.position;
-
-                // Instantiate the selected object at the random position
-                GameObject go = Instantiate(selectedObject, randomPosition, Quaternion.identity);
-                go.SetActive(true);
-            }
-        }
-        else{
-            objectCounts = new int[t.objects.Count];
-            for (int i = 0; i < t.objects.Count; i++)
-            {
-                // Randomly select an object type from the array
-                GameObject selectedObject = t.objects[i];
-                objectCounts[i]++;
-
-                // Generate a random position within the bounds of minPosition and maxPosition
-                Vector3 randomPosition = new Vector3(
-                    UnityEngine.Random.Range(spreadMin.position.x, spreadMax.position.x), 
-                    UnityEngine.Random.Range(spreadMin.position.y, spreadMax.position.y), 
-                    UnityEngine.Random.Range(spreadMin.position.z, spreadMax.position.z)
-                );
-
-                // Instantiate the selected object at the random position
-                GameObject go = Instantiate(selectedObject, randomPosition, Quaternion.identity);
-                go.SetActive(true);
-            }
-        }
-        batchSpawned = true;
-        return objectCounts;
-    }
+   
     public IEnumerator ClearBatch(){
         stopper.SetActive(false);
         while(CheckClearedBatch()){

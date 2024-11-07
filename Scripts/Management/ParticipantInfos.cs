@@ -37,10 +37,11 @@ public class ParticipantInfos : MonoBehaviour
         }
     }
 
-    public void StartNewTask(Task t, TaskType taskType, ConditionType conditionType){
+    public void StartNewTask(Task t, TaskType taskType, ConditionType conditionType, TaskDifficulty taskDifficulty){
         TaskResults tr = new TaskResults();
         tr.ended = false;
         tr.taskType = taskType;
+        tr.taskDifficulty = taskDifficulty;
         tr.conditionType = conditionType;
         tr.duration=t.duration;
         tr.workloads = new List<float>();

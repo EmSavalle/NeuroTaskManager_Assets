@@ -23,9 +23,6 @@ public class InfoPannelSetter : MonoBehaviour
     {
         if(isMonitoring){
             switch(tracking){
-                case TaskType.BOXING:
-                    UpdateBox();
-                    break;
                 case TaskType.COLORSHAPE:
                     UpdateColorShape();
                     break;
@@ -62,71 +59,6 @@ public class InfoPannelSetter : MonoBehaviour
         { ItemType.ITEMB, "Color - Red" }
     };
 
-    public void UpdateBox(){
-        string info = "";
-        int cptbox = 0;
-        foreach(ValidationTray vt in conveyorBelt.vt){
-            if(vt.type == ValidationTrayType.BOX && vt.activated){
-                BoxingTray bt = (BoxingTray)vt;
-                string box = "";
-                switch(cptbox){
-                    case 0:
-                        box+="Left box ";
-                        break;
-                    case 1:
-                        box+="Right box ";
-                        break;
-                    default:
-                        box+="Box ";
-                        break;
-                }
-                cptbox++;
-                Box bb = bt.box.GetComponent<Box>();
-                
-                box +="requires "+bb.weightRequirement.ToString()+"kg.\n - Shapes: ";
-                bool first = false;
-                foreach(ItemShape itemShape in bb.itemsShapeGoals){
-                    if(first){box+=" or ";}
-                    box+=itemShape.ToString();
-                    first = true;
-                }
-                box+="\n - Colors: ";
-                first = false;
-                foreach(ItemColor itemColor in bb.itemsColorGoals){
-                    if(first){box+=" or ";}
-                    box+=itemColor.ToString();
-                    first = true;
-                }
-                if(bb.shapeRequirements.Count!=0 || bb.colorRequirements.Count!=0|| bb.weightRequirements.Count!=0 || bb.numberRequirement !=0){
-                    box+="\nSpecial requirements!\n Box requires : \n";
-                    if(bb.exactNumber && bb.numberRequirement != 0){
-                        box+=" - EXACTLY "+bb.numberRequirement.ToString()+" items\n";
-                    }
-                    if(!bb.exactNumber && bb.numberRequirement != 0){
-                        box+=" - UP TO "+bb.numberRequirement.ToString()+" items\n";
-                    }
-                    foreach(ShapeRequirement tp in bb.shapeRequirements){//Tuple<ItemShape,int,bool>
-                        if(tp.exactNumber){
-                            box+=" - EXACTLY "+tp.number.ToString()+" "+tp.itemShape.ToString()+"\n";
-                        }
-                        else {
-                            box+=" - UP TO "+tp.number.ToString()+" "+tp.itemShape.ToString()+"\n";
-                        }
-                    }
-                    foreach(ColorRequirement tp in bb.colorRequirements){//Tuple<ItemColor,int,bool>
-                        if(tp.exactNumber){
-                            box+=" - EXACTLY "+tp.number.ToString()+" "+tp.itemColor.ToString()+"\n";
-                        }
-                        else {
-                            box+=" - UP TO "+tp.number.ToString()+" "+tp.itemColor.ToString()+"\n";
-                        }
-                    }
-                }
-                info+=box+"\n";
-            }
-        }
-        infoText.text = info;
-    }
     public void UpdateGoNoGo(){
         TaskDifficulty td = tm.currentDifficulty;
         int ind = 0;

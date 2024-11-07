@@ -48,7 +48,6 @@ public class ConveyorBelt : MonoBehaviour
         ValidationTrayType vType = t.validationType;
         int nbTrays = t.nbValidationTrays;
         List<GameObject> items = t.objects;
-        items = Shuffle(items);
         int assignedObject=0;
         if(t.blocker){
             StartCoroutine(blocker.Activate());
@@ -211,23 +210,11 @@ public class ConveyorBelt : MonoBehaviour
                 StartCoroutine(((DeliveryTray)v).StartDelivery(gameObjects));
             }
         }
-    }public void StartBoxing(List<GameObject> gameObjects){
-        foreach (ValidationTray v in vt){
-            if(v.type == ValidationTrayType.BOX && v.activated){
-                StartCoroutine(((BoxingTray)v).StartBoxing(gameObjects));
-            }
-        }
     }
     public void StopDelivery(){
         foreach (ValidationTray v in vt){
             if(v.type == ValidationTrayType.DELIVERY && v.activated){
                 ((DeliveryTray)v).stopDelivery = true;
-            }
-        }
-    }public void StopBoxing(){
-        foreach (ValidationTray v in vt){
-            if(v.type == ValidationTrayType.BOX && v.activated){
-                ((BoxingTray)v).stopBoxing = true;
             }
         }
     }

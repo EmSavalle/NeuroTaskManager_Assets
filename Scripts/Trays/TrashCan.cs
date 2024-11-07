@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +10,35 @@ public class TrashCan : ValidationTray
     public bool recordNBack;
 
     public bool isDisabled;
+    public Queue<Tuple<ItemShape,ItemColor,string>> nbackRecords;
+    public TaskManager taskManager;
     // Start is called before the first frame update
     void Start()
     {
         
     }
-
+    public void StudyNback(Item it){
+        TaskDifficulty taskDifficulty= taskManager.currentDifficulty;
+        int id = 0;
+        for (int i = 0; i < taskManager.nBackTasks.Count; i++){
+            if(taskManager.nBackTasks[i].taskDifficulty == taskDifficulty){
+                id = i;
+            }
+        }
+        int nCount = taskManager.nBackTasks[id].nbackNumber;
+        if(isNback(it)){
+            participantInfos.TaskError();
+        }
+        while(nbackRecords.Count>=nCount){
+            nbackRecords.Dequeue();
+        }
+        Tuple<ItemShape,ItemColor,string> tp = new Tuple<ItemShape, ItemColor, string>(it.itemShape,it.itemColor,it.itemText);
+        nbackRecords.Enqueue(tp);
+    }
+    public bool isNback(Item i){
+        Tuple<ItemShape,ItemColor,string> tp = new Tuple<ItemShape, ItemColor, string>(i.itemShape,i.itemColor,i.itemText);
+        return nbackRecords.Contains(tp);
+    }
     // Update is called once per frame
     void Update()
     {

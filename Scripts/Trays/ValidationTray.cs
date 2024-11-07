@@ -18,6 +18,7 @@ public class ValidationTray : MonoBehaviour
     public ParticipantInfos participantInfos;
     public bool left;
     public TaskManager tm;
+    public TrashCan trashCan;
     // Start is called before the first frame update
     void Start()
     {
@@ -136,7 +137,7 @@ public class ValidationTray : MonoBehaviour
         return receiving.Contains(tp);
     }
     public bool ValidateItemNBack(Item i){
-        return i.target;
+        return trashCan.isNback(i);
     }
     public bool ValidateItemGoNoGo(Item i){
         TaskDifficulty td = tm.currentDifficulty;

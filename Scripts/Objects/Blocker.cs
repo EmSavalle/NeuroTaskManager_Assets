@@ -46,12 +46,30 @@ public class Blocker : MonoBehaviour
     public bool stopMove = false;
     
     private List<Coroutine> activeCoroutines = new List<Coroutine>();
+    private PlayerInput playerInput;
+    private InputAction leftArrowAction;
+    private InputAction rightArrowAction;
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
+        /*playerInput = new PlayerInput();
+        leftArrowAction = playerInput.actions["LeftArrow"];
+        rightArrowAction = playerInput.actions["RightArrow"];
 
+        // Bind the function to the action
+        leftArrowAction.performed += ctx => OnLeftArrowPressed();
+        rightArrowAction.performed += ctx => OnRightArrowPressed();
+        leftArrowAction.Enable();
+        rightArrowAction.Enable();*/
+    }
+    private void OnLeftArrowPressed()
+    {
+        Debug.Log("Left arrow key pressed");
+    }
+    private void OnRightArrowPressed()
+    {
+        Debug.Log("Right arrow key pressed");
+    }
     // Update is called once per frame
     void Update()
     {
@@ -146,6 +164,7 @@ public class Blocker : MonoBehaviour
                 yield return StartCoroutine(MoveBlocker(readyPosNBack,readyRotNBack));
                 break;
             case TaskType.GONOGO:
+                yield return new WaitForSeconds(0.5f);
                 Debug.Log("Blocker - Readying GoNoGo");
                 yield return StartCoroutine(MoveBlocker(readyPosGoNoGo,readyRotGoNoGo));
                 break;
@@ -191,7 +210,9 @@ public class Blocker : MonoBehaviour
         if(activeCoroutines.Count>0){
             foreach (Coroutine coroutine in activeCoroutines)
             {
-                StopCoroutine(coroutine);
+                if(coroutine != null){
+                    StopCoroutine(coroutine);
+                }
             }
             activeCoroutines.Clear(); 
         }

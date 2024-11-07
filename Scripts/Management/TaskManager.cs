@@ -25,8 +25,6 @@ public class TaskManager : MonoBehaviour
     //Objects parameters
     public ConveyorBelt belt;
     public Spawner spawner;
-    public float lastDelivery;
-    public List<GameObject> bins = new List<GameObject>();
     public InfoPannelSetter infoPannelSetter;
     public GameObject prefabItem;
 
@@ -53,7 +51,6 @@ public class TaskManager : MonoBehaviour
     public bool clearBatch;
     public bool verbose;
 
-    public List<BoxingTask> boxingTasks;
     public List<NBack> nBackTasks;
     public Task currentTask;
     [Header("ColorShapeTask")]
@@ -166,10 +163,9 @@ public class TaskManager : MonoBehaviour
             Debug.Log("Task started");
         }
         currentTaskType = t.taskType;
-        participantInfos.StartNewTask(t,currentTaskType,currentCondition);
+        participantInfos.StartNewTask(t,currentTaskType,currentCondition,currentDifficulty);
         taskOngoing=true;
         //1. Task setup
-        string name = t.Name;
         int duration=task1stDuration;
         t.duration = task1stDuration;
         List<GameObject> objects=t.objects;
@@ -180,7 +176,6 @@ public class TaskManager : MonoBehaviour
         //Instantiate validation trays
         int nbValidationTrays=t.nbValidationTrays;
         ValidationTrayType validationType=t.validationType;
-        List<ItemType> traysReceivers = t.traysReceivers; 
         prepTasks();
         //Initializing belt & spawner
         yield return StartCoroutine(belt.InitialyzeBelt(t));
@@ -205,7 +200,6 @@ public class TaskManager : MonoBehaviour
         
         if(t.taskType == TaskType.COUNTING){yield return StartCoroutine(cTablet.StartTablet());}
         if(t.taskType == TaskType.MATCHING){belt.StartDelivery(t.baseObjects);}
-        if(t.taskType == TaskType.BOXING){belt.StartBoxing(t.baseObjects);}
         //3. Task start
         if(recordMovements){
             movementRecorderCSV.StartRecording();
@@ -218,7 +212,7 @@ public class TaskManager : MonoBehaviour
         }
         if(verbose){Debug.Log("Spawning ended");}
         if(t.taskType == TaskType.MATCHING){belt.StopDelivery();}
-        if(t.taskType == TaskType.BOXING){belt.StopBoxing();}
+        
         if(verbose){
             Debug.Log("Task ended");
         }
@@ -512,7 +506,6 @@ public class TaskManager : MonoBehaviour
             yield return new WaitForSeconds(changeColorShapeTime);
         }
         colorShapeTasks[currentTasColor]=cst;
-        Debug.Log("TODO");
         yield break;
     }
 
@@ -574,7 +567,6 @@ public class TaskManager : MonoBehaviour
 
 [Serializable]
 public struct Task{
-    public string Name;
     public string initInstructions;
     public string duringInstructions;
     public TaskType taskType;
@@ -584,9 +576,7 @@ public struct Task{
     public List<GameObject> objects;
     public List<GameObject> baseObjects;
     public List<string> objectGoal;
-    public int batchAmount;
     public bool continuousBelt;
-    public bool continuousBatch;
     public float deliveryTime;
     public float beltSpeed;
     public bool noFailure;
@@ -595,7 +585,6 @@ public struct Task{
     
     public int nbValidationTrays;
     public ValidationTrayType validationType;
-    public List<ItemType> traysReceivers; //Length should be equal to nbValidationTrays
     public void Initialize(){
         items = new Items();
         items.Initialize();
@@ -648,31 +637,11 @@ public enum RequirementType {COLOR,SHAPE,NUMBER};
 public enum ConditionType {CALIBRATION,VALIDATION,PREVALIDATION};
 public enum MicroTaskEnd {NONE,BUTTONPRESS,DELIVERY};
 
-public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,BOXING,COUNTING,NBACK,PREVALIDATION,COLORSHAPE,GONOGO};
+public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,COUNTING,NBACK,PREVALIDATION,COLORSHAPE,GONOGO};
 
-public enum TaskDifficulty {NONE,LOW,LOWMEDIUM, MEDIUM, MEDIUMHIGH,HIGH};
+public enum TaskDifficulty {NONE,LOW, MEDIUM,HIGH};
 
-[Serializable]
-public struct BoxingTask{
-    public TaskDifficulty taskDifficulty;
 
-    public List<ItemShape> itemShapes;
-    public List<ItemColor> itemColors;
-    public List<string> itemTexts;
-
-    public List<BoxingRequirements> boxingRequirements;
-}
-[Serializable]
-public struct BoxingRequirements{
-    public List<ItemShape> itemShapes;
-    public List<ItemColor> itemColors;
-    public int weight;
-
-    public List<ShapeRequirement> shapesRequirements;
-    public List<ColorRequirement> colorRequirements;
-    public List<WeightRequirement> weightRequirements;
-    public List<NumberRequirement> numberRequirements;
-}
 [Serializable]
 public struct ShapeRequirement{
     public ItemShape itemShape;

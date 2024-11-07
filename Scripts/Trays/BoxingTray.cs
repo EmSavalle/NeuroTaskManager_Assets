@@ -7,7 +7,7 @@ using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class BoxingTray : ValidationTray
-{
+{/*
     public List<GameObject> boxes;
     public bool randomizeBoxes;
     public int currentBox;
@@ -229,5 +229,5 @@ public class BoxingTray : ValidationTray
         }
     }
 
-    
+    */
 }

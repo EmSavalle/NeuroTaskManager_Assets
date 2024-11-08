@@ -69,9 +69,9 @@ public class TaskManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionEasy, this));
-        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionMedium, this));
-        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionHard, this));
+        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionEasy,TaskDifficulty.LOW, this));
+        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionMedium,TaskDifficulty.MEDIUM, this));
+        colorShapeTasks.Add(new ColorShapeTask(colorShapeDimensionHard,TaskDifficulty.HIGH, this));
         for( int i = 0; i < tasks.Count; i++){
              
             if(tasks[i].items.used){
@@ -196,7 +196,7 @@ public class TaskManager : MonoBehaviour
         }
 
         // Tablet initialization for counting task
-        informationDisplay.text=t.duringInstructions;
+        informationDisplay.text=t.duringInstructions+ "\n Touch the button when ready to start";
         
         if(t.taskType == TaskType.COUNTING){yield return StartCoroutine(cTablet.StartTablet());}
         if(t.taskType == TaskType.MATCHING){belt.StartDelivery(t.baseObjects);}
@@ -567,6 +567,7 @@ public class TaskManager : MonoBehaviour
 
 [Serializable]
 public struct Task{
+    public string name;
     public string initInstructions;
     public string duringInstructions;
     public TaskType taskType;
@@ -603,6 +604,7 @@ public struct Questionnaire{
 
 [Serializable]
 public struct ExperimentPart{
+    public string name;
     public ConditionType conditionType;
     public TaskType taskType;
     public TaskDifficulty taskDifficulty;
@@ -701,7 +703,7 @@ public struct ColorShapeTask{
     public Dictionary<ItemShape, string> shapeSorting;
     public Dictionary<ItemText, string> textSorting;
     public int nbObjectSinceChange;
-    public  ColorShapeTask(List<ObjectDimension> objectDimensions, TaskManager tm) { 
+    public  ColorShapeTask(List<ObjectDimension> objectDimensions, TaskDifficulty diff, TaskManager tm) { 
         textSorting = new Dictionary<ItemText, string>();
         textSorting[ItemText.NUMBER] = "COLOR";
         textSorting[ItemText.LETTER] = "SHAPE";
@@ -716,14 +718,14 @@ public struct ColorShapeTask{
         
         hyperDimension = objectDimensions;
         nbObjectSinceChange=0;
-        if(hyperDimension.Count == 1 && hyperDimension[0]==ObjectDimension.NONE){
+        if(diff==TaskDifficulty.LOW){
             taskDifficulty = TaskDifficulty.LOW;
             objectsUntilChange = tm.objectUntilChangeEasy;
             currentDimension = ObjectDimension.COLOR;
             swapMiniParameter=false;
             hasHyperDimension=false;
         }
-        else if (hyperDimension.Count == 1){
+        else if (diff == TaskDifficulty.MEDIUM){
             currentDimension = ObjectDimension.COLOR;
             taskDifficulty = TaskDifficulty.MEDIUM;
             objectsUntilChange = tm.objectUntilChangeMedium;

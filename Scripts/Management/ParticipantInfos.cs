@@ -71,16 +71,19 @@ public class ParticipantInfos : MonoBehaviour
         }
     }
     public void TaskSuccess(){
+        Debug.Log("Task Process - Success !");
         TaskResults tr = taskResults[^1];
         tr.numberOfSuccess+=1;
         taskResults[^1]=tr;
     }
     public void TaskError(){
+        Debug.Log("Task Process - Error !");
         TaskResults tr = taskResults[^1];
         tr.numberOfError+=1;
         taskResults[^1]=tr;
     }
     public void TaskMissed(){
+        Debug.Log("Task Process - Missed !");
         TaskResults tr = taskResults[^1];
         tr.numberOfMissed+=1;
         taskResults[^1]=tr;

@@ -41,6 +41,13 @@ public class PerformanceModel : UserModel
     }
 
     public PerformanceTaskResult ComputeScore(PerformanceTaskResult ptr){
+        if(ptr.numberOfError+ptr.numberOfSuccess+ptr.numberOfMissed == 0){
+            ptr.performance = 0;
+            ptr.errorRate = 0;
+            ptr.score = 0;
+            return ptr;
+
+        }
         float performance,errorRate,score;
         if(taskMaxPerformances.ContainsKey(ptr.taskType)){
             performance = (ptr.numberOfError+ptr.numberOfSuccess)/taskMaxPerformances[ptr.taskType];

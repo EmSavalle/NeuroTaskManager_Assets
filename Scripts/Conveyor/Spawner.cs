@@ -92,6 +92,7 @@ public class Spawner : MonoBehaviour
                         }
                         Vector3 randomPosition = new Vector3((spreadMin.localPosition.x+ spreadMax.localPosition.x)/2, (spreadMin.localPosition.y+ spreadMax.localPosition.y)/2,(spreadMin.localPosition.z+ spreadMax.localPosition.z)/2)+spreadMax.parent.position;
                         GameObject go = Instantiate(it,randomPosition,Quaternion.identity);
+                        go.GetComponent<Item>().target=isGo;
                         go.SetActive(true);
                         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, UnityEngine.Random.Range(0, 4) * 90, transform.eulerAngles.z);
                     }
@@ -162,21 +163,9 @@ public class Spawner : MonoBehaviour
                 bool isNb = nbacks[countNb];
                 Vector3 randomPosition = new Vector3((spreadMin.localPosition.x+ spreadMax.localPosition.x)/2, (spreadMin.localPosition.y+ spreadMax.localPosition.y)/2,(spreadMin.localPosition.z+ spreadMax.localPosition.z)/2)+spreadMax.parent.position;
                 GameObject go = Instantiate(t.objects[nb],randomPosition,Quaternion.identity);
+                go.GetComponent<Item>().target=false;
                 go.SetActive(true);
-                isNb = false;
-                for (int i = 0; i <= nbackNumber; i ++){
-                    if(countNb - i >= 0){
-                        if(numbers[countNb-i] == nb){
-                            isNb = true;
-                        }
-                    }
-                    
-                }
-                if(isNb){
-                    go.GetComponent<Item>().target = isNb;
-                    participantInfos.TaskSuccess();
-                }
-                countNb++;
+                countNb+=1;
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }

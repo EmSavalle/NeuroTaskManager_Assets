@@ -26,9 +26,16 @@ public class ConveyorBelt : MonoBehaviour
     public Vector3 conveyorDirection = Vector3.forward;
     private static System.Random rng = new System.Random(); 
     public List<GameObject> content = new List<GameObject>();
+    public List<GameObject> colorShapeUtility;
+    public List<GameObject> gonogoUtility;
+    public List<GameObject> nbackUtility;
+    public Dictionary<TaskType,List<GameObject>> dictUtility;
     void Start()
     {
-        
+        dictUtility = new Dictionary<TaskType, List<GameObject>>();
+        dictUtility[TaskType.COLORSHAPE]=colorShapeUtility;
+        dictUtility[TaskType.GONOGO]=gonogoUtility;
+        dictUtility[TaskType.NBACK]=nbackUtility;
     }
 
     // Update is called once per frame
@@ -42,6 +49,21 @@ public class ConveyorBelt : MonoBehaviour
     }
     public IEnumerator InitialyzeBelt(Task t){
         Debug.Log("Belt - Intializing belt");
+        
+
+        foreach(KeyValuePair<TaskType, List<GameObject>> entry in dictUtility)
+        {
+            if(entry.Key == t.taskType){
+                for (int i = 0; i < entry.Value.Count; i++){
+                    entry.Value[i].SetActive(true);
+                }
+            }
+            else{
+                for (int i = 0; i < entry.Value.Count; i++){
+                    entry.Value[i].SetActive(false);
+                }
+            }
+        }
         intialysingBelt=true;
         conveyorSpeed = t.beltSpeed;
         // Trays setup

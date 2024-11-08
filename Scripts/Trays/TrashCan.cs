@@ -10,7 +10,7 @@ public class TrashCan : ValidationTray
     public bool recordNBack;
 
     public bool isDisabled;
-    public Queue<Tuple<ItemShape,ItemColor,string>> nbackRecords;
+    public Queue<Tuple<ItemShape,ItemColor,string>> nbackRecords = new Queue<Tuple<ItemShape, ItemColor, string>>();
     public TaskManager taskManager;
     // Start is called before the first frame update
     void Start()
@@ -76,17 +76,22 @@ public class TrashCan : ValidationTray
             if(it == null && other.transform.parent != null){
                 it = other.transform.parent.gameObject.GetComponent<Item>();
                 destroy = other.transform.parent.gameObject;
-                if(it.target){
-                    participantInfos.TaskMissed();
-                    Destroy(destroy);
-                }else if(it != null && !noFailure){
-                    participantInfos.TaskMissed();
-                    Destroy(destroy);
-                }
-                else{
-                    Destroy(destroy);
-                }
             }
+            if(it.target){
+                participantInfos.TaskError();
+                Destroy(destroy);
+            }
+            else if(tm.currentTaskType == TaskType.NBACK){
+                StudyNback(it);
+            }
+            else if(it != null && !noFailure){
+                participantInfos.TaskMissed();
+                Destroy(destroy);
+            }
+            else{
+                Destroy(destroy);
+            }
+            
         }
     }
 }

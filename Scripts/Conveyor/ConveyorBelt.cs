@@ -120,7 +120,12 @@ public class ConveyorBelt : MonoBehaviour
     }
     public IEnumerator DeinitialyseBelt(Task t){
         deintialysingBelt=true;
-        
+        foreach(KeyValuePair<TaskType, List<GameObject>> entry in dictUtility)
+        {
+            for (int i = 0; i < entry.Value.Count; i++){
+                entry.Value[i].SetActive(false);
+            }
+        }
         if(t.blocker){
             StartCoroutine(blocker.Deactivate());
         }

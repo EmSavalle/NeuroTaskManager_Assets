@@ -27146,7 +27146,7 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
   onGoingTask: 0
-  task1stDuration: 60
+  task1stDuration: 10
   task2ndDuration: 10
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
@@ -27163,7 +27163,7 @@ MonoBehaviour:
     taskType: 8
     taskDifficulty: 1
     taskDuration: 600
-    nasaQ: 0
+    nasaQ: 1
     stfaQ: 0
     compQ: 0
     postBreak: 0
@@ -27363,6 +27363,7 @@ MonoBehaviour:
   launchingTasks: 0
   clearBatch: 0
   verbose: 1
+  doSecondPart: 0
   nBackTasks:
   - taskDifficulty: 1
     nbackNumber: 1
@@ -27410,7 +27411,7 @@ MonoBehaviour:
   colorShapeDimensionMedium: 0000000001000000
   objectUntilChangeMedium: 020000000300000004000000
   colorShapeDimensionHard: 010000000200000000000000
-  objectUntilChangeHard: 010000000200000003000000
+  objectUntilChangeHard: 0200000003000000
   colorShapeTasks: []
   soundColorShapeChange: {fileID: 8300000, guid: d5209d8eee084e440ad3211cd86eb495, type: 3}
   changeColorShapeTime: 1
@@ -27421,13 +27422,13 @@ MonoBehaviour:
     aimedShape: 0
     aimedText: 0
     percentageGo: 70
-  - taskDifficulty: 3
+  - taskDifficulty: 2
     objectDimensions: 0000000001000000
     aimedColor: 0
     aimedShape: 0
     aimedText: 0
     percentageGo: 70
-  - taskDifficulty: 0
+  - taskDifficulty: 3
     objectDimensions: 000000000100000002000000
     aimedColor: 0
     aimedShape: 0
@@ -27533,7 +27534,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -30331,6 +30332,10 @@ PrefabInstance:
       value: 46
       objectReference: {fileID: 0}
     - target: {fileID: 3011649075847213380, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927770863203988191, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

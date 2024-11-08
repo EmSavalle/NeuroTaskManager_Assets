@@ -50,6 +50,7 @@ public class TaskManager : MonoBehaviour
     public bool launchingTasks;
     public bool clearBatch;
     public bool verbose;
+    public bool doSecondPart;
 
     public List<NBack> nBackTasks;
     public Task currentTask;
@@ -297,77 +298,93 @@ public class TaskManager : MonoBehaviour
             if(verbose){Debug.Log("Paradigm - Start Task");}
             yield return StartCoroutine(StartTask(t));
 
-
-
+            if(ep.nasaQ || ep.stfaQ || ep.compQ){
+                
+                yield return StartCoroutine(qTablet.StartTablet());
+            }
+            if(ep.nasaQ){
+                yield return StartCoroutine(StartQuestionnaire(nasa,currentTaskType,currentCondition,currentDifficulty));
+            }if(ep.stfaQ){
+                yield return StartCoroutine(StartQuestionnaire(stfa,currentTaskType,currentCondition,currentDifficulty));
+            }if(ep.compQ){
+                yield return StartCoroutine(StartQuestionnaire(comp,currentTaskType,currentCondition,currentDifficulty));
+            }
+            if(ep.nasaQ || ep.stfaQ || ep.compQ){
+                
+                yield return StartCoroutine(qTablet.EndTablet());
+            }
             //Break
             if(ep.postBreak){
                 if(verbose){Debug.Log("Paradigm - Start Break");}
                 yield return StartCoroutine(StartBreak());
             }
         }
+        participantInfos.SaveQuestionnaireResultsToFile();
+        participantInfos.SaveTaskResultsToFile();
         //Second part
         //Fatigue & stress Questionnaire
-        
-        //Model calibration
-        if(verbose){Debug.Log("Paradigm - Start Calibration");}
-        CalibrateModel();
-        if(verbose){Debug.Log("Paradigm - Setup Validation Tasks");}
+        if(doSecondPart){
+            //Model calibration
+            if(verbose){Debug.Log("Paradigm - Start Calibration");}
+            CalibrateModel();
+            if(verbose){Debug.Log("Paradigm - Setup Validation Tasks");}
 
-        SetValidationTasks(nbValidationTask);
-        
-        if(verbose){Debug.Log("Paradigm - Start Tablet");}
-        
-        currentCondition = ConditionType.PREVALIDATION;
-        //Questionnaire
-        yield return StartCoroutine(qTablet.StartTablet());
-        if(verbose){Debug.Log("Paradigm - Start stfa");}
-        yield return StartCoroutine(StartQuestionnaire(stfa,TaskType.PREVALIDATION,ConditionType.PREVALIDATION,TaskDifficulty.NONE));
-        if(verbose){Debug.Log("Paradigm - End Tablet");}
-        yield return StartCoroutine(qTablet.EndTablet());
-
-        
-        if(verbose){Debug.Log("Paradigm - Start Validation");}
-        foreach(ExperimentPart ep in experimentSecondPart){
-            //Task definition
-            TaskType tt = ep.taskType;
-            Task t = new Task();
-            foreach (Task check in tasks){
-                if(check.taskType==tt){
-                    t=check;
-                }
-            }
-
-            currentTaskType = tt;
-            currentDifficulty = t.taskDifficulty;
-            currentCondition = ConditionType.VALIDATION;
-            //Task
-            if(verbose){Debug.Log("Paradigm - Start Task");}
-            yield return StartCoroutine(StartTask(t));
-
-
+            SetValidationTasks(nbValidationTask);
+            
             if(verbose){Debug.Log("Paradigm - Start Tablet");}
+            
+            currentCondition = ConditionType.PREVALIDATION;
             //Questionnaire
             yield return StartCoroutine(qTablet.StartTablet());
-            
-            //NASA Questionnaire
-            if(verbose){Debug.Log("Paradigm - Start NASA");}
-            if(ep.nasaQ){yield return StartCoroutine(StartQuestionnaire(nasa,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
-            
-            //Fatigue & stress Questionnaire
             if(verbose){Debug.Log("Paradigm - Start stfa");}
-            if(ep.stfaQ){yield return StartCoroutine(StartQuestionnaire(stfa,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
-            
-            //Comparison Questionnaire
-            if(verbose){Debug.Log("Paradigm - Start Comb");}
-            if(ep.compQ){yield return StartCoroutine(StartQuestionnaire(comp,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
-
+            yield return StartCoroutine(StartQuestionnaire(stfa,TaskType.PREVALIDATION,ConditionType.PREVALIDATION,TaskDifficulty.NONE));
             if(verbose){Debug.Log("Paradigm - End Tablet");}
             yield return StartCoroutine(qTablet.EndTablet());
 
-            //Break
-            if(ep.postBreak){
-                if(verbose){Debug.Log("Paradigm - Start Break");}
-                yield return StartCoroutine(StartBreak());
+            
+            if(verbose){Debug.Log("Paradigm - Start Validation");}
+            foreach(ExperimentPart ep in experimentSecondPart){
+                //Task definition
+                TaskType tt = ep.taskType;
+                Task t = new Task();
+                foreach (Task check in tasks){
+                    if(check.taskType==tt){
+                        t=check;
+                    }
+                }
+
+                currentTaskType = tt;
+                currentDifficulty = t.taskDifficulty;
+                currentCondition = ConditionType.VALIDATION;
+                //Task
+                if(verbose){Debug.Log("Paradigm - Start Task");}
+                yield return StartCoroutine(StartTask(t));
+
+
+                if(verbose){Debug.Log("Paradigm - Start Tablet");}
+                //Questionnaire
+                yield return StartCoroutine(qTablet.StartTablet());
+                
+                //NASA Questionnaire
+                if(verbose){Debug.Log("Paradigm - Start NASA");}
+                if(ep.nasaQ){yield return StartCoroutine(StartQuestionnaire(nasa,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
+                
+                //Fatigue & stress Questionnaire
+                if(verbose){Debug.Log("Paradigm - Start stfa");}
+                if(ep.stfaQ){yield return StartCoroutine(StartQuestionnaire(stfa,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
+                
+                //Comparison Questionnaire
+                if(verbose){Debug.Log("Paradigm - Start Comb");}
+                if(ep.compQ){yield return StartCoroutine(StartQuestionnaire(comp,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
+
+                if(verbose){Debug.Log("Paradigm - End Tablet");}
+                yield return StartCoroutine(qTablet.EndTablet());
+
+                //Break
+                if(ep.postBreak){
+                    if(verbose){Debug.Log("Paradigm - Start Break");}
+                    yield return StartCoroutine(StartBreak());
+                }
             }
         }
         yield break;

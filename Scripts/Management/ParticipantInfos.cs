@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ParticipantInfos : MonoBehaviour
@@ -22,7 +23,7 @@ public class ParticipantInfos : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        participantId += System.DateTime.Now.ToString("_yyyy_MM_dd_HH_mm_ss");
     }
 
     // Update is called once per frame
@@ -36,7 +37,50 @@ public class ParticipantInfos : MonoBehaviour
             }
         }
     }
+    public void SaveQuestionnaireResultsToFile()
+    {
+        string filePath = "Questionnaires"+participantId+".txt";
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            foreach (var result in questionnaireResults)
+            {
+                writer.WriteLine("Questionnaire Type: " + result.questionnaireType);
+                writer.WriteLine("Condition Type: " + result.conditionType);
+                writer.WriteLine("Task Type: " + result.taskType);
+                writer.WriteLine("Task Difficulty: " + result.taskDifficulty);
+                writer.WriteLine("Questionnaire Answers: " + string.Join(", ", result.questionnaireAnswers));
+                writer.WriteLine("-----"); // Separate entries with a line
+            }
+        }
+    }
+    public void SaveTaskResultsToFile()
+    {
+        string filePath = "Results"+participantId+".txt";
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            foreach (var result in taskResults)
+            {
+                writer.WriteLine("Task Type: " + result.taskType);
+                writer.WriteLine("Condition Type: " + result.conditionType);
+                writer.WriteLine("Task Difficulty: " + result.taskDifficulty);
+                writer.WriteLine("Duration: " + result.duration + " seconds");
 
+                // Write workloads list as a comma-separated string
+                writer.WriteLine("Workloads: " + string.Join(", ", result.workloads));
+                
+                // Write error, success, and missed counts
+                writer.WriteLine("Number of Errors: " + result.numberOfError);
+                writer.WriteLine("Number of Successes: " + result.numberOfSuccess);
+                writer.WriteLine("Number of Missed: " + result.numberOfMissed);
+
+                // Write task status
+                writer.WriteLine("Ongoing Task: " + result.ongoingTask);
+                writer.WriteLine("Ended: " + result.ended);
+
+                writer.WriteLine("-----"); // Separate entries with a line
+            }
+        }
+    }
     public void StartNewTask(Task t, TaskType taskType, ConditionType conditionType, TaskDifficulty taskDifficulty){
         TaskResults tr = new TaskResults();
         tr.ended = false;

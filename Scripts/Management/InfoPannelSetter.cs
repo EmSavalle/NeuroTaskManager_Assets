@@ -97,14 +97,14 @@ public class InfoPannelSetter : MonoBehaviour
                 nbackNumber = nbt.nbackNumber;
             }
         }
-        string info = "Ensure no repetition of same exact object in the next ";
+        string info = "Remove the object from the belt if it is the same as ";
         if(nbackNumber == 1){
-            info +=" object";
+            info +="the previous object";
         }
         else{
-            info +=nbackNumber.ToString()+" objects";
+            info +="the "+nbackNumber.ToString()+" previous objects";
         }
-        info+="\n Remove any repeated object";
+        info+="\n Hit any trigger to remove the object";
         infoText.text = info;
     }
     public void UpdateColorShape(){
@@ -118,19 +118,21 @@ public class InfoPannelSetter : MonoBehaviour
         string text = "";
         if(!cst.hasHyperDimension){
             text = "Sort by "+ cst.currentDimension.ToString()+"\n";
-            switch(cst.currentDimension){
-                case ObjectDimension.COLOR:
-                    text+="- Left Bin : "+ cst.colorSort.Item1+"\n";
-                    text+="- Right Bin : "+ cst.colorSort.Item2+"\n";
-                    break;
-                case ObjectDimension.SHAPE:
-                    text+="- Left Bin : "+ cst.shapeSort.Item1+"\n";
-                    text+="- Right Bin : "+ cst.shapeSort.Item2+"\n";
-                    break;
-                case ObjectDimension.TEXT:
-                    text+="- Left Bin : "+ cst.textSort.Item1+"\n";
-                    text+="- Right Bin : "+ cst.textSort.Item2+"\n";
-                    break;
+            if(cst.displayTextHelper){
+                switch(cst.currentDimension){
+                    case ObjectDimension.COLOR:
+                        text+="- Left Bin : "+ cst.colorSort.Item1+"\n";
+                        text+="- Right Bin : "+ cst.colorSort.Item2+"\n";
+                        break;
+                    case ObjectDimension.SHAPE:
+                        text+="- Left Bin : "+ cst.shapeSort.Item1+"\n";
+                        text+="- Right Bin : "+ cst.shapeSort.Item2+"\n";
+                        break;
+                    case ObjectDimension.TEXT:
+                        text+="- Left Bin : "+ cst.textSort.Item1+"\n";
+                        text+="- Right Bin : "+ cst.textSort.Item2+"\n";
+                        break;
+                }
             }
             
         }
@@ -143,22 +145,28 @@ public class InfoPannelSetter : MonoBehaviour
                     text+="If object is color "+ colorSplit[0]+" sort by "+cst.colorSorting[colorSplit[0]]+"\n";
                     text+="If object is color "+ colorSplit[1]+" sort by "+cst.colorSorting[colorSplit[1]]+"\n";
                     
-                    text+=" - Left Bin : "+ cst.shapeSort.Item1.ToString() + " or "+ cst.textSort.Item1.ToString()+"\n";
-                    text+=" - Right Bin : "+ cst.shapeSort.Item2.ToString() + " or "+ cst.textSort.Item2.ToString()+"\n";
+                    if(cst.displayTextHelper){
+                        text+=" - Left Bin : "+ cst.shapeSort.Item1.ToString() + " or "+ cst.textSort.Item1.ToString()+"\n";
+                        text+=" - Right Bin : "+ cst.shapeSort.Item2.ToString() + " or "+ cst.textSort.Item2.ToString()+"\n";
+                    }
                     break;
                 case ObjectDimension.TEXT:
                     List<ItemText> textSplit = new List<ItemText>(cst.textSorting.Keys);
                     text+="If text is a  "+ textSplit[0]+" sort by "+cst.textSorting[textSplit[0]]+"\n";
                     text+="If text is a  "+ textSplit[1]+" sort by "+cst.textSorting[textSplit[1]]+"\n";
-                    text+=" - Left Bin : "+ cst.shapeSort.Item1.ToString() + " or "+ cst.colorSort.Item1.ToString()+"\n";
-                    text+=" - Right Bin : "+ cst.shapeSort.Item2.ToString() + " or "+ cst.colorSort.Item2.ToString()+"\n";
+                    if(cst.displayTextHelper){
+                        text+=" - Left Bin : "+ cst.shapeSort.Item1.ToString() + " or "+ cst.colorSort.Item1.ToString()+"\n";
+                        text+=" - Right Bin : "+ cst.shapeSort.Item2.ToString() + " or "+ cst.colorSort.Item2.ToString()+"\n";
+                    }
                     break;
                 case ObjectDimension.SHAPE:
                     List<ItemShape> shapeSplit = new List<ItemShape>(cst.shapeSorting.Keys);
                     text+="If object shape is "+ shapeSplit[0]+" sort by "+cst.shapeSorting[shapeSplit[0]]+"\n";
                     text+="If object shape is "+ shapeSplit[1]+" sort by "+cst.shapeSorting[shapeSplit[1]]+"\n";
-                    text+=" - Left Bin : "+ cst.colorSort.Item1.ToString() + " or "+ cst.textSort.Item1.ToString()+"\n";
-                    text+=" - Right Bin : "+ cst.colorSort.Item2.ToString() + " or "+ cst.textSort.Item2.ToString()+"\n";
+                    if(cst.displayTextHelper){
+                        text+=" - Left Bin : "+ cst.colorSort.Item1.ToString() + " or "+ cst.textSort.Item1.ToString()+"\n";
+                        text+=" - Right Bin : "+ cst.colorSort.Item2.ToString() + " or "+ cst.textSort.Item2.ToString()+"\n";
+                    }
                     break;
 
             }

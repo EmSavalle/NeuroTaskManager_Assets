@@ -93,5 +93,14 @@ public class TrashCan : ValidationTray
             }
             
         }
+        else{
+            Item it = other.gameObject.GetComponent<Item>();
+            GameObject destroy = other.gameObject;
+            if(it == null && other.transform.parent != null){
+                it = other.transform.parent.gameObject.GetComponent<Item>();
+                destroy = other.transform.parent.gameObject;
+            }
+            Destroy(destroy);
+        }
     }
 }

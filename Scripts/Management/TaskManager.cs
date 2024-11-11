@@ -720,6 +720,7 @@ public struct ColorShapeTask{
     public Dictionary<ItemShape, string> shapeSorting;
     public Dictionary<ItemText, string> textSorting;
     public int nbObjectSinceChange;
+    public bool displayTextHelper;
     public  ColorShapeTask(List<ObjectDimension> objectDimensions, TaskDifficulty diff, TaskManager tm) { 
         textSorting = new Dictionary<ItemText, string>();
         textSorting[ItemText.NUMBER] = "COLOR";
@@ -735,6 +736,7 @@ public struct ColorShapeTask{
         
         hyperDimension = objectDimensions;
         nbObjectSinceChange=0;
+        displayTextHelper=false;
         if(diff==TaskDifficulty.LOW){
             taskDifficulty = TaskDifficulty.LOW;
             objectsUntilChange = tm.objectUntilChangeEasy;

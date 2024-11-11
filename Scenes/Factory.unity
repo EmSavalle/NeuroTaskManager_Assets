@@ -23629,7 +23629,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 7.22e-43, y: 2.2054825e-36, z: 7.22e-43, w: 1.647064e-39}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 2.0972e-41, w: -9.467092e-37}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -27146,7 +27146,7 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
   onGoingTask: 0
-  task1stDuration: 10
+  task1stDuration: 30
   task2ndDuration: 10
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
@@ -27158,6 +27158,15 @@ MonoBehaviour:
   prefabItem: {fileID: 8672582854217355001, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
   participantInfos: {fileID: 2065340268}
   experimentFirstPart:
+  - name: High Nback
+    conditionType: 0
+    taskType: 5
+    taskDifficulty: 3
+    taskDuration: 600
+    nasaQ: 0
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
   - name: Low GoNoGo
     conditionType: 0
     taskType: 8
@@ -27203,7 +27212,7 @@ MonoBehaviour:
     stfaQ: 0
     compQ: 0
     postBreak: 0
-  - name: Medium NBACK
+  - name: Medium NBack
     conditionType: 0
     taskType: 5
     taskDifficulty: 2
@@ -27215,15 +27224,6 @@ MonoBehaviour:
   - name: High GoNoGo
     conditionType: 0
     taskType: 8
-    taskDifficulty: 3
-    taskDuration: 600
-    nasaQ: 0
-    stfaQ: 0
-    compQ: 0
-    postBreak: 0
-  - name: High Nback
-    conditionType: 0
-    taskType: 5
     taskDifficulty: 3
     taskDuration: 600
     nasaQ: 0
@@ -27259,6 +27259,7 @@ MonoBehaviour:
     - How successful were you in accomplishing what you were asked to do?
     - 'How hard did you have to work to accomplish your level of performance? '
     - How insecure, discouraged, irritated, stressed,and annoyed were you?
+    - How difficult was the task?
     tmin:
     - Very Low
     - Very Low
@@ -27266,13 +27267,14 @@ MonoBehaviour:
     - Very Low
     - Very Low
     - Very Low
+    - Very Easy
     tmax:
     - Very High
     - Very High
     - Very High
     - Very High
     - Very High
-    - Very High
+    - Very Hard
     withSlider: 000000000000
   stfa:
     Name: STFA
@@ -27357,8 +27359,8 @@ MonoBehaviour:
   nbValidationTask: 1
   movementRecorderCSV: {fileID: 2065340272}
   recordMovements: 1
-  instructions: 0
-  validationtablet: 0
+  instructions: 1
+  validationtablet: 1
   launchTasks: 1
   launchingTasks: 0
   clearBatch: 0

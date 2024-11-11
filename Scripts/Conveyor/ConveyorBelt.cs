@@ -117,6 +117,7 @@ public class ConveyorBelt : MonoBehaviour
             cs.gameObject.SetActive(true);
         }
         intialysingBelt=false;
+        Debug.Log("Belt initialysed");
     }
     public IEnumerator DeinitialyseBelt(Task t){
         deintialysingBelt=true;
@@ -126,9 +127,7 @@ public class ConveyorBelt : MonoBehaviour
                 entry.Value[i].SetActive(false);
             }
         }
-        if(t.blocker){
-            StartCoroutine(blocker.Deactivate());
-        }
+        StartCoroutine(blocker.Deactivate());
         // Trays setup
         ValidationTrayType vType = t.validationType;
         int nbTrays = t.nbValidationTrays;

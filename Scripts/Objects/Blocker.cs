@@ -150,6 +150,7 @@ public class Blocker : MonoBehaviour
         }
     }
     public IEnumerator ObjectExited(){
+        Debug.Log("Blocker - object exited func");
         StopMovingObject();
         yield return new WaitForSeconds(0.5f);
         TaskType tt = taskManager.currentTaskType;
@@ -171,7 +172,10 @@ public class Blocker : MonoBehaviour
                 Debug.Log("Blocker - Readying GoNoGo");
                 yield return StartCoroutine(MoveBlocker(readyPosGoNoGo,readyRotGoNoGo));
                 break;
+            default:
+                break;
         }
+        Debug.Log("Blocker - object exited end func");
         yield break;
     }
 
@@ -266,10 +270,12 @@ public class Blocker : MonoBehaviour
     public IEnumerator Activate(){
         Debug.Log("Blocker - Activating");
         yield return StartCoroutine(ObjectExited());
+        Debug.Log("Blocker - Activated");
         yield break;
     }
 
     public IEnumerator Deactivate(){
+        Debug.Log("Deactivating blocker");
         yield return StartCoroutine(MoveBlocker(hiddenPos,hiddenRot));
     }
     private void OnTriggerEnter(Collider other){
@@ -319,6 +325,7 @@ public class Blocker : MonoBehaviour
         
     }
     public void ActivateBlocker(){
+        Debug.Log("Activating blocker");
         StartCoroutine(ObjectExited());
     }
     

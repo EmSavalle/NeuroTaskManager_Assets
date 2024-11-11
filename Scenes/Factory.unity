@@ -20687,7 +20687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bfa7e072c6ce4b4b82c8a09c8e8e184, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: -167.62
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8bfa7e072c6ce4b4b82c8a09c8e8e184, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -20743,9 +20743,9 @@ MonoBehaviour:
   ending: 0
   starting: 0
   startPosition: {x: -4.013103, y: 0.759, z: -6.035986}
-  endPosition: {x: -4.013103, y: 0.969, z: -6.1}
+  endPosition: {x: -4.013103, y: 1.1, z: -6.100094}
   startRotation: {x: -90, y: 0, z: 0}
-  endRotation: {x: -151.797, y: 0, z: 0}
+  endRotation: {x: -167, y: 0, z: 0}
   moveSpeed: 0.5
   rotationSpeed: 80
   changePosition: 1
@@ -23629,7 +23629,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 2.0972e-41, w: -9.467092e-37}
+  m_BoundingSphereOverride: {x: 5.98e-43, y: -4.1531382e-26, z: 5.98e-43, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -27042,7 +27042,13 @@ MonoBehaviour:
     items:
       itemShape: 0000000001000000
       itemColor: 010000000200000000000000
-      itemText: []
+      itemText:
+      - A
+      - B
+      - C
+      - 1
+      - 2
+      - 3
       used: 1
     objects: []
     baseObjects: []
@@ -27146,8 +27152,8 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
   onGoingTask: 0
-  task1stDuration: 30
-  task2ndDuration: 10
+  task1stDuration: 120
+  task2ndDuration: 1
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
   qTablet: {fileID: 1562010849}
@@ -27158,12 +27164,21 @@ MonoBehaviour:
   prefabItem: {fileID: 8672582854217355001, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
   participantInfos: {fileID: 2065340268}
   experimentFirstPart:
-  - name: High Nback
+  - name: High GoNoGo
     conditionType: 0
-    taskType: 5
+    taskType: 8
     taskDifficulty: 3
     taskDuration: 600
-    nasaQ: 0
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
+  - name: Medium GoNoGo
+    conditionType: 0
+    taskType: 8
+    taskDifficulty: 2
+    taskDuration: 600
+    nasaQ: 1
     stfaQ: 0
     compQ: 0
     postBreak: 0
@@ -27181,7 +27196,7 @@ MonoBehaviour:
     taskType: 7
     taskDifficulty: 1
     taskDuration: 600
-    nasaQ: 0
+    nasaQ: 1
     stfaQ: 0
     compQ: 0
     postBreak: 0
@@ -27190,7 +27205,7 @@ MonoBehaviour:
     taskType: 5
     taskDifficulty: 1
     taskDuration: 600
-    nasaQ: 0
+    nasaQ: 1
     stfaQ: 0
     compQ: 0
     postBreak: 0
@@ -27199,16 +27214,7 @@ MonoBehaviour:
     taskType: 7
     taskDifficulty: 2
     taskDuration: 600
-    nasaQ: 0
-    stfaQ: 0
-    compQ: 0
-    postBreak: 0
-  - name: Medium GoNoGo
-    conditionType: 0
-    taskType: 8
-    taskDifficulty: 2
-    taskDuration: 600
-    nasaQ: 0
+    nasaQ: 1
     stfaQ: 0
     compQ: 0
     postBreak: 0
@@ -27217,16 +27223,16 @@ MonoBehaviour:
     taskType: 5
     taskDifficulty: 2
     taskDuration: 600
-    nasaQ: 0
+    nasaQ: 1
     stfaQ: 0
     compQ: 0
     postBreak: 0
-  - name: High GoNoGo
+  - name: High Nback
     conditionType: 0
-    taskType: 8
+    taskType: 5
     taskDifficulty: 3
     taskDuration: 600
-    nasaQ: 0
+    nasaQ: 1
     stfaQ: 0
     compQ: 0
     postBreak: 0
@@ -27235,7 +27241,7 @@ MonoBehaviour:
     taskType: 7
     taskDifficulty: 3
     taskDuration: 600
-    nasaQ: 0
+    nasaQ: 1
     stfaQ: 0
     compQ: 0
     postBreak: 0
@@ -27274,8 +27280,9 @@ MonoBehaviour:
     - Very High
     - Very High
     - Very High
+    - Very High
     - Very Hard
-    withSlider: 000000000000
+    withSlider: 00000000000000
   stfa:
     Name: STFA
     questionnaireType: 1
@@ -27359,8 +27366,8 @@ MonoBehaviour:
   nbValidationTask: 1
   movementRecorderCSV: {fileID: 2065340272}
   recordMovements: 1
-  instructions: 1
-  validationtablet: 1
+  instructions: 0
+  validationtablet: 0
   launchTasks: 1
   launchingTasks: 0
   clearBatch: 0

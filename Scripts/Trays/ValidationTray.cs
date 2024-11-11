@@ -34,13 +34,14 @@ public class ValidationTray : MonoBehaviour
     public IEnumerator ActivateTray(Item r){
         Debug.Log("Base tray - Activating tray");
         //Animation tray activation
-        while (Vector3.Distance(transform.localPosition, endPosition) > 0.01f)  // 0.01 is tolerance for close enough
+        while (Vector3.Distance(transform.localPosition, endPosition) > 0.1f)  
         {
+            Debug.Log("Base tray - Moving tray");
             // Move towards the target
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, endPosition, moveSpeed * Time.deltaTime);
             
             // Wait for the next frame before continuing
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return null;
         }
         Debug.Log("Tray activated");
         activated = true;
@@ -52,8 +53,9 @@ public class ValidationTray : MonoBehaviour
     public IEnumerator ActivateTray(List<Item> rs){
         Debug.Log("Base tray - Activating tray");
         //Animation tray activation
-        while (Vector3.Distance(transform.localPosition, endPosition) > 0.01f)  // 0.01 is tolerance for close enough
+        while (Vector3.Distance(transform.localPosition, endPosition) > 0.01f)  
         {
+            Debug.Log("Base tray - Moving tray");
             // Move towards the target
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, endPosition, moveSpeed * Time.deltaTime);
             

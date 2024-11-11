@@ -299,7 +299,7 @@ public class TaskManager : MonoBehaviour
             yield return StartCoroutine(StartTask(t));
 
             if(ep.nasaQ || ep.stfaQ || ep.compQ){
-                
+                belt.DeinitialyseBelt(t);
                 yield return StartCoroutine(qTablet.StartTablet());
             }
             if(ep.nasaQ){

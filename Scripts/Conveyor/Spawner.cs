@@ -87,12 +87,16 @@ public class Spawner : MonoBehaviour
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];
                         bool isGo = UnityEngine.Random.Range(0,100) <= g.percentageGo;
+                        Debug.Log("Gng generation");
                         while(it.GetComponent<Item>().target != isGo){
+                            Debug.Log("Gng generating");
+                            
                             it = items[rnd.Next(items.Count)];
+                            yield return null;
                         }
                         Vector3 randomPosition = new Vector3((spreadMin.localPosition.x+ spreadMax.localPosition.x)/2, (spreadMin.localPosition.y+ spreadMax.localPosition.y)/2,(spreadMin.localPosition.z+ spreadMax.localPosition.z)/2)+spreadMax.parent.position;
                         GameObject go = Instantiate(it,randomPosition,Quaternion.identity);
-                        go.GetComponent<Item>().target=isGo;
+                        //go.GetComponent<Item>().target=isGo;
                         go.SetActive(true);
                         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, UnityEngine.Random.Range(0, 4) * 90, transform.eulerAngles.z);
                     }

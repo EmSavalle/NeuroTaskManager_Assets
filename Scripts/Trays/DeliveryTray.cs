@@ -48,13 +48,13 @@ public class DeliveryTray : ValidationTray
         if(validationTabletObj != null && validationTablet == null){
             validationTablet=validationTabletObj.GetComponent<ValidationTablet>();
         }   
-        if(!buttonDelivery && isDelivering && delivery != null){
+        /*if(!buttonDelivery && isDelivering && delivery != null){
             
             if(delivery.GetComponent<ReceiverItem>().itemType==ItemType.COMPLETEDRECEIVER){
                 deliveryComplete=true;
             }
             
-        }
+        }*/
 
     }
 
@@ -122,7 +122,8 @@ public class DeliveryTray : ValidationTray
     }
     public bool CheckDelivery(GameObject deli){
         if(deli == null){return false;}
-        return deli.GetComponent<ReceiverItem>().isValidated;
+        //return deli.GetComponent<ReceiverItem>().isValidated;
+        return false;
         
     }
     public void InstantiateDeliverable(){

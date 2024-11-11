@@ -17,7 +17,7 @@ public class AssembleItem : Item
     }
 
     // Update is called once per frame
-    void Update()
+    private void override Update()
     {
         if(itemType == ItemType.SUBITEM){
             RealignConnection();

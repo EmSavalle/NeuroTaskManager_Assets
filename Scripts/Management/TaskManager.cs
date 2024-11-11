@@ -184,6 +184,7 @@ public class TaskManager : MonoBehaviour
 
         // 2. Instructions
         informationDisplay.text=t.initInstructions;//Display instructions
+        informationDisplay.text+="\nHit any trigger to start the task.";
         instructionsDone = false;
         //Present tablet to stop instructions
         if(validationtablet){

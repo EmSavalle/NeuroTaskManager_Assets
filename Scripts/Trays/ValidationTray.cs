@@ -34,7 +34,7 @@ public class ValidationTray : MonoBehaviour
     public IEnumerator ActivateTray(Item r){
         Debug.Log("Base tray - Activating tray");
         //Animation tray activation
-        while (Vector3.Distance(transform.localPosition, endPosition) > 0.1f)  
+        while (Vector3.Distance(transform.localPosition, endPosition) > 0.01f)  
         {
             Debug.Log("Base tray - Moving tray");
             // Move towards the target

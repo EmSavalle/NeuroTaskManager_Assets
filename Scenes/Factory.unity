@@ -17679,6 +17679,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1333441610}
   m_CullTransparentMesh: 1
+--- !u!1001 &1343763604
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.5103
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.274104
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -18.791687
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597919445909546342, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: itemColor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597919445909546342, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: itemShape
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672582854217355001, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_Name
+      value: Item (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
 --- !u!1 &1351058435
 GameObject:
   m_ObjectHideFlags: 0
@@ -26665,6 +26730,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038578124}
   m_CullTransparentMesh: 1
+--- !u!1001 &2040630171
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.7907727
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.274104
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -18.791687
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538969110750464750, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8672582854217355001, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
+      propertyPath: m_Name
+      value: Item
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
 --- !u!1 &2046629158
 GameObject:
   m_ObjectHideFlags: 0
@@ -26918,7 +27040,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tasks:
   - name: Low NBack
-    initInstructions: "Remove the object if it\u2019s the same as the previous one."
+    initInstructions: "NBack - Remove the object if it\u2019s the same as the previous
+      one."
     duringInstructions: NBack
     taskType: 5
     taskDifficulty: 1
@@ -26941,8 +27064,8 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   - name: Medium NBack
-    initInstructions: 'Task : Remove the object if it matches one of the last two
-      objects.'
+    initInstructions: 'NBack - Task : Remove the object if it matches one of the
+      last two objects.'
     duringInstructions: NBack
     taskType: 5
     taskDifficulty: 2
@@ -26965,7 +27088,8 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   - name: High NBack
-    initInstructions: Remove the object if it matches any of the last three objects.
+    initInstructions: NBack - Remove the object if it matches any of the last three
+      objects.
     duringInstructions: NBack
     taskType: 5
     taskDifficulty: 3
@@ -26987,8 +27111,8 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   - name: Low GoNoGo
-    initInstructions: Select the object display by pressing a trigger if it fits
-      the instructions.
+    initInstructions: GoNoGo - Select the object display by pressing a trigger if
+      it fits the instructions.
     duringInstructions: Put object X in bin X and object Y in bin Y
     taskType: 8
     taskDifficulty: 1
@@ -27010,8 +27134,8 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   - name: Medium GoNoGo
-    initInstructions: Select the object display by pressing a trigger if it fits
-      the instructions.
+    initInstructions: GoNoGo - Select the object display by pressing a trigger if
+      it fits the instructions.
     duringInstructions: Put object X in bin X and object Y in bin Y
     taskType: 8
     taskDifficulty: 2
@@ -27033,8 +27157,8 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   - name: High GoNoGo
-    initInstructions: Select the object display by pressing a trigger if it fits
-      the instructions.
+    initInstructions: GoNoGo - Select the object display by pressing a trigger if
+      it fits the instructions.
     duringInstructions: Put object X in bin X and object Y in bin Y
     taskType: 8
     taskDifficulty: 3
@@ -27062,8 +27186,8 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   - name: Low ColorShape
-    initInstructions: Sort object based on instruction by pressing left or right
-      trigger.
+    initInstructions: Sorting - Sort object based on instruction by pressing left
+      or right trigger.
     duringInstructions: Put object X in bin X and object Y in bin Y
     taskType: 7
     taskDifficulty: 1
@@ -27086,8 +27210,8 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
   - name: Medium ColorShape
-    initInstructions: Sort object based on instruction by pressing left or right
-      trigger.
+    initInstructions: Sorting - Sort object based on instruction by pressing left
+      or right trigger.
     duringInstructions: Put object X in bin X and object Y in bin Y
     taskType: 7
     taskDifficulty: 2
@@ -27119,8 +27243,8 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
   - name: High ColorShape
-    initInstructions: Sort object based on instruction by pressing left or right
-      trigger.
+    initInstructions: Sorting - Sort object based on instruction by pressing left
+      or right trigger.
     duringInstructions: Put object X in bin X and object Y in bin Y
     taskType: 7
     taskDifficulty: 3
@@ -27152,7 +27276,7 @@ MonoBehaviour:
     nbValidationTrays: 2
     validationType: 1
   onGoingTask: 0
-  task1stDuration: 120
+  task1stDuration: 10
   task2ndDuration: 1
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
@@ -27164,24 +27288,6 @@ MonoBehaviour:
   prefabItem: {fileID: 8672582854217355001, guid: 212a32af094bcfa419c18925eefa5413, type: 3}
   participantInfos: {fileID: 2065340268}
   experimentFirstPart:
-  - name: High GoNoGo
-    conditionType: 0
-    taskType: 8
-    taskDifficulty: 3
-    taskDuration: 600
-    nasaQ: 1
-    stfaQ: 0
-    compQ: 0
-    postBreak: 0
-  - name: Medium GoNoGo
-    conditionType: 0
-    taskType: 8
-    taskDifficulty: 2
-    taskDuration: 600
-    nasaQ: 1
-    stfaQ: 0
-    compQ: 0
-    postBreak: 0
   - name: Low GoNoGo
     conditionType: 0
     taskType: 8
@@ -27209,6 +27315,15 @@ MonoBehaviour:
     stfaQ: 0
     compQ: 0
     postBreak: 0
+  - name: Medium GoNoGo
+    conditionType: 0
+    taskType: 8
+    taskDifficulty: 2
+    taskDuration: 600
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
   - name: Medium ColorShape
     conditionType: 0
     taskType: 7
@@ -27230,6 +27345,15 @@ MonoBehaviour:
   - name: High Nback
     conditionType: 0
     taskType: 5
+    taskDifficulty: 3
+    taskDuration: 600
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
+  - name: High GoNoGo
+    conditionType: 0
+    taskType: 8
     taskDifficulty: 3
     taskDuration: 600
     nasaQ: 1
@@ -27366,8 +27490,8 @@ MonoBehaviour:
   nbValidationTask: 1
   movementRecorderCSV: {fileID: 2065340272}
   recordMovements: 1
-  instructions: 0
-  validationtablet: 0
+  instructions: 1
+  validationtablet: 1
   launchTasks: 1
   launchingTasks: 0
   clearBatch: 0
@@ -31987,3 +32111,5 @@ SceneRoots:
   - {fileID: 1526527596}
   - {fileID: 768668759}
   - {fileID: 167055686}
+  - {fileID: 2040630171}
+  - {fileID: 1343763604}

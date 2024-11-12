@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,11 @@ public class QuestionnaireTablet : Tablet
 
     public bool isButton = true;
     public override IEnumerator StartTablet(){
+        string filePath = Application.dataPath+"Logs"+".txt";
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            writer.WriteLine("Starting questionnaire tablet"+startPosition.ToString()+"/"+endPosition.ToString());
+        }
         pannelText.text = "Questionnaire time!";
         question.text = "Wait for questions";
         tmax.text="";
@@ -97,6 +103,9 @@ public class QuestionnaireTablet : Tablet
             }
             if(anySelection){
                 validated = true;
+            }
+            else{
+                validation.Unselect();
             }
             
         }

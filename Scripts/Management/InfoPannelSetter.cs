@@ -21,6 +21,12 @@ public class InfoPannelSetter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateMonitoring();
+    }
+    public void SetEndingText(){
+        infoText.text = "Experiment finished !";
+    }
+    public void UpdateMonitoring(){
         if(isMonitoring){
             switch(tracking){
                 case TaskType.COLORSHAPE:

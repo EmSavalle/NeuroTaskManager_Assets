@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -184,7 +185,7 @@ public class TaskManager : MonoBehaviour
 
         // 2. Instructions
         informationDisplay.text=t.initInstructions;//Display instructions
-        informationDisplay.text+="\nHit any trigger to start the task.";
+        informationDisplay.text+="\nTouch the green button to start the task.";
         instructionsDone = false;
         //Present tablet to stop instructions
         if(validationtablet){
@@ -197,6 +198,11 @@ public class TaskManager : MonoBehaviour
 
         }
 
+        string filePath = Application.dataPath+"Logs"+".txt";
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            writer.WriteLine("start task");
+        }
         // Tablet initialization for counting task
         informationDisplay.text=t.duringInstructions+ "\n Touch the button when ready to start";
         
@@ -208,6 +214,7 @@ public class TaskManager : MonoBehaviour
         }
         TaskStart = Time.time;
         infoPannelSetter.StartMonitoring(t);
+        yield return new WaitForSeconds(3);
         yield return StartCoroutine(spawner.StartSpawning(t));
         while(spawner.spawning){
             yield return null;
@@ -215,6 +222,10 @@ public class TaskManager : MonoBehaviour
         if(verbose){Debug.Log("Spawning ended");}
         if(t.taskType == TaskType.MATCHING){belt.StopDelivery();}
         
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            writer.WriteLine("end task");
+        }
         if(verbose){
             Debug.Log("Task ended");
         }
@@ -225,18 +236,34 @@ public class TaskManager : MonoBehaviour
         while(belt.deintialysingBelt){yield return null;}
         taskOngoing=false;
         
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            writer.WriteLine("uniti task");
+        }
         if(recordMovements){
             movementRecorderCSV.StopRecording();
         }
         participantInfos.EndTask();
         Debug.Log("Waiting for clearance");
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            writer.WriteLine("Waiting for clearance");
+        }
         yield return StartCoroutine(belt.EmptyBelt());
-        while(belt.spawner.CheckClearedBatch()){
+        while(!belt.isEmpty()){
             yield return new WaitForSeconds(Time.deltaTime);
         }
         
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            writer.WriteLine("belt cleared");
+        }
         belt.spawner.stopper.SetActive(true);
         
+        using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+        {
+            writer.WriteLine("end task");
+        }
         Debug.Log("Clearance attained");
         yield break;
     }
@@ -298,10 +325,22 @@ public class TaskManager : MonoBehaviour
             //Task
             if(verbose){Debug.Log("Paradigm - Start Task");}
             yield return StartCoroutine(StartTask(t));
-
+            string filePath = Application.dataPath+"Logs"+".txt";
+            using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+            {
+                writer.WriteLine("Prequestionnaire");
+            }
             if(ep.nasaQ || ep.stfaQ || ep.compQ){
                 belt.DeinitialyseBelt(t);
+                using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+                {
+                    writer.WriteLine("Belt");
+                }
                 yield return StartCoroutine(qTablet.StartTablet());
+                using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+                {
+                    writer.WriteLine("tablet started");
+                }
             }
             if(ep.nasaQ){
                 yield return StartCoroutine(StartQuestionnaire(nasa,currentTaskType,currentCondition,currentDifficulty));
@@ -568,7 +607,7 @@ public class TaskManager : MonoBehaviour
                         isTarget = false;
                     }
                     bool isGoNumber = int.TryParse(go.GetComponent<Item>().itemText, out _);
-                    if(g.objectDimensions.Contains(ObjectDimension.TEXT) && ((isGoNumber && g.aimedText == ItemText.NUMBER)|| (!isGoNumber && g.aimedText == ItemText.LETTER))){
+                    if(g.objectDimensions.Contains(ObjectDimension.TEXT) && ((isGoNumber && g.aimedText != ItemText.NUMBER)|| (!isGoNumber && g.aimedText != ItemText.LETTER))){
                         isTarget = false;
                     }
                     go.GetComponent<Item>().target = isTarget;

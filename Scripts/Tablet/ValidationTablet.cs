@@ -27,6 +27,10 @@ public class ValidationTablet : Tablet
         }
         return false;
     }
-    
-    
+
+    public override IEnumerator StartTablet()
+    {
+        validated = false;
+        return base.StartTablet();
+    }
 }

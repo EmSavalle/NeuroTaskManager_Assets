@@ -49,6 +49,11 @@ public class Blocker : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction leftArrowAction;
     private InputAction rightArrowAction;
+    public float startMovementTime = 0;
+    public float mytime;
+    public bool waitingForObject = false;
+    public bool isOvertriggertime;
+    public float untriggerTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -73,13 +78,15 @@ public class Blocker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(waitingForObject && startMovementTime+untriggerTime<Time.time && movingObject == null){
+            StopMovingObject();
+            waitingForObject = false;
+        }
+        mytime = Time.time;
+        isOvertriggertime = startMovementTime+untriggerTime<Time.time;
         var inputDevices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevices(inputDevices);
 
-        foreach (var device in inputDevices)
-        {
-            Debug.Log(string.Format("Device found with name '{0}' and role '{1}'", device.name, device.role.ToString()));
-        }
         if(inputDeviceLeft.role.ToString()!="LeftHanded" || inputDeviceRight.role.ToString()!="RightHanded"){
             
             UnityEngine.XR.InputDevices.GetDevicesWithCharacteristics(UnityEngine.XR.InputDeviceCharacteristics.Controller | UnityEngine.XR.InputDeviceCharacteristics.Left, inputDevices);
@@ -115,6 +122,8 @@ public class Blocker : MonoBehaviour
         StopAllCoroutines();
         TaskType tt = taskManager.currentTaskType;
         moveObject = true;
+        startMovementTime = Time.time;
+        waitingForObject = true;
         switch(tt){
             case TaskType.COLORSHAPE:
                 yield return StartCoroutine(TriggerColorShape(left));
@@ -130,11 +139,14 @@ public class Blocker : MonoBehaviour
     }
     public void StartMovingObject(){
         moveObject = true;
+        startMovementTime = Time.time;
+        waitingForObject = true;
     }
     public void StopMovingObject(){
         moveObject = false;
     }
     public void ObjectDetected(Item i){
+        waitingForObject=false;
         Debug.Log("Object entered");
         TaskType tt = taskManager.currentTaskType;
         if(tt== TaskType.GONOGO && !moveObject){
@@ -152,6 +164,7 @@ public class Blocker : MonoBehaviour
     public IEnumerator ObjectExited(){
         Debug.Log("Blocker - object exited func");
         StopMovingObject();
+        waitingForObject = false;
         yield return new WaitForSeconds(0.5f);
         TaskType tt = taskManager.currentTaskType;
         if(movingObject!=null){
@@ -300,6 +313,7 @@ public class Blocker : MonoBehaviour
             Item it = other.gameObject.GetComponent<Item>();
             if(it == null && other.transform.parent != null){it = other.transform.parent.gameObject.GetComponent<Item>();}
             if( it != null && it.gameObject == movingObject){
+                waitingForObject = false;
                 it.blockerHold = true;
                 Vector3 newPosition = it.gameObject.transform.position+gameObject.transform.right*Time.deltaTime;
                 it.gameObject.transform.position=newPosition;

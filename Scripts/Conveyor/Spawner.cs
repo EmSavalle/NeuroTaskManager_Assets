@@ -199,7 +199,8 @@ public class Spawner : MonoBehaviour
         while(CheckClearedBatch()){yield return new WaitForSeconds(Time.deltaTime);}
     }
     public bool CheckClearedBatch(){
-        // Get the center and size of the box collider in world space
+        return !belt.isEmpty();
+        /*// Get the center and size of the box collider in world space
         Vector3 boxCenter = batchCheckerCollider.transform.TransformPoint(batchCheckerCollider.center);
         Vector3 boxSize = batchCheckerCollider.size * 0.5f; // Half the size because OverlapBox uses extents
 
@@ -215,7 +216,7 @@ public class Spawner : MonoBehaviour
             }
         }
 
-        return false;
+        return false;*/
     }
     public List<GameObject> Shuffle(List<GameObject>  list)  
     {  

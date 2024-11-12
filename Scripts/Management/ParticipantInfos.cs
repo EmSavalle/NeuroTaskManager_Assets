@@ -39,7 +39,7 @@ public class ParticipantInfos : MonoBehaviour
     }
     public void SaveQuestionnaireResultsToFile()
     {
-        string filePath = "Questionnaires"+participantId+".txt";
+        string filePath = Application.dataPath+"Questionnaires"+participantId+".txt";
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
             foreach (var result in questionnaireResults)
@@ -55,7 +55,7 @@ public class ParticipantInfos : MonoBehaviour
     }
     public void SaveTaskResultsToFile()
     {
-        string filePath = "Results"+participantId+".txt";
+        string filePath = Application.dataPath+"Results"+participantId+".txt";
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
             foreach (var result in taskResults)

@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class Blocker : MonoBehaviour
 {
     public TaskManager taskManager;
+    public LSLManager lSLManager;
+    public int streamIndex=-1;
     public Vector3 hiddenPos;
     public Vector3 hiddenRot;
     [Header("GoNoGo")]
@@ -31,6 +33,9 @@ public class Blocker : MonoBehaviour
     public Vector3 leftRotColorShape;
     public Vector3 rightPosColorShape;
     public Vector3 rightRotColorShape;
+    
+    public Vector3 hiddenPosColorShape;
+    public float discoverSpeedColorShape;
 
     public float movementSpeed;
     public float blockingSpeed;
@@ -78,6 +83,13 @@ public class Blocker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(streamIndex == -1 && lSLManager != null){
+            for (int i = 0; i < lSLManager.lSLStreams.Count; i++){
+                if(lSLManager.lSLStreams[i].letType == LetType.TRIGGERPRESS){
+                    streamIndex = i;
+                }
+            }
+        }
         if(waitingForObject && startMovementTime+untriggerTime<Time.time && movingObject == null){
             StopMovingObject();
             waitingForObject = false;
@@ -119,6 +131,9 @@ public class Blocker : MonoBehaviour
         }
     }
     public IEnumerator Trigger(bool left){
+        if(streamIndex != -1){
+            lSLManager.SendStringToOutlet(lSLManager.lSLStreams[streamIndex],"Trigger");
+        }
         StopAllCoroutines();
         TaskType tt = taskManager.currentTaskType;
         moveObject = true;
@@ -154,6 +169,9 @@ public class Blocker : MonoBehaviour
         }
         else if(tt == TaskType.NBACK && !moveObject){
             StartCoroutine(StartCountDown(TaskType.NBACK));
+        }
+        else if(tt == TaskType.COLORSHAPE && !moveObject){
+            StartCoroutine(StartCountDown(TaskType.COLORSHAPE));
         }
         else{
             i.gameObject.transform.parent = gameObject.transform;
@@ -238,6 +256,11 @@ public class Blocker : MonoBehaviour
             applySpeed = discoverSpeedNBack;
             yield return MoveBlocker(hiddenPosNBack,hiddenRotNBack,applySpeed);
         }
+        else if(tt==TaskType.COLORSHAPE){       
+            applySpeed = discoverSpeedColorShape;
+            yield return MoveBlocker(hiddenPosColorShape,readyRotColorShape,applySpeed);
+        }
+        
     }
     public void StopAllMovements(){
         if(activeCoroutines.Count>0){

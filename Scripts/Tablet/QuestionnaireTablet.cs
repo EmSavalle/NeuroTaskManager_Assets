@@ -91,7 +91,9 @@ public class QuestionnaireTablet : Tablet
             currentAnswer = value;
         }
         else{
+            validation.Unselect();
             //Questionnaire validated
+            validation.GetComponent<UnityEngine.UI.Image>().color = validation.backupColor;
             if(!isButton){
                 currentAnswer = (int)vRSlider.sliderValue;
             }

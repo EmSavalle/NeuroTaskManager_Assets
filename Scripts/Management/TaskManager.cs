@@ -31,6 +31,7 @@ public class TaskManager : MonoBehaviour
 
     [Header("Experimentation")]
     public ParticipantInfos participantInfos;
+    public LSLManager lSLManager;
     public List<ExperimentPart> experimentFirstPart;
     public List<ExperimentPart> experimentSecondPart;
     public bool taskOngoing,breakOngoing,questionnaireOngoing;
@@ -164,6 +165,7 @@ public class TaskManager : MonoBehaviour
         if(verbose){
             Debug.Log("Task started");
         }
+        lSLManager.SendExperimentStep(ExperimentStep.TASKSTART);
         currentTaskType = t.taskType;
         participantInfos.StartNewTask(t,currentTaskType,currentCondition,currentDifficulty);
         taskOngoing=true;
@@ -264,6 +266,8 @@ public class TaskManager : MonoBehaviour
         {
             writer.WriteLine("end task");
         }
+        
+        lSLManager.SendExperimentStep(ExperimentStep.TASKEND);
         Debug.Log("Clearance attained");
         yield break;
     }
@@ -331,6 +335,7 @@ public class TaskManager : MonoBehaviour
                 writer.WriteLine("Prequestionnaire");
             }
             if(ep.nasaQ || ep.stfaQ || ep.compQ){
+                lSLManager.SendExperimentStep(ExperimentStep.QUESTIONNAIRESTART);
                 belt.DeinitialyseBelt(t);
                 using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
                 {
@@ -352,6 +357,7 @@ public class TaskManager : MonoBehaviour
             if(ep.nasaQ || ep.stfaQ || ep.compQ){
                 
                 yield return StartCoroutine(qTablet.EndTablet());
+                lSLManager.SendExperimentStep(ExperimentStep.QUESTIONNAIREEND);
             }
             //Break
             if(ep.postBreak){
@@ -823,3 +829,4 @@ public struct GonoGoTask{
 public enum ItemText {NUMBER,LETTER};
 [Serializable]
 public enum ObjectDimension {COLOR,SHAPE,TEXT,NONE};
+public enum ExperimentStep {TASKSTART,QUESTIONNAIRESTART,TASKEND,QUESTIONNAIREEND}

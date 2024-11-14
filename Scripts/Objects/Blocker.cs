@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -59,6 +60,16 @@ public class Blocker : MonoBehaviour
     public bool waitingForObject = false;
     public bool isOvertriggertime;
     public float untriggerTime;
+
+    [Header("Time detection")]
+    
+    public TimerDetectorEnter timerDetectorEnter;
+    public GameObject objectEntered;
+    public float timeEntered;
+    public List<float> timeMeasured;
+    public List<float> results;
+    public TaskType taskType;
+    public TaskDifficulty taskDifficulty;
     // Start is called before the first frame update
     void Start()
     {
@@ -162,7 +173,6 @@ public class Blocker : MonoBehaviour
     }
     public void ObjectDetected(Item i){
         waitingForObject=false;
-        Debug.Log("Object entered");
         TaskType tt = taskManager.currentTaskType;
         if(tt== TaskType.GONOGO && !moveObject){
             StartCoroutine(StartCountDown(TaskType.GONOGO));
@@ -180,7 +190,6 @@ public class Blocker : MonoBehaviour
         }
     }
     public IEnumerator ObjectExited(){
-        Debug.Log("Blocker - object exited func");
         StopMovingObject();
         waitingForObject = false;
         yield return new WaitForSeconds(0.5f);
@@ -206,7 +215,6 @@ public class Blocker : MonoBehaviour
             default:
                 break;
         }
-        Debug.Log("Blocker - object exited end func");
         yield break;
     }
 
@@ -304,14 +312,11 @@ public class Blocker : MonoBehaviour
         }
     }
     public IEnumerator Activate(){
-        Debug.Log("Blocker - Activating");
         yield return StartCoroutine(ObjectExited());
-        Debug.Log("Blocker - Activated");
         yield break;
     }
 
     public IEnumerator Deactivate(){
-        Debug.Log("Deactivating blocker");
         yield return StartCoroutine(MoveBlocker(hiddenPos,hiddenRot));
     }
     private void OnTriggerEnter(Collider other){
@@ -322,7 +327,6 @@ public class Blocker : MonoBehaviour
         if(i != null){
             i.blockerHold = true;
             TaskType tt = taskManager.currentTaskType;
-            Debug.Log("Object entered");
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
             rb.useGravity = false;
             movingObject = i.gameObject;
@@ -356,8 +360,20 @@ public class Blocker : MonoBehaviour
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
             rb.useGravity = true;
             moveObject = false;
+            
+            float time = Time.time - timeEntered;
+            if(taskManager.currentDifficulty != taskDifficulty || taskManager.currentTaskType != taskType){
+                taskDifficulty =taskManager.currentDifficulty ;
+                taskType=taskManager.currentTaskType;
+                if(timeMeasured.Count>0){
+                    results.Add(timeMeasured.Average());
+                    timeMeasured = new List<float>();
+                }
+            }
+            timeMeasured.Add(time);
+
             StartCoroutine(ObjectExited());
-            Debug.Log("Object exited");
+            
         }
         
     }

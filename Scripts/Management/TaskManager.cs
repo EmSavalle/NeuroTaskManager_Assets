@@ -53,7 +53,7 @@ public class TaskManager : MonoBehaviour
     public bool clearBatch;
     public bool verbose;
     public bool doSecondPart;
-
+    public bool bypassQuestionnaires;
     public List<NBack> nBackTasks;
     public Task currentTask;
     [Header("ColorShapeTask")]
@@ -69,6 +69,8 @@ public class TaskManager : MonoBehaviour
 
     [Header("Go NoGo tasks")]
     public List<GonoGoTask> gonoGoTasks;
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -330,34 +332,36 @@ public class TaskManager : MonoBehaviour
             if(verbose){Debug.Log("Paradigm - Start Task");}
             yield return StartCoroutine(StartTask(t));
             string filePath = Application.dataPath+"Logs"+".txt";
-            using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
-            {
-                writer.WriteLine("Prequestionnaire");
-            }
-            if(ep.nasaQ || ep.stfaQ || ep.compQ){
-                lSLManager.SendExperimentStep(ExperimentStep.QUESTIONNAIRESTART);
-                belt.DeinitialyseBelt(t);
+            if(!bypassQuestionnaires){
                 using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
                 {
-                    writer.WriteLine("Belt");
+                    writer.WriteLine("Prequestionnaire");
                 }
-                yield return StartCoroutine(qTablet.StartTablet());
-                using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
-                {
-                    writer.WriteLine("tablet started");
+                if(ep.nasaQ || ep.stfaQ || ep.compQ){
+                    lSLManager.SendExperimentStep(ExperimentStep.QUESTIONNAIRESTART);
+                    belt.DeinitialyseBelt(t);
+                    using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+                    {
+                        writer.WriteLine("Belt");
+                    }
+                    yield return StartCoroutine(qTablet.StartTablet());
+                    using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
+                    {
+                        writer.WriteLine("tablet started");
+                    }
                 }
-            }
-            if(ep.nasaQ){
-                yield return StartCoroutine(StartQuestionnaire(nasa,currentTaskType,currentCondition,currentDifficulty));
-            }if(ep.stfaQ){
-                yield return StartCoroutine(StartQuestionnaire(stfa,currentTaskType,currentCondition,currentDifficulty));
-            }if(ep.compQ){
-                yield return StartCoroutine(StartQuestionnaire(comp,currentTaskType,currentCondition,currentDifficulty));
-            }
-            if(ep.nasaQ || ep.stfaQ || ep.compQ){
-                
-                yield return StartCoroutine(qTablet.EndTablet());
-                lSLManager.SendExperimentStep(ExperimentStep.QUESTIONNAIREEND);
+                if(ep.nasaQ){
+                    yield return StartCoroutine(StartQuestionnaire(nasa,currentTaskType,currentCondition,currentDifficulty));
+                }if(ep.stfaQ){
+                    yield return StartCoroutine(StartQuestionnaire(stfa,currentTaskType,currentCondition,currentDifficulty));
+                }if(ep.compQ){
+                    yield return StartCoroutine(StartQuestionnaire(comp,currentTaskType,currentCondition,currentDifficulty));
+                }
+                if(ep.nasaQ || ep.stfaQ || ep.compQ){
+                    
+                    yield return StartCoroutine(qTablet.EndTablet());
+                    lSLManager.SendExperimentStep(ExperimentStep.QUESTIONNAIREEND);
+                }
             }
             //Break
             if(ep.postBreak){

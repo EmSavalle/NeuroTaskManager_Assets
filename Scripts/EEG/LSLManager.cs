@@ -9,11 +9,18 @@ public class LSLManager : MonoBehaviour
     public List<LSLStream> lSLStreams;
     public int experimentMarkerIndex=-1;
     public int maxSamples = 1000; // Maximum number of samples to store
+    public Dictionary<ExperimentStep,int> stepConv = new Dictionary<ExperimentStep, int>();
     // Start is called before the first frame update
     void Start()
     {
+        stepConv[ExperimentStep.TASKSTART]=1;
+        stepConv[ExperimentStep.TASKEND]=2;
+        stepConv[ExperimentStep.QUESTIONNAIRESTART]=3;
+        stepConv[ExperimentStep.QUESTIONNAIREEND]=4;
+
         for (int i = 0; i < lSLStreams.Count; i++){
             LSLStream ls = lSLStreams[i];
+            Debug.Log("Setting up :"+ls.streamName.ToString());
             if(ls.outStream){
                 var hash = new Hash128();
                 hash.Append(ls.streamName);
@@ -37,24 +44,36 @@ public class LSLManager : MonoBehaviour
     {
         
     }
-    public IEnumerator InitializeInlet(LSLStream ls, int index)
-    {
-        Debug.Log("Looking for LSL stream: " + ls.streamName);
 
-        // Attempt to resolve the stream with specified type and name, wait if necessary
+    private IEnumerator InitializeInlet(LSLStream ls, int index)
+{
+    Debug.Log("Looking for LSL stream: " + ls.streamName);
+
+    while (true)
+    {
         var results = LSL.LSL.resolve_stream("name", ls.streamName, 1, 5.0);
+
         if (results.Length > 0)
         {
             ls.inlet = new StreamInlet(results[0]);
-            Debug.Log("Inlet created for stream: " + ls.streamName);
+            ls.receivedData = new List<float>(); // Initialize the queue
             lSLStreams[index] = ls;  // Update inlet in the list
+
+            Debug.Log("Inlet created for stream: " + ls.streamName);
+
+            // Start listening coroutine after initializing the inlet
+            StartCoroutine(ListenToInlet(ls, index));
+            break;
         }
         else
         {
-            Debug.LogWarning("Stream not found: " + ls.streamName);
+            Debug.LogWarning("Stream not found: " + ls.streamName + ". Retrying...");
         }
-        yield return null;
+
+        // Wait a moment before trying again
+        yield return new WaitForSeconds(1.0f);
     }
+}
     private IEnumerator ListenToInlet(LSLStream ls, int index)
     {
         Debug.Log("Listening to inlet for stream: " + ls.streamName);
@@ -69,7 +88,9 @@ public class LSLManager : MonoBehaviour
                 // Add each element of the sample to receivedData
                 foreach (float value in sample)
                 {
-                    ls.receivedData.Add(value);
+                    if(value != 0){
+                        ls.receivedData.Add(value);
+                    }
                 }
 
                 // Optional: Limit the number of stored samples
@@ -100,7 +121,7 @@ public class LSLManager : MonoBehaviour
     }
     public void SendExperimentStep(ExperimentStep experimentStep){
         if(experimentMarkerIndex != -1){
-            string message = experimentStep.ToString()+"_"+taskManager.currentTask.ToString()+"_"+taskManager.currentDifficulty.ToString()+"_"+taskManager.currentCondition.ToString();
+            string message = stepConv[experimentStep].ToString();//+"_"+taskManager.currentTask.ToString()+"_"+taskManager.currentDifficulty.ToString()+"_"+taskManager.currentCondition.ToString();
             SendStringToOutlet(lSLStreams[experimentMarkerIndex],message);
         }
     }

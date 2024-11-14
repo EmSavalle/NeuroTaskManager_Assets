@@ -22,6 +22,7 @@ public class WorkloadListener : WorkloadManager
     }
 
     public override float GenerateWorkload(){
+        Debug.Log("Generate workload");
         float workload = 0f;
         if(streamIndex == -1 && lSLManager!=null){
             for (int i = 0; i < lSLManager.lSLStreams.Count; i++){

@@ -69,7 +69,7 @@ public class TrashCan : ValidationTray
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(!isDisabled){
+        if(!isDisabled && taskManager.onGoingTask){
             
             Item it = other.gameObject.GetComponent<Item>();
             GameObject destroy = other.gameObject;

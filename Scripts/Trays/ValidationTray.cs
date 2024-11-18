@@ -32,18 +32,15 @@ public class ValidationTray : MonoBehaviour
     }
 
     public IEnumerator ActivateTray(Item r){
-        Debug.Log("Base tray - Activating tray");
         //Animation tray activation
         while (Vector3.Distance(transform.localPosition, endPosition) > 0.01f)  
         {
-            Debug.Log("Base tray - Moving tray");
             // Move towards the target
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, endPosition, moveSpeed * Time.deltaTime);
             
             // Wait for the next frame before continuing
             yield return null;
         }
-        Debug.Log("Tray activated");
         activated = true;
         receiving= new List<Tuple<ItemShape, ItemColor, string>>();
         Tuple<ItemShape, ItemColor, string> tp = new Tuple<ItemShape, ItemColor, string>(r.itemShape,r.itemColor,r.itemText);
@@ -51,18 +48,15 @@ public class ValidationTray : MonoBehaviour
         yield break;
     }
     public IEnumerator ActivateTray(List<Item> rs){
-        Debug.Log("Base tray - Activating tray");
         //Animation tray activation
         while (Vector3.Distance(transform.localPosition, endPosition) > 0.01f)  
         {
-            Debug.Log("Base tray - Moving tray");
             // Move towards the target
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, endPosition, moveSpeed * Time.deltaTime);
             
             // Wait for the next frame before continuing
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        Debug.Log("Tray activated");
         activated = true;
         receiving= new List<Tuple<ItemShape, ItemColor, string>>();
         foreach(Item r in rs){
@@ -72,7 +66,6 @@ public class ValidationTray : MonoBehaviour
         yield break;
     }
     public IEnumerator ActivateTray(List<GameObject> rs){
-        Debug.Log("Base tray - Activating tray");
         //Animation tray activation
         while (Vector3.Distance(transform.localPosition, endPosition) > 0.01f)  // 0.01 is tolerance for close enough
         {
@@ -82,7 +75,6 @@ public class ValidationTray : MonoBehaviour
             // Wait for the next frame before continuing
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        Debug.Log("Tray activated");
         activated = true;
         receiving= new List<Tuple<ItemShape, ItemColor, string>>();
         foreach(GameObject go in rs){

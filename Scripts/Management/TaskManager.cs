@@ -163,6 +163,7 @@ public class TaskManager : MonoBehaviour
     }
 
     public IEnumerator StartTask(Task t){
+        onGoingTask = true;
         currentTask = t;
         if(verbose){
             Debug.Log("Task started");
@@ -235,6 +236,7 @@ public class TaskManager : MonoBehaviour
         }
         infoPannelSetter.StopMonitoring();
         
+        onGoingTask = false;
         if(t.taskType == TaskType.COUNTING){yield return StartCoroutine(cTablet.EndTablet());}
         yield return StartCoroutine(belt.DeinitialyseBelt(t));
         while(belt.deintialysingBelt){yield return null;}
@@ -281,6 +283,28 @@ public class TaskManager : MonoBehaviour
         }
         // Instructions
         informationDisplay.text="Break Time !\nTake your time to breath. If you need the VR headset removed, please ask the experimenter.\n Click validate when you are ready to continue";//Display instructions
+        instructionsDone = false;
+        //Present tablet to stop instructions
+        yield return StartCoroutine(vTablet.StartTablet());
+        while(!instructionsDone){
+            instructionsDone=vTablet.GetValidation();
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        yield return StartCoroutine(vTablet.EndTablet());
+
+        if(verbose){
+            Debug.Log("Break ended");
+        }
+        breakOngoing = false;
+        yield break;
+    }
+    public IEnumerator StartSingle(){
+        breakOngoing = true;
+        if(verbose){
+            Debug.Log("Break started");
+        }
+        // Instructions
+        informationDisplay.text="There won't be a second task in this block\n Click validate when you are ready to continue to the next block";//Display instructions
         instructionsDone = false;
         //Present tablet to stop instructions
         yield return StartCoroutine(vTablet.StartTablet());
@@ -372,11 +396,11 @@ public class TaskManager : MonoBehaviour
         participantInfos.SaveQuestionnaireResultsToFile();
         participantInfos.SaveTaskResultsToFile();
         //Second part
+        //Model calibration
+        if(verbose){Debug.Log("Paradigm - Start Calibration");}
+        CalibrateModel();
         //Fatigue & stress Questionnaire
         if(doSecondPart){
-            //Model calibration
-            if(verbose){Debug.Log("Paradigm - Start Calibration");}
-            CalibrateModel();
             if(verbose){Debug.Log("Paradigm - Setup Validation Tasks");}
 
             SetValidationTasks(nbValidationTask);
@@ -417,16 +441,17 @@ public class TaskManager : MonoBehaviour
                 
                 //NASA Questionnaire
                 if(verbose){Debug.Log("Paradigm - Start NASA");}
-                if(ep.nasaQ){yield return StartCoroutine(StartQuestionnaire(nasa,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
+                if(ep.nasaQ){yield return StartCoroutine(StartQuestionnaire(nasa,tt,ep.conditionType,ep.taskDifficulty));}
                 
                 //Fatigue & stress Questionnaire
                 if(verbose){Debug.Log("Paradigm - Start stfa");}
-                if(ep.stfaQ){yield return StartCoroutine(StartQuestionnaire(stfa,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
+                if(ep.stfaQ){yield return StartCoroutine(StartQuestionnaire(stfa,tt,ep.conditionType,ep.taskDifficulty));}
                 
                 //Comparison Questionnaire
                 if(verbose){Debug.Log("Paradigm - Start Comb");}
-                if(ep.compQ){yield return StartCoroutine(StartQuestionnaire(comp,tt,ConditionType.VALIDATION,ep.taskDifficulty));}
+                if(ep.compQ){yield return StartCoroutine(StartQuestionnaire(comp,tt,ep.conditionType,ep.taskDifficulty));}
 
+                if(ep.single){yield return StartCoroutine(StartSingle());}
                 if(verbose){Debug.Log("Paradigm - End Tablet");}
                 yield return StartCoroutine(qTablet.EndTablet());
 
@@ -447,14 +472,111 @@ public class TaskManager : MonoBehaviour
     }
 
     public void SetValidationTasks(int taskNumber){
-        foreach(UserModel um in models){
-            List<TaskType> taskTypes = um.ProvideTasks(taskNumber);
-            foreach (TaskType tt in taskTypes){
-                ExperimentPart ep = new ExperimentPart();
-                ep.conditionType = ConditionType.VALIDATION;
-                ep.taskType = tt;
-                experimentSecondPart.Add(ep);
+        Solution workloadSolution,performanceSolution;
+        int indW=-1;
+        int indP=-1;
+        for(int i = 0; i <models.Count; i++){
+            UserModel um = models[i];
+            if(um.modelType == ModelType.WORKLOAD){
+                indW = i;
             }
+            else{
+                indP = i;
+            }
+        }
+        workloadSolution = models[indW].solution;
+        performanceSolution = models[indP].solution;
+
+        // Low diff
+        //Workload
+        ExperimentPart ep = new ExperimentPart();
+        if(workloadSolution.taskTypeLow==performanceSolution.taskTypeLow){
+            ep = new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+            ep.taskType = workloadSolution.taskTypeLow;
+            ep.taskDifficulty = TaskDifficulty.LOW;
+            ep.compQ=false;
+            ep.stfaQ=true;
+            ep.single=true;
+            experimentSecondPart.Add(ep);
+        }
+        else{
+            ep= new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+            ep.taskType = workloadSolution.taskTypeLow;
+            ep.taskDifficulty = TaskDifficulty.LOW;
+            ep.compQ=false;
+            ep.stfaQ=true;
+            experimentSecondPart.Add(ep);
+            //Performance
+            ep = new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+            ep.taskType = performanceSolution.taskTypeLow;
+            ep.taskDifficulty = TaskDifficulty.LOW;
+            ep.compQ=true;
+            ep.stfaQ=true;
+            experimentSecondPart.Add(ep);
+        }
+        
+
+        // Medium diff
+        //Workload
+        if(workloadSolution.taskTypeMedium==performanceSolution.taskTypeMedium){
+            ep = new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+            ep.taskType = workloadSolution.taskTypeMedium;
+            ep.taskDifficulty = TaskDifficulty.MEDIUM;
+            ep.compQ=false;
+            ep.stfaQ=true;
+            ep.single=true;
+            experimentSecondPart.Add(ep);
+        }
+        else{
+            ep = new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+            ep.taskType = performanceSolution.taskTypeMedium;
+            ep.taskDifficulty = TaskDifficulty.MEDIUM;
+            ep.compQ=false;
+            ep.stfaQ=true;
+            experimentSecondPart.Add(ep);
+            //Performance
+            ep = new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+            ep.taskType = performanceSolution.taskTypeMedium;
+            ep.taskDifficulty = TaskDifficulty.MEDIUM;
+            ep.compQ=true;
+            ep.stfaQ=true;
+            experimentSecondPart.Add(ep);
+        }
+
+        // High diff
+        //Workload
+        if(workloadSolution.taskTypeHigh==performanceSolution.taskTypeHigh){
+            ep = new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+            ep.taskType = workloadSolution.taskTypeHigh;
+            ep.taskDifficulty = TaskDifficulty.HIGH;
+            ep.compQ=false;
+            ep.stfaQ=true;
+            ep.single=true;
+            experimentSecondPart.Add(ep);
+        }
+        else{
+            ep = new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+            ep.taskType = workloadSolution.taskTypeHigh;
+            ep.taskDifficulty = TaskDifficulty.HIGH;
+            ep.compQ=false;
+            ep.stfaQ=true;
+            experimentSecondPart.Add(ep);
+            //Performance
+            ep = new ExperimentPart();
+            ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+            ep.taskType = performanceSolution.taskTypeHigh;
+            ep.taskDifficulty = TaskDifficulty.HIGH;
+            ep.compQ=true;
+            ep.stfaQ=true;
+            experimentSecondPart.Add(ep);
         }
     }
 
@@ -676,7 +798,7 @@ public struct ExperimentPart{
     public TaskType taskType;
     public TaskDifficulty taskDifficulty;
     public int taskDuration;
-    public bool nasaQ,stfaQ,compQ;
+    public bool nasaQ,stfaQ,compQ,single;
     public bool postBreak;
 }
 [Serializable]
@@ -703,7 +825,7 @@ public struct ItemsRequirements{
     public bool exactValue;
 }
 public enum RequirementType {COLOR,SHAPE,NUMBER};
-public enum ConditionType {CALIBRATION,VALIDATION,PREVALIDATION};
+public enum ConditionType {CALIBRATION,VALIDATION,PREVALIDATION,VALIDATIONWORKLOAD,VALIDATIONPERFORMANCE};
 public enum MicroTaskEnd {NONE,BUTTONPRESS,DELIVERY};
 
 public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,COUNTING,NBACK,PREVALIDATION,COLORSHAPE,GONOGO};

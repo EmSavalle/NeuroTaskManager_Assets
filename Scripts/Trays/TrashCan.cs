@@ -27,6 +27,7 @@ public class TrashCan : ValidationTray
         }
         int nCount = taskManager.nBackTasks[id].nbackNumber;
         if(isNback(it)){
+            Debug.Log("Task failed");
             participantInfos.TaskError();
         }
         while(nbackRecords.Count>=nCount){
@@ -79,12 +80,14 @@ public class TrashCan : ValidationTray
             }
             if(it.target){
                 participantInfos.TaskError();
+                Debug.Log("Task failed");
                 Destroy(destroy);
             }
             else if(tm.currentTaskType == TaskType.NBACK){
                 StudyNback(it);
             }
             else if(it != null && !noFailure){
+                Debug.Log("Task missed");
                 participantInfos.TaskMissed();
                 Destroy(destroy);
             }

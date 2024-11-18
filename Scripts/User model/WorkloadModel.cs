@@ -11,7 +11,7 @@ public class WorkloadModel : UserModel
     void Start()
     {
         
-        taskScore = new List<Tuple<TaskType, float>>();
+        taskScore = new List<Tuple<TaskType,TaskDifficulty, float>>();
     }
 
     // Update is called once per frame
@@ -34,7 +34,7 @@ public class WorkloadModel : UserModel
             wtr.overallMeanWorkload = avgWork;
             wtr.overallMinWorkload = minWork;
             workloadTaskResults[i]=wtr;
-            Tuple<TaskType,float> tp = new Tuple<TaskType, float>(wtr.taskType,wtr.score);
+            Tuple<TaskType,TaskDifficulty,float> tp = new Tuple<TaskType, TaskDifficulty, float>(wtr.taskType, wtr.taskDifficulty,wtr.score);
             taskScore.Add(tp);
         }
     }
@@ -44,6 +44,7 @@ public class WorkloadModel : UserModel
         WorkloadTaskResult wtr = new WorkloadTaskResult();
         wtr.taskType = tr.taskType;
         wtr.conditionType = tr.conditionType;
+        wtr.taskDifficulty = tr.taskDifficulty;
         wtr.workloads = tr.workloads;
         wtr.workloads = TrimFivePercent(tr.workloads);
         wtr.minWorkload = wtr.workloads.Min();
@@ -104,6 +105,7 @@ public class WorkloadModel : UserModel
 public struct WorkloadTaskResult{
     public ConditionType conditionType;
     public TaskType taskType;
+    public TaskDifficulty taskDifficulty;
     public float minWorkload;
     public float maxWorkload;
     public float meanWorkload;

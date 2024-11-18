@@ -5975,8 +5975,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1379efd9677dd34f889694aa6c67cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modelType: 1
   tm: {fileID: 2065340267}
-  modelName: 
+  participantInfos: {fileID: 2065340268}
+  modelName: PerformanceModel
   taskScoreNumber: 0
   performanceTaskResults: []
 --- !u!4 &893987294 stripped
@@ -12300,8 +12302,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9aeaa05db0c6149ae1a2af8b4ddfc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modelType: 0
   tm: {fileID: 2065340267}
-  modelName: 
+  participantInfos: {fileID: 2065340268}
+  modelName: WorkloadModel
   taskScoreNumber: 0
   workloadTaskResults: []
 --- !u!1 &1856645212
@@ -13521,7 +13525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f1b685a3615b04f9a39b99761326f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modelType: 0
   tm: {fileID: 0}
+  participantInfos: {fileID: 0}
   modelName: 
   taskScoreNumber: 0
 --- !u!114 &2065340267
@@ -13694,7 +13700,10 @@ MonoBehaviour:
     items:
       itemShape: 0100000000000000
       itemColor: 020000000100000000000000
-      itemText: []
+      itemText:
+      - 1
+      - 2
+      - 3
       used: 1
     objects: []
     baseObjects: []
@@ -13766,7 +13775,7 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   onGoingTask: 0
-  task1stDuration: 120
+  task1stDuration: 5
   task2ndDuration: 1
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
@@ -13787,6 +13796,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: Low NBack
     conditionType: 0
@@ -13796,6 +13806,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: Low ColorShape
     conditionType: 0
@@ -13805,6 +13816,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: Medium ColorShape
     conditionType: 0
@@ -13814,6 +13826,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: Medium GoNoGo
     conditionType: 0
@@ -13823,6 +13836,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: Medium NBack
     conditionType: 0
@@ -13832,24 +13846,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
-    postBreak: 0
-  - name: High GoNoGo
-    conditionType: 0
-    taskType: 8
-    taskDifficulty: 3
-    taskDuration: 600
-    nasaQ: 1
-    stfaQ: 0
-    compQ: 0
-    postBreak: 0
-  - name: High ColorShape
-    conditionType: 0
-    taskType: 7
-    taskDifficulty: 3
-    taskDuration: 600
-    nasaQ: 1
-    stfaQ: 0
-    compQ: 0
+    single: 0
     postBreak: 0
   - name: High Nback
     conditionType: 0
@@ -13859,6 +13856,27 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
+    postBreak: 0
+  - name: High GoNoGo
+    conditionType: 0
+    taskType: 8
+    taskDifficulty: 3
+    taskDuration: 600
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
+    single: 0
+    postBreak: 0
+  - name: High ColorShape
+    conditionType: 0
+    taskType: 7
+    taskDifficulty: 3
+    taskDuration: 600
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
+    single: 0
     postBreak: 0
   experimentSecondPart: []
   taskOngoing: 0
@@ -13987,8 +14005,8 @@ MonoBehaviour:
   launchingTasks: 0
   clearBatch: 0
   verbose: 1
-  doSecondPart: 0
-  bypassQuestionnaires: 0
+  doSecondPart: 1
+  bypassQuestionnaires: 1
   nBackTasks:
   - taskDifficulty: 1
     nbackNumber: 1
@@ -14003,7 +14021,7 @@ MonoBehaviour:
     numbers: 
     nbacks: 
   - taskDifficulty: 3
-    nbackNumber: 3
+    nbackNumber: 2
     minNumber: 1
     maxNumber: 5
     numbers: 

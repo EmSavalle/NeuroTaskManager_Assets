@@ -13,7 +13,7 @@ public class PerformanceModel : UserModel
         
         taskMaxPerformances[TaskType.MATCHING]=12*tm.task1stDuration;
         taskMaxPerformances[TaskType.COUNTING]=12*tm.task1stDuration;
-        taskScore = new List<Tuple<TaskType, float>>();
+        taskScore = new List<Tuple<TaskType,TaskDifficulty, float>>();
     }
 
     // Update is called once per frame
@@ -36,7 +36,7 @@ public class PerformanceModel : UserModel
         ptr.numberOfSuccess = tr.numberOfSuccess;
         ptr = ComputeScore(ptr);
         performanceTaskResults.Add(ptr);
-        Tuple<TaskType,float> tp = new Tuple<TaskType, float>(ptr.taskType,ptr.score);
+        Tuple<TaskType,TaskDifficulty,float> tp = new Tuple<TaskType,TaskDifficulty, float>(ptr.taskType,ptr.taskDifficulty,ptr.score);
         taskScore.Add(tp);
     }
 
@@ -46,7 +46,6 @@ public class PerformanceModel : UserModel
             ptr.errorRate = 0;
             ptr.score = 0;
             return ptr;
-
         }
         float performance,errorRate,score;
         if(taskMaxPerformances.ContainsKey(ptr.taskType)){

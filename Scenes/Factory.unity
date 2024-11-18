@@ -2824,7 +2824,7 @@ MonoBehaviour:
   hiddenRotGoNoGo: {x: 292.5, y: 90, z: 0}
   discoverSpeedLow: 1
   discoverSpeedMedium: 3
-  discoverSpeedHigh: 10
+  discoverSpeedHigh: 8
   moveObject: 0
   readyPosNBack: {x: -3.651, y: 0.8958, z: -5.91703}
   readyRotNBack: {x: 292.5, y: 90, z: 0}
@@ -13775,7 +13775,7 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   onGoingTask: 0
-  task1stDuration: 5
+  task1stDuration: 120
   task2ndDuration: 1
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
@@ -13818,16 +13818,6 @@ MonoBehaviour:
     compQ: 0
     single: 0
     postBreak: 0
-  - name: Medium ColorShape
-    conditionType: 0
-    taskType: 7
-    taskDifficulty: 2
-    taskDuration: 600
-    nasaQ: 1
-    stfaQ: 0
-    compQ: 0
-    single: 0
-    postBreak: 0
   - name: Medium GoNoGo
     conditionType: 0
     taskType: 8
@@ -13848,10 +13838,10 @@ MonoBehaviour:
     compQ: 0
     single: 0
     postBreak: 0
-  - name: High Nback
+  - name: Medium ColorShape
     conditionType: 0
-    taskType: 5
-    taskDifficulty: 3
+    taskType: 7
+    taskDifficulty: 2
     taskDuration: 600
     nasaQ: 1
     stfaQ: 0
@@ -13861,6 +13851,16 @@ MonoBehaviour:
   - name: High GoNoGo
     conditionType: 0
     taskType: 8
+    taskDifficulty: 3
+    taskDuration: 600
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
+    single: 0
+    postBreak: 0
+  - name: High Nback
+    conditionType: 0
+    taskType: 5
     taskDifficulty: 3
     taskDuration: 600
     nasaQ: 1
@@ -14005,8 +14005,8 @@ MonoBehaviour:
   launchingTasks: 0
   clearBatch: 0
   verbose: 1
-  doSecondPart: 1
-  bypassQuestionnaires: 1
+  doSecondPart: 0
+  bypassQuestionnaires: 0
   nBackTasks:
   - taskDifficulty: 1
     nbackNumber: 1

@@ -15,7 +15,7 @@ public class QuestionnaireButton : Button
     {
         base.Select();
         qt.Select(value);
-        gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color32(0,255,0,0);
+        if(value != 0){gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color32(0,255,0,0);}
     }public override void Unselect()
     {
         base.Unselect();

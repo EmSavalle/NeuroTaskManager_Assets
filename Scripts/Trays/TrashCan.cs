@@ -91,7 +91,7 @@ public class TrashCan : ValidationTray
                 participantInfos.TaskMissed();
                 Destroy(destroy);
             }
-            else{
+            else if(it != null){
                 Destroy(destroy);
             }
             
@@ -103,7 +103,10 @@ public class TrashCan : ValidationTray
                 it = other.transform.parent.gameObject.GetComponent<Item>();
                 destroy = other.transform.parent.gameObject;
             }
-            Destroy(destroy);
+            if(it!=null){
+                Destroy(destroy);
+            }
+            
         }
     }
 }

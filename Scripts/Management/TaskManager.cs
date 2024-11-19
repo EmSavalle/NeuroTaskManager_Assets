@@ -462,6 +462,10 @@ public class TaskManager : MonoBehaviour
                 }
             }
         }
+        else{
+            Application.Quit();
+        }
+        
         yield break;
     }
 

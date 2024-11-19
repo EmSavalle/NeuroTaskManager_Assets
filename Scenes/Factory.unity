@@ -13700,10 +13700,7 @@ MonoBehaviour:
     items:
       itemShape: 0100000000000000
       itemColor: 020000000100000000000000
-      itemText:
-      - 1
-      - 2
-      - 3
+      itemText: []
       used: 1
     objects: []
     baseObjects: []
@@ -14021,7 +14018,7 @@ MonoBehaviour:
     numbers: 
     nbacks: 
   - taskDifficulty: 3
-    nbackNumber: 2
+    nbackNumber: 3
     minNumber: 1
     maxNumber: 5
     numbers: 
@@ -14177,7 +14174,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -53,6 +53,9 @@ public class Spawner : MonoBehaviour
         if(tm.verbose){
             Debug.Log("Spawner - Spawning started");
         }
+        if(t.taskType == TaskType.COLORSHAPE){
+            yield return StartCoroutine(tm.UpdateColorShapeTask());
+        }
         spawning=true;
         System.Random rnd = new System.Random();
         float duration = t.duration;
@@ -87,9 +90,7 @@ public class Spawner : MonoBehaviour
                         lastSpawn = Time.time;
                         GameObject it = items[rnd.Next(items.Count)];
                         bool isGo = UnityEngine.Random.Range(0,100) <= g.percentageGo;
-                        Debug.Log("Gng generation");
                         while(it.GetComponent<Item>().target != isGo){
-                            Debug.Log("Gng generating");
                             
                             it = items[rnd.Next(items.Count)];
                             yield return null;

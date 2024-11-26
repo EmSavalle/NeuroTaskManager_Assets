@@ -28,10 +28,7 @@ public class InfoPannelSetter : MonoBehaviour
     }
     public void UpdateMonitoring(){
         if(isMonitoring){
-            switch(tracking){
-                case TaskType.COLORSHAPE:
-                    UpdateColorShape();
-                    break;
+            switch(tracking){ 
                 case TaskType.GONOGO:
                     UpdateGoNoGo();
                     break;
@@ -108,7 +105,7 @@ public class InfoPannelSetter : MonoBehaviour
             info +="the previous object";
         }
         else{
-            info +="the "+nbackNumber.ToString()+" previous objects";
+            info +="one of the "+nbackNumber.ToString()+" previous objects";
         }
         info+="\n Hit any trigger to remove the object";
         infoText.text = info;

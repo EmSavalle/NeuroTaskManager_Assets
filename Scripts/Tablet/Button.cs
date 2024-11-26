@@ -31,8 +31,11 @@ public class Button : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Triggered");
-        Select();
+        if(other.gameObject.name != "RayInteractor"){
+
+            //Debug.Log("Triggered");
+            Select();
+        }
     }
 
     public void fakePress(){

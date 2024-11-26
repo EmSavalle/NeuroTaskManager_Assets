@@ -121,7 +121,7 @@ public class LSLManager : MonoBehaviour
     }
     public void SendExperimentStep(ExperimentStep experimentStep){
         if(experimentMarkerIndex != -1){
-            string message = stepConv[experimentStep].ToString();//+"_"+taskManager.currentTask.ToString()+"_"+taskManager.currentDifficulty.ToString()+"_"+taskManager.currentCondition.ToString();
+            string message = stepConv[experimentStep].ToString()+"_"+taskManager.currentTask.ToString()+"_"+taskManager.currentDifficulty.ToString()+"_"+taskManager.currentCondition.ToString();
             SendStringToOutlet(lSLStreams[experimentMarkerIndex],message);
         }
     }

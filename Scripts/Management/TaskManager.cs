@@ -460,6 +460,8 @@ public class TaskManager : MonoBehaviour
                     if(verbose){Debug.Log("Paradigm - Start Break");}
                     yield return StartCoroutine(StartBreak());
                 }
+                participantInfos.SaveQuestionnaireResultsToFile();
+                participantInfos.SaveTaskResultsToFile();
             }
         }
         else{
@@ -502,6 +504,7 @@ public class TaskManager : MonoBehaviour
             ep.compQ=false;
             ep.stfaQ=true;
             ep.single=true;
+            ep.postBreak=true;
             experimentSecondPart.Add(ep);
         }
         else{
@@ -519,6 +522,7 @@ public class TaskManager : MonoBehaviour
             ep.taskDifficulty = TaskDifficulty.LOW;
             ep.compQ=true;
             ep.stfaQ=true;
+            ep.postBreak=true;
             experimentSecondPart.Add(ep);
         }
         
@@ -533,6 +537,7 @@ public class TaskManager : MonoBehaviour
             ep.compQ=false;
             ep.stfaQ=true;
             ep.single=true;
+            ep.postBreak=true;
             experimentSecondPart.Add(ep);
         }
         else{
@@ -550,6 +555,7 @@ public class TaskManager : MonoBehaviour
             ep.taskDifficulty = TaskDifficulty.MEDIUM;
             ep.compQ=true;
             ep.stfaQ=true;
+            ep.postBreak=true;
             experimentSecondPart.Add(ep);
         }
 
@@ -563,6 +569,7 @@ public class TaskManager : MonoBehaviour
             ep.compQ=false;
             ep.stfaQ=true;
             ep.single=true;
+            ep.postBreak=true;
             experimentSecondPart.Add(ep);
         }
         else{
@@ -580,6 +587,7 @@ public class TaskManager : MonoBehaviour
             ep.taskDifficulty = TaskDifficulty.HIGH;
             ep.compQ=true;
             ep.stfaQ=true;
+            ep.postBreak=true;
             experimentSecondPart.Add(ep);
         }
     }
@@ -690,13 +698,18 @@ public class TaskManager : MonoBehaviour
                 }
             }
             infoPannelSetter.UpdateColorShape();
+            Debug.Log("Color shape text changed");
             if(soundColorShapeChange != null){
+                lSLManager.SendExperimentStep(ExperimentStep.SOUND);
                 AudioSource aso = gameObject.GetComponent<AudioSource>();
                 if(aso != null){
                     aso.PlayOneShot(soundColorShapeChange);
                 }
             }
+            Debug.Log("Color shape wait");
             yield return new WaitForSeconds(changeColorShapeTime);
+            
+            Debug.Log("Color shape waited");
         }
         colorShapeTasks[currentTasColor]=cst;
         yield break;
@@ -911,7 +924,7 @@ public struct ColorShapeTask{
         colorSorting[ItemColor.GREEN] = "SHAPE";
         
         hyperDimension = objectDimensions;
-        nbObjectSinceChange=0;
+        nbObjectSinceChange=100;
         displayTextHelper=false;
         if(diff==TaskDifficulty.LOW){
             taskDifficulty = TaskDifficulty.LOW;
@@ -959,4 +972,4 @@ public struct GonoGoTask{
 public enum ItemText {NUMBER,LETTER};
 [Serializable]
 public enum ObjectDimension {COLOR,SHAPE,TEXT,NONE};
-public enum ExperimentStep {TASKSTART,QUESTIONNAIRESTART,TASKEND,QUESTIONNAIREEND}
+public enum ExperimentStep {TASKSTART,QUESTIONNAIRESTART,TASKEND,QUESTIONNAIREEND,SOUND}

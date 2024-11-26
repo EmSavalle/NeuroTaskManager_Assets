@@ -24,6 +24,8 @@ public class TimerDetectorEnter : MonoBehaviour
         if(i != null){
             timerDetector.objectEntered = other.gameObject;
             timerDetector.timeEntered = Time.time;
+            timerDetector.waitingForObject = false;
+            timerDetector.moveObject = false;
         }
     } 
 }

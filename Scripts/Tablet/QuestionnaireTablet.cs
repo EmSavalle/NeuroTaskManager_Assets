@@ -19,8 +19,9 @@ public class QuestionnaireTablet : Tablet
     public List<int> answers = new List<int>();
     public bool validated;
 
-    public bool isButton = true;
+    public GameObject rayCastInteractor ;
     public override IEnumerator StartTablet(){
+        rayCastInteractor.SetActive(true);
         string filePath = Application.dataPath+"Logs"+".txt";
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
@@ -32,6 +33,7 @@ public class QuestionnaireTablet : Tablet
         tmin.text ="";
         yield return StartCoroutine(base.StartTablet());
     }public override IEnumerator EndTablet(){
+        rayCastInteractor.SetActive(false);
         question.text = "Bye";
         tmax.text="";
         tmin.text ="";
@@ -43,8 +45,7 @@ public class QuestionnaireTablet : Tablet
         answers = new List<int>();
         for(int i = 0; i < q.questions.Count; i++){
             Reset();
-            if(q.withSlider[i] && isButton){
-                isButton = false;
+            if(q.withSlider[i]){
                 foreach (GameObject go in buttonRelated){
                     go.SetActive(false);
                 }
@@ -53,8 +54,7 @@ public class QuestionnaireTablet : Tablet
                     go.SetActive(true);
                 }
             }
-            else if(!q.withSlider[i] && !isButton){
-                isButton = true;
+            else if(!q.withSlider[i]){
                 foreach (GameObject go in buttonRelated){
                     go.SetActive(true);
                 }
@@ -84,7 +84,7 @@ public class QuestionnaireTablet : Tablet
     public void Select(int value){
         if(value != 0){
             for(int i = 0; i < answer.Count ; i++){
-                if(answer[i].isTriggered && i+1 != value){
+                if(answer[i].isTriggered && answer[i].value != value){
                     answer[i].Unselect();
                 }
             }
@@ -94,9 +94,6 @@ public class QuestionnaireTablet : Tablet
             validation.Unselect();
             //Questionnaire validated
             validation.GetComponent<UnityEngine.UI.Image>().color = validation.backupColor;
-            if(!isButton){
-                currentAnswer = (int)vRSlider.sliderValue;
-            }
             bool anySelection = false;
             for(int i = 0; i < answer.Count ; i++){
                 if(answer[i].isTriggered){

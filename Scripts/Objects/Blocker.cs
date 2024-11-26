@@ -130,14 +130,12 @@ public class Blocker : MonoBehaviour
         inputDeviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerPressed);
         if(triggerValue != 0 || triggerPressed || fakeActivationLeft){
             fakeActivationLeft=false;
-            Debug.Log("Right trigger pressed");
             StartCoroutine(Trigger(true));
         }
         inputDeviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.trigger, out triggerValue);
         inputDeviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerPressed);
         if(triggerValue != 0 || triggerPressed ||fakeActivationRight){
             fakeActivationRight = false;
-            Debug.Log("Right trigger pressed");
             StartCoroutine(Trigger(false));
         }
     }

@@ -20,8 +20,10 @@ public class QuestionnaireTablet : Tablet
     public bool validated;
 
     public GameObject rayCastInteractor ;
+    public GameObject rayCastInteractor2 ;
     public override IEnumerator StartTablet(){
         rayCastInteractor.SetActive(true);
+        rayCastInteractor2.SetActive(true);
         string filePath = Application.dataPath+"Logs"+".txt";
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
@@ -34,6 +36,7 @@ public class QuestionnaireTablet : Tablet
         yield return StartCoroutine(base.StartTablet());
     }public override IEnumerator EndTablet(){
         rayCastInteractor.SetActive(false);
+        rayCastInteractor2.SetActive(false);
         question.text = "Bye";
         tmax.text="";
         tmin.text ="";

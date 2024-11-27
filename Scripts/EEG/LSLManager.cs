@@ -17,6 +17,8 @@ public class LSLManager : MonoBehaviour
         stepConv[ExperimentStep.TASKEND]=2;
         stepConv[ExperimentStep.QUESTIONNAIRESTART]=3;
         stepConv[ExperimentStep.QUESTIONNAIREEND]=4;
+        stepConv[ExperimentStep.EXPERIMENTSTART]=5;
+        stepConv[ExperimentStep.EXPERIMENTSTOP]=6;
 
         for (int i = 0; i < lSLStreams.Count; i++){
             LSLStream ls = lSLStreams[i];
@@ -77,7 +79,7 @@ public class LSLManager : MonoBehaviour
     private IEnumerator ListenToInlet(LSLStream ls, int index)
     {
         Debug.Log("Listening to inlet for stream: " + ls.streamName);
-
+        SendExperimentStep(ExperimentStep.EXPERIMENTSTART);
         while (ls.inlet != null)
         {
             float[] sample = new float[ls.channelCount];

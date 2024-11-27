@@ -296,6 +296,9 @@ public class TaskManager : MonoBehaviour
             Debug.Log("Break ended");
         }
         breakOngoing = false;
+        yield return StartCoroutine(qTablet.StartTablet());
+        yield return StartCoroutine(StartQuestionnaire(stfa,TaskType.PREVALIDATION,ConditionType.POSTBREAK,TaskDifficulty.NONE));
+        yield return StartCoroutine(qTablet.EndTablet());
         yield break;
     }
     public IEnumerator StartSingle(){
@@ -451,7 +454,6 @@ public class TaskManager : MonoBehaviour
                 if(verbose){Debug.Log("Paradigm - Start Comb");}
                 if(ep.compQ){yield return StartCoroutine(StartQuestionnaire(comp,tt,ep.conditionType,ep.taskDifficulty));}
 
-                if(ep.single){yield return StartCoroutine(StartSingle());}
                 if(verbose){Debug.Log("Paradigm - End Tablet");}
                 yield return StartCoroutine(qTablet.EndTablet());
 
@@ -495,101 +497,104 @@ public class TaskManager : MonoBehaviour
 
         // Low diff
         //Workload
+        TaskType lowWork = workloadSolution.taskTypeLow;
+        TaskType medWork = workloadSolution.taskTypeMedium;
+        TaskType highWork = workloadSolution.taskTypeHigh;
+        TaskType lowPerf = performanceSolution.taskTypeLow;
+        TaskType midPerf = performanceSolution.taskTypeMedium;
+        TaskType highPerf = performanceSolution.taskTypeHigh;
         ExperimentPart ep = new ExperimentPart();
-        if(workloadSolution.taskTypeLow==performanceSolution.taskTypeLow){
-            ep = new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
-            ep.taskType = workloadSolution.taskTypeLow;
-            ep.taskDifficulty = TaskDifficulty.LOW;
-            ep.compQ=false;
-            ep.stfaQ=true;
-            ep.single=true;
-            ep.postBreak=true;
-            experimentSecondPart.Add(ep);
+        List<TaskType> workType = new List<TaskType>{lowWork,lowWork,medWork,medWork,highWork,highWork};
+        List<TaskType> perfType = new List<TaskType>{lowPerf,lowPerf,midPerf,midPerf,highPerf,highPerf};
+        while(HasConsecutiveDuplicates(workType)){
+            RandomizeList(workType);
         }
-        else{
-            ep= new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
-            ep.taskType = workloadSolution.taskTypeLow;
-            ep.taskDifficulty = TaskDifficulty.LOW;
-            ep.compQ=false;
-            ep.stfaQ=true;
-            experimentSecondPart.Add(ep);
-            //Performance
-            ep = new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
-            ep.taskType = performanceSolution.taskTypeLow;
-            ep.taskDifficulty = TaskDifficulty.LOW;
-            ep.compQ=true;
-            ep.stfaQ=true;
-            ep.postBreak=true;
-            experimentSecondPart.Add(ep);
+        while(HasConsecutiveDuplicates(perfType)){
+            RandomizeList(perfType);
         }
+        List<ExperimentPart> work = new List<ExperimentPart>();
+        List<ExperimentPart> perf = new List<ExperimentPart>();
         
-
-        // Medium diff
-        //Workload
-        if(workloadSolution.taskTypeMedium==performanceSolution.taskTypeMedium){
+        int result = int.TryParse(participantInfos.participantId, out int number) && number % 2 == 0 ? 0 : 1;
+        List<TaskType> done = new List<TaskType>();
+        TaskType t1;
+        for (int i = 0; i < workType.Count; i++){
             ep = new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
-            ep.taskType = workloadSolution.taskTypeMedium;
-            ep.taskDifficulty = TaskDifficulty.MEDIUM;
-            ep.compQ=false;
+            t1 = workType[i];
+            ep.taskType = t1;
+            
+            if(done.Contains(t1)){
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD2;
+            }
+            else{
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD1;
+            }
+            done.Add(t1);
+            if(t1==lowWork){
+                ep.taskDifficulty = TaskDifficulty.LOW;
+            }
+            else if(t1==medWork){
+                ep.taskDifficulty = TaskDifficulty.MEDIUM;
+            }
+            else{
+                ep.taskDifficulty = TaskDifficulty.HIGH;
+            }
+            ep.nasaQ=false;
             ep.stfaQ=true;
-            ep.single=true;
-            ep.postBreak=true;
-            experimentSecondPart.Add(ep);
+            ep.postBreak= i == workType.Count-1;
+            
+            work.Add(ep);
+        }
+        done = new List<TaskType>();
+        for (int i = 0; i < perfType.Count; i++){
+            ep = new ExperimentPart();
+            t1 = perfType[i];
+            ep.taskType = t1;
+            
+            if(done.Contains(t1)){
+                ep.conditionType = ConditionType.VALIDATIONPERFORMANCE2;
+            }
+            else{
+                ep.conditionType = ConditionType.VALIDATIONPERFORMANCE1;
+            }
+            done.Add(t1);
+            if(t1==lowWork){
+                ep.taskDifficulty = TaskDifficulty.LOW;
+            }
+            else if(t1==medWork){
+                ep.taskDifficulty = TaskDifficulty.MEDIUM;
+            }
+            else{
+                ep.taskDifficulty = TaskDifficulty.HIGH;
+            }
+            ep.nasaQ=false;
+            ep.stfaQ=true;
+            ep.postBreak= i == workType.Count-1;
+            
+            perf.Add(ep);
+        }
+        if(result == 1){
+            for (int i = 0; i < work.Count; i++){
+                experimentSecondPart.Add(work[i]);
+            }
+            for (int i = 0; i < perf.Count; i++){
+                experimentSecondPart.Add(perf[i]);
+            }
+            
         }
         else{
-            ep = new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
-            ep.taskType = performanceSolution.taskTypeMedium;
-            ep.taskDifficulty = TaskDifficulty.MEDIUM;
-            ep.compQ=false;
-            ep.stfaQ=true;
-            experimentSecondPart.Add(ep);
-            //Performance
-            ep = new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
-            ep.taskType = performanceSolution.taskTypeMedium;
-            ep.taskDifficulty = TaskDifficulty.MEDIUM;
-            ep.compQ=true;
-            ep.stfaQ=true;
-            ep.postBreak=true;
-            experimentSecondPart.Add(ep);
+            for (int i = 0; i < perf.Count; i++){
+                experimentSecondPart.Add(perf[i]);
+            }
+            for (int i = 0; i < work.Count; i++){
+                experimentSecondPart.Add(work[i]);
+            }
+            
         }
-
-        // High diff
-        //Workload
-        if(workloadSolution.taskTypeHigh==performanceSolution.taskTypeHigh){
-            ep = new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
-            ep.taskType = workloadSolution.taskTypeHigh;
-            ep.taskDifficulty = TaskDifficulty.HIGH;
-            ep.compQ=false;
-            ep.stfaQ=true;
-            ep.single=true;
-            ep.postBreak=true;
-            experimentSecondPart.Add(ep);
-        }
-        else{
-            ep = new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
-            ep.taskType = workloadSolution.taskTypeHigh;
-            ep.taskDifficulty = TaskDifficulty.HIGH;
-            ep.compQ=false;
-            ep.stfaQ=true;
-            experimentSecondPart.Add(ep);
-            //Performance
-            ep = new ExperimentPart();
-            ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
-            ep.taskType = performanceSolution.taskTypeHigh;
-            ep.taskDifficulty = TaskDifficulty.HIGH;
-            ep.compQ=true;
-            ep.stfaQ=true;
-            ep.postBreak=true;
-            experimentSecondPart.Add(ep);
-        }
+        ExperimentPart eplast = experimentSecondPart[^1];
+        eplast.compQ = true;
+        experimentSecondPart[^1] = eplast;
+        
     }
 
     public static (List<int> generatedList, int nBackCount, List<bool> nBackIndicators) GenerateNBackList(int a, int b, int X, float percentage, int n)
@@ -768,6 +773,28 @@ public class TaskManager : MonoBehaviour
                 break;
         }
     }
+    public static void RandomizeList<T>(List<T> list)
+    {
+        System.Random random = new System.Random();
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int j = random.Next(i + 1);
+            (list[i], list[j]) = (list[j], list[i]); // Swap elements
+        }
+    }
+
+    // Function to check for consecutive duplicates
+    public static bool HasConsecutiveDuplicates<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count - 1; i++)
+        {
+            if (EqualityComparer<T>.Default.Equals(list[i], list[i + 1]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
@@ -815,7 +842,7 @@ public struct ExperimentPart{
     public TaskType taskType;
     public TaskDifficulty taskDifficulty;
     public int taskDuration;
-    public bool nasaQ,stfaQ,compQ,single;
+    public bool nasaQ,stfaQ,compQ;
     public bool postBreak;
 }
 [Serializable]
@@ -842,7 +869,7 @@ public struct ItemsRequirements{
     public bool exactValue;
 }
 public enum RequirementType {COLOR,SHAPE,NUMBER};
-public enum ConditionType {CALIBRATION,VALIDATION,PREVALIDATION,VALIDATIONWORKLOAD,VALIDATIONPERFORMANCE};
+public enum ConditionType {POSTBREAK,CALIBRATION,VALIDATION,PREVALIDATION,VALIDATIONWORKLOAD1,VALIDATIONWORKLOAD2,VALIDATIONPERFORMANCE1,VALIDATIONPERFORMANCE2};
 public enum MicroTaskEnd {NONE,BUTTONPRESS,DELIVERY};
 
 public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,COUNTING,NBACK,PREVALIDATION,COLORSHAPE,GONOGO};
@@ -957,6 +984,7 @@ public struct ColorShapeTask{
         test = true;
 
     }
+    
 }
 [Serializable]
 public struct GonoGoTask{
@@ -972,4 +1000,4 @@ public struct GonoGoTask{
 public enum ItemText {NUMBER,LETTER};
 [Serializable]
 public enum ObjectDimension {COLOR,SHAPE,TEXT,NONE};
-public enum ExperimentStep {TASKSTART,QUESTIONNAIRESTART,TASKEND,QUESTIONNAIREEND,SOUND}
+public enum ExperimentStep {TASKSTART,QUESTIONNAIRESTART,TASKEND,QUESTIONNAIREEND,SOUND,EXPERIMENTSTART,EXPERIMENTSTOP}

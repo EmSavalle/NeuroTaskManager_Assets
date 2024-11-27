@@ -7376,6 +7376,111 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &834937772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834937773}
+  - component: {fileID: 834937776}
+  - component: {fileID: 834937775}
+  - component: {fileID: 834937774}
+  m_Layer: 0
+  m_Name: Interact
+  m_TagString: Interactor
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &834937773
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834937772}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1479832207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &834937774
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834937772}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &834937775
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834937772}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &834937776
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834937772}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &848249012
 GameObject:
   m_ObjectHideFlags: 0
@@ -12520,6 +12625,132 @@ MonoBehaviour:
   move: {fileID: 641007469}
   speed: 1
   direction: 0
+--- !u!1 &1479832206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1479832207}
+  - component: {fileID: 1479832211}
+  - component: {fileID: 1479832210}
+  - component: {fileID: 1479832209}
+  - component: {fileID: 1479832208}
+  m_Layer: 0
+  m_Name: RayInteractor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1479832207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479832206}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.9500002, z: 0.7369995}
+  m_LocalScale: {x: 0.01, y: 0.75000006, z: 0.009999999}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 834937773}
+  m_Father: {fileID: 2101427026}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!33 &1479832208
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479832206}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1479832209
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479832206}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1479832210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479832206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36fd5ed0a6b38dc46b8667e02b4eb5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  rayDistance: 5
+  interactionButton: Fire1
+  hit: {fileID: 0}
+  triggerPressed: 0
+--- !u!65 &1479832211
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479832206}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.06, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1504333200
 GameObject:
   m_ObjectHideFlags: 0
@@ -13426,6 +13657,7 @@ MonoBehaviour:
   answers: 
   validated: 0
   rayCastInteractor: {fileID: 18256587}
+  rayCastInteractor2: {fileID: 1479832206}
 --- !u!1 &1562168001
 GameObject:
   m_ObjectHideFlags: 0
@@ -18237,7 +18469,7 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   onGoingTask: 0
-  task1stDuration: 1
+  task1stDuration: 60
   task2ndDuration: 1
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
@@ -18250,15 +18482,23 @@ MonoBehaviour:
   participantInfos: {fileID: 2065340268}
   lSLManager: {fileID: 2065340274}
   experimentFirstPart:
+  - name: Low ColorShape
+    conditionType: 0
+    taskType: 7
+    taskDifficulty: 1
+    taskDuration: 600
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
+    postBreak: 0
   - name: Low GoNoGo
     conditionType: 0
     taskType: 8
     taskDifficulty: 1
     taskDuration: 600
     nasaQ: 1
-    stfaQ: 1
-    compQ: 1
-    single: 0
+    stfaQ: 0
+    compQ: 0
     postBreak: 0
   - name: Low NBack
     conditionType: 0
@@ -18268,17 +18508,6 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
-    single: 0
-    postBreak: 0
-  - name: Low ColorShape
-    conditionType: 0
-    taskType: 7
-    taskDifficulty: 1
-    taskDuration: 600
-    nasaQ: 1
-    stfaQ: 0
-    compQ: 0
-    single: 0
     postBreak: 0
   - name: Medium NBack
     conditionType: 0
@@ -18288,7 +18517,6 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
-    single: 0
     postBreak: 0
   - name: Medium GoNoGo
     conditionType: 0
@@ -18298,7 +18526,6 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
-    single: 0
     postBreak: 0
   - name: Medium ColorShape
     conditionType: 0
@@ -18308,17 +18535,6 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
-    single: 0
-    postBreak: 0
-  - name: High Nback
-    conditionType: 0
-    taskType: 5
-    taskDifficulty: 3
-    taskDuration: 600
-    nasaQ: 1
-    stfaQ: 0
-    compQ: 0
-    single: 0
     postBreak: 0
   - name: High ColorShape
     conditionType: 0
@@ -18328,7 +18544,15 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
-    single: 0
+    postBreak: 0
+  - name: High Nback
+    conditionType: 0
+    taskType: 5
+    taskDifficulty: 3
+    taskDuration: 600
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
     postBreak: 0
   - name: High GoNoGo
     conditionType: 0
@@ -18338,8 +18562,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
-    single: 0
-    postBreak: 0
+    postBreak: 1
   experimentSecondPart: []
   taskOngoing: 0
   breakOngoing: 0
@@ -18443,32 +18666,32 @@ MonoBehaviour:
     Name: Comparison
     questionnaireType: 2
     questions:
-    - 'Between the two tasks, which one did you prefer? '
-    - 'Between the two tasks, which one was the most stressful? '
-    - Between the two tasks, which one do you feel you performed best on?
-    - 'Between the two tasks, which one was more tiring? '
+    - 'Between the two blocks, which one did you prefer? '
+    - 'Between the two blocks, which one was the most stressful? '
+    - Between the two blocks, which one do you feel you performed best on?
+    - 'Between the two blocks, which one was more tiring? '
     tmin:
-    - Strongly task 1
-    - Strongly task 1
-    - Strongly task 1
-    - Strongly task 1
+    - Strongly block 1
+    - Strongly block 1
+    - Strongly block 1
+    - Strongly block 1
     tmax:
-    - Strongly task 2
-    - Strongly task 2
-    - Strongly task 2
-    - Strongly task 2
-    withSlider: 
+    - Strongly block 2
+    - Strongly block2
+    - Strongly block 2
+    - Strongly block 2
+    withSlider: 00000000
   nbValidationTask: 1
   movementRecorderCSV: {fileID: 2065340272}
   recordMovements: 0
-  instructions: 1
-  validationtablet: 1
+  instructions: 0
+  validationtablet: 0
   launchTasks: 1
   launchingTasks: 0
   clearBatch: 0
   verbose: 1
-  doSecondPart: 0
-  bypassQuestionnaires: 0
+  doSecondPart: 1
+  bypassQuestionnaires: 1
   nBackTasks:
   - taskDifficulty: 1
     nbackNumber: 1
@@ -20179,6 +20402,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7277802326798953675, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1086507722}
+    - targetCorrespondingSourceObject: {fileID: 7277802326798953675, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1479832207}
     - targetCorrespondingSourceObject: {fileID: 7277802327528778794, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       insertIndex: 1
       addedObject: {fileID: 2025778790}

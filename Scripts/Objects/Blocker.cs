@@ -215,6 +215,33 @@ public class Blocker : MonoBehaviour
         }
         yield break;
     }
+    public IEnumerator ResetObjectExited(){
+        StopMovingObject();
+        waitingForObject = false;
+        TaskType tt = taskManager.currentTaskType;
+        if(movingObject!=null){
+            movingObject.transform.parent=null;
+        }
+        movingObject = null;
+        switch(tt){
+            case TaskType.COLORSHAPE:
+                Debug.Log("Blocker - Readying ColorShape ");
+                yield return StartCoroutine(MoveBlocker(readyPosColorShape,readyRotColorShape));
+                break;
+            case TaskType.NBACK:
+                Debug.Log("Blocker - Readying Nback");
+                yield return StartCoroutine(MoveBlocker(readyPosNBack,readyRotNBack));
+                break;
+            case TaskType.GONOGO:
+                yield return new WaitForSeconds(0.5f);
+                Debug.Log("Blocker - Readying GoNoGo");
+                yield return StartCoroutine(MoveBlocker(readyPosGoNoGo,readyRotGoNoGo));
+                break;
+            default:
+                break;
+        }
+        yield break;
+    }
 
     public IEnumerator TriggerGoNoGo(){
         StartMovingObject();

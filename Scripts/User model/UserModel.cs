@@ -34,6 +34,7 @@ public class UserModel : MonoBehaviour
         }
         ProcessResults();
         DetermineSolution();
+        SaveSolution();
     }
     public float findScore(TaskType tt, TaskDifficulty td){
         for (int i = 0; i < taskScore.Count; i++){
@@ -108,7 +109,7 @@ public class UserModel : MonoBehaviour
     }
     public void SaveSolution()
     {
-        string filePath = Application.dataPath+"Solution"+participantInfos.participantId+".txt";
+        string filePath = Application.dataPath+"Solution_"+modelType.ToString()+participantInfos.participantId+".txt";
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
             writer.WriteLine("Model type : "+solution.modelType.ToString());

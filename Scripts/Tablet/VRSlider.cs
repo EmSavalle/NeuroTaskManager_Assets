@@ -37,71 +37,84 @@ public class VRSlider : MonoBehaviour
     {
         // Detect collision point
         Vector3 collisionPoint = collision.contacts[0].point;
+        VRRaycastInteraction vri = collision.gameObject.GetComponent<VRRaycastInteraction>();
+        if(vri != null){
+            if(vri.isTriggered){
+                // Clamp the collision point within the slider's length
+                collisionPoint = ClampPositionOnSlider(collisionPoint);
 
-        // Clamp the collision point within the slider's length
-        collisionPoint = ClampPositionOnSlider(collisionPoint);
+                // Move the slider handle to the collision point along the cylinder axis
+                if(orientation==Orientation.X){
+                    sliderHandle.position = new Vector3(collisionPoint.x,sliderHandle.position.y,sliderHandle.position.z);
+                }
+                if(orientation==Orientation.Y){
+                    sliderHandle.position = new Vector3(sliderHandle.position.x,collisionPoint.y,sliderHandle.position.z);
+                }
+                if(orientation==Orientation.Z){
+                    sliderHandle.position = new Vector3(sliderHandle.position.x,sliderHandle.position.y,collisionPoint.z);
+                }
+                
 
-        // Move the slider handle to the collision point along the cylinder axis
-        if(orientation==Orientation.X){
-            sliderHandle.position = new Vector3(collisionPoint.x,sliderHandle.position.y,sliderHandle.position.z);
-        }
-        if(orientation==Orientation.Y){
-            sliderHandle.position = new Vector3(sliderHandle.position.x,collisionPoint.y,sliderHandle.position.z);
-        }
-        if(orientation==Orientation.Z){
-            sliderHandle.position = new Vector3(sliderHandle.position.x,sliderHandle.position.y,collisionPoint.z);
+                // Calculate slider value as percentage (0 to 100%)
+                sliderValue = CalculateSliderValue(collisionPoint);
+            }
         }
         
-
-        // Calculate slider value as percentage (0 to 100%)
-        sliderValue = CalculateSliderValue(collisionPoint);
 
         Debug.Log("Slider Value: " + sliderValue);
     }
     void OnTriggerEnter(Collider other)
     {
-        // Get the position where the trigger interaction happened
-        Vector3 triggerPoint = other.transform.position;
+        VRRaycastInteraction vri = other.gameObject.GetComponent<VRRaycastInteraction>();
+        if(vri != null){
+            if(vri.isTriggered){
+               // Get the position where the trigger interaction happened
+                Vector3 triggerPoint = other.transform.position;
 
-        // Clamp the trigger point within the slider's length
-        triggerPoint = ClampPositionOnSlider(triggerPoint);
-        if(orientation==Orientation.X){
-            sliderHandle.position = new Vector3(triggerPoint.x,sliderHandle.position.y,sliderHandle.position.z);
-        }
-        if(orientation==Orientation.Y){
-            sliderHandle.position = new Vector3(sliderHandle.position.x,triggerPoint.y,sliderHandle.position.z);
-        }
-        if(orientation==Orientation.Z){
-            sliderHandle.position = new Vector3(sliderHandle.position.x,sliderHandle.position.y,triggerPoint.z);
-        }
+                // Clamp the trigger point within the slider's length
+                triggerPoint = ClampPositionOnSlider(triggerPoint);
+                if(orientation==Orientation.X){
+                    sliderHandle.position = new Vector3(triggerPoint.x,sliderHandle.position.y,sliderHandle.position.z);
+                }
+                if(orientation==Orientation.Y){
+                    sliderHandle.position = new Vector3(sliderHandle.position.x,triggerPoint.y,sliderHandle.position.z);
+                }
+                if(orientation==Orientation.Z){
+                    sliderHandle.position = new Vector3(sliderHandle.position.x,sliderHandle.position.y,triggerPoint.z);
+                }
 
-        // Calculate the slider value as percentage (0 to 100%)
-        sliderValue = CalculateSliderValue(triggerPoint);
-
-        Debug.Log("Slider Value: " + sliderValue);
+                // Calculate the slider value as percentage (0 to 100%)
+                sliderValue = CalculateSliderValue(triggerPoint); 
+            }
+        }
+        
     }
     void OnTriggerStay(Collider other)
     {
-        // Get the position where the trigger interaction happened
-        Vector3 triggerPoint = other.transform.position;
+        VRRaycastInteraction vri = other.gameObject.GetComponent<VRRaycastInteraction>();
+        if(vri != null){
+            if(vri.isTriggered){
+                // Get the position where the trigger interaction happened
+                Vector3 triggerPoint = other.transform.position;
 
-        // Clamp the trigger point within the slider's length
-        triggerPoint = ClampPositionOnSlider(triggerPoint);
+                // Clamp the trigger point within the slider's length
+                triggerPoint = ClampPositionOnSlider(triggerPoint);
 
-        if(orientation==Orientation.X){
-            sliderHandle.position = new Vector3(triggerPoint.x,sliderHandle.position.y,sliderHandle.position.z);
+                if(orientation==Orientation.X){
+                    sliderHandle.position = new Vector3(triggerPoint.x,sliderHandle.position.y,sliderHandle.position.z);
+                }
+                if(orientation==Orientation.Y){
+                    sliderHandle.position = new Vector3(sliderHandle.position.x,triggerPoint.y,sliderHandle.position.z);
+                }
+                if(orientation==Orientation.Z){
+                    sliderHandle.position = new Vector3(sliderHandle.position.x,sliderHandle.position.y,triggerPoint.z);
+                }
+
+                // Calculate the slider value as percentage (0 to 100%)
+                sliderValue = CalculateSliderValue(triggerPoint);
+            }
         }
-        if(orientation==Orientation.Y){
-            sliderHandle.position = new Vector3(sliderHandle.position.x,triggerPoint.y,sliderHandle.position.z);
-        }
-        if(orientation==Orientation.Z){
-            sliderHandle.position = new Vector3(sliderHandle.position.x,sliderHandle.position.y,triggerPoint.z);
-        }
-
-        // Calculate the slider value as percentage (0 to 100%)
-        sliderValue = CalculateSliderValue(triggerPoint);
-
-        Debug.Log("Slider Value: " + sliderValue);
+        
     }
     // Clamp the collision point within the slider limits
     private Vector3 ClampPositionOnSlider(Vector3 collisionPoint)

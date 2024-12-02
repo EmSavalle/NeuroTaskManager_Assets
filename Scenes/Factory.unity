@@ -534,6 +534,8 @@ MonoBehaviour:
   interactionButton: Fire1
   hit: {fileID: 0}
   triggerPressed: 0
+  left: 0
+  isTriggered: 0
 --- !u!65 &18256590
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4145,7 +4147,7 @@ MonoBehaviour:
   readyRotGoNoGo: {x: 292.5, y: 90, z: 0}
   hiddenPosGoNoGo: {x: -3.651, y: 0.8958, z: -5.186}
   hiddenRotGoNoGo: {x: 292.5, y: 90, z: 0}
-  discoverSpeedLow: 0.85
+  discoverSpeedLow: 1.2
   discoverSpeedMedium: 3
   discoverSpeedHigh: 8
   moveObject: 0
@@ -4153,7 +4155,7 @@ MonoBehaviour:
   readyRotNBack: {x: 292.5, y: 90, z: 0}
   hiddenPosNBack: {x: -3.651, y: 0.8958, z: -5.186}
   hiddenRotNBack: {x: 292.5, y: 90, z: 0}
-  discoverSpeedNBack: 0.5
+  discoverSpeedNBack: 0.4
   readyPosColorShape: {x: -4.012, y: 0.8958, z: -5.904}
   readyRotColorShape: {x: 292.50003, y: 90, z: 0}
   leftPosColorShape: {x: -4.1362, y: 0.8961, z: -5.95038}
@@ -4161,7 +4163,7 @@ MonoBehaviour:
   rightPosColorShape: {x: -3.91612, y: 0.8958, z: -5.91703}
   rightRotColorShape: {x: 292.5, y: 67.49999, z: -0.0000044620338}
   hiddenPosColorShape: {x: -4.012, y: 0.8958, z: -5.27}
-  discoverSpeedColorShape: 0.5
+  discoverSpeedColorShape: 0.4
   movementSpeed: 20
   blockingSpeed: 5
   objectMovementSpeed: 5
@@ -6137,6 +6139,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 937725998}
+  - {fileID: 1218060184}
   - {fileID: 392159372}
   - {fileID: 746437223}
   - {fileID: 276545934}
@@ -8255,6 +8259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerDetector: {fileID: 392159373}
+  isOriginal: 0
 --- !u!65 &937725997
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8285,11 +8290,11 @@ Transform:
   m_GameObject: {fileID: 937725995}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 3.0728035, y: -4.354504, z: -17.631014}
+  m_LocalPosition: {x: -4.0133996, y: 0.9196, z: -5.9039993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 662777179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &977342238
 GameObject:
@@ -9024,6 +9029,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088874764}
   m_CullTransparentMesh: 1
+--- !u!1 &1099221311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2180327550967177408, guid: 65224d9cae94e9d408ad761d25308900, type: 3}
+  m_PrefabInstance: {fileID: 2119301622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1107836058
 GameObject:
   m_ObjectHideFlags: 0
@@ -10445,6 +10455,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205796300}
   m_CullTransparentMesh: 1
+--- !u!1 &1218060183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1218060184}
+  - component: {fileID: 1218060186}
+  - component: {fileID: 1218060185}
+  m_Layer: 0
+  m_Name: TimerDetectorEnter (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1218060184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218060183}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -4.596, y: 0.9196, z: -5.9039993}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 662777179}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1218060185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218060183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb33c7dce8189914793e771f55d140fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerDetector: {fileID: 392159373}
+  isOriginal: 1
+--- !u!65 &1218060186
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218060183}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5141142, y: 0.16788626, z: 0.028247584}
+  m_Center: {x: -0.0055295527, y: -0.022068739, z: 0.01636715}
 --- !u!1 &1223561662
 GameObject:
   m_ObjectHideFlags: 0
@@ -12654,7 +12732,7 @@ Transform:
   m_GameObject: {fileID: 1479832206}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.9500002, z: 0.7369995}
+  m_LocalPosition: {x: 0, y: 0, z: 0.7369995}
   m_LocalScale: {x: 0.01, y: 0.75000006, z: 0.009999999}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12730,6 +12808,8 @@ MonoBehaviour:
   interactionButton: Fire1
   hit: {fileID: 0}
   triggerPressed: 0
+  left: 1
+  isTriggered: 0
 --- !u!65 &1479832211
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13641,21 +13721,13 @@ MonoBehaviour:
   - {fileID: 264609498}
   - {fileID: 1997008319}
   SliderRelated:
-  - {fileID: 1223561662}
-  - {fileID: 131504313}
-  - {fileID: 1182276013}
-  - {fileID: 1682284031}
-  - {fileID: 2124138193}
-  - {fileID: 1964211469}
-  - {fileID: 16198077}
-  - {fileID: 2143395826}
-  - {fileID: 719461830}
-  - {fileID: 1447429991}
+  - {fileID: 1099221311}
   vRSlider: {fileID: 2119301625}
   currentAnswer: 0
   validation: {fileID: 1889087520}
-  answers: 
+  answers: []
   validated: 0
+  isSlider: 0
   rayCastInteractor: {fileID: 18256587}
   rayCastInteractor2: {fileID: 1479832206}
 --- !u!1 &1562168001
@@ -18240,33 +18312,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tasks:
-  - name: Low GoNoGo
-    initInstructions: GoNoGo - Select the object display by pressing a trigger if
-      it fits the instructions.
-    duringInstructions: Put object X in bin X and object Y in bin Y
-    taskType: 8
-    taskDifficulty: 1
-    duration: 60
-    items:
-      itemShape: 00000000
-      itemColor: 0100000002000000
-      itemText: []
-      used: 1
-    objects: []
-    baseObjects: []
-    objectGoal: []
-    continuousBelt: 1
-    deliveryTime: 1
-    beltSpeed: 1
-    noFailure: 0
-    blocker: 1
-    clearForSpawn: 1
-    nbValidationTrays: 1
-    validationType: 1
   - name: Low ColorShape
     initInstructions: Sorting - Sort object based on instruction by pressing left
-      or right trigger.
-    duringInstructions: Put object X in bin X and object Y in bin Y
+      or right trigger. Instructions will change when you'll hear a sound
+    duringInstructions: 
     taskType: 7
     taskDifficulty: 1
     duration: 60
@@ -18286,6 +18335,29 @@ MonoBehaviour:
     blocker: 1
     clearForSpawn: 1
     nbValidationTrays: 2
+    validationType: 1
+  - name: Low GoNoGo
+    initInstructions: GoNoGo - Select the object display by pressing a trigger if
+      it fits the instructions.
+    duringInstructions: 
+    taskType: 8
+    taskDifficulty: 1
+    duration: 60
+    items:
+      itemShape: 00000000
+      itemColor: 0100000002000000
+      itemText: []
+      used: 1
+    objects: []
+    baseObjects: []
+    objectGoal: []
+    continuousBelt: 1
+    deliveryTime: 1
+    beltSpeed: 1
+    noFailure: 0
+    blocker: 1
+    clearForSpawn: 1
+    nbValidationTrays: 1
     validationType: 1
   - name: Low NBack
     initInstructions: "NBack - Remove the object if it\u2019s the same as the previous
@@ -18360,8 +18432,8 @@ MonoBehaviour:
     validationType: 1
   - name: Medium ColorShape
     initInstructions: Sorting - Sort object based on instruction by pressing left
-      or right trigger.
-    duringInstructions: Put object X in bin X and object Y in bin Y
+      or right trigger.Instructions will change when you'll hear a sound
+    duringInstructions: 
     taskType: 7
     taskDifficulty: 2
     duration: 60
@@ -18412,8 +18484,8 @@ MonoBehaviour:
     validationType: 1
   - name: High ColorShape
     initInstructions: Sorting - Sort object based on instruction by pressing left
-      or right trigger.
-    duringInstructions: Put object X in bin X and object Y in bin Y
+      or right trigger. Instructions will change when you'll hear a sound
+    duringInstructions: 
     taskType: 7
     taskDifficulty: 3
     duration: 60
@@ -18469,8 +18541,8 @@ MonoBehaviour:
     nbValidationTrays: 1
     validationType: 1
   onGoingTask: 0
-  task1stDuration: 60
-  task2ndDuration: 1
+  task1stDuration: 120
+  task2ndDuration: 10
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
   qTablet: {fileID: 1562010849}
@@ -18583,7 +18655,6 @@ MonoBehaviour:
     - How successful were you in accomplishing what you were asked to do?
     - 'How hard did you have to work to accomplish your level of performance? '
     - How insecure, discouraged, irritated, stressed,and annoyed were you?
-    - How difficult was the task?
     tmin:
     - Very Low
     - Very Low
@@ -18591,7 +18662,6 @@ MonoBehaviour:
     - Very Low
     - Very Low
     - Very Low
-    - Very Easy
     tmax:
     - Very High
     - Very High
@@ -18599,8 +18669,7 @@ MonoBehaviour:
     - Very High
     - Very High
     - Very High
-    - Very Hard
-    withSlider: 00000000000000
+    withSlider: 000000000000
   stfa:
     Name: STFA
     questionnaireType: 1
@@ -18620,7 +18689,6 @@ MonoBehaviour:
     - Keeping my eyes open
     - Moving my body
     - Concentrating
-    - Carrying on a conversation
     - Desire to close my eyes
     - Desire to lie down
     tmin:
@@ -18636,7 +18704,6 @@ MonoBehaviour:
     - Not at all
     - Not at all
     - Not at all
-    - Is not effort at all
     - Is not effort at all
     - Is not effort at all
     - Is not effort at all
@@ -18658,10 +18725,9 @@ MonoBehaviour:
     - Is a tremendous chore
     - Is a tremendous chore
     - Is a tremendous chore
-    - Is a tremendous chore
     - I have a tremendous desire to
     - I have a tremendous desire to
-    withSlider: 010101010101010101010101010101010101
+    withSlider: 0101010101010101010101010101010101
   comp:
     Name: Comparison
     questionnaireType: 2
@@ -18691,7 +18757,7 @@ MonoBehaviour:
   clearBatch: 0
   verbose: 1
   doSecondPart: 1
-  bypassQuestionnaires: 1
+  bypassQuestionnaires: 0
   nBackTasks:
   - taskDifficulty: 1
     nbackNumber: 1
@@ -18735,7 +18801,7 @@ MonoBehaviour:
     nbValidationTrays: 0
     validationType: 0
   colorShapeDimensionEasy: 0000000001000000
-  objectUntilChangeEasy: 040000000500000006000000
+  objectUntilChangeEasy: 050000000600000007000000
   colorShapeDimensionMedium: 0000000001000000
   objectUntilChangeMedium: 040000000500000006000000
   colorShapeDimensionHard: 010000000200000000000000
@@ -18960,7 +19026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskManager: {fileID: 2065340267}
   lSLStreams:
-  - streamName: WorkloadListener
+  - streamName: testlsl
     letType: 2
     streamType: float
     channelCount: 1
@@ -18982,7 +19048,7 @@ MonoBehaviour:
     workloadStream: 0
     receivedData: []
   experimentMarkerIndex: -1
-  maxSamples: 1000
+  maxSamples: 25
 --- !u!114 &2065340275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19470,7 +19536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369374164552074167, guid: 65224d9cae94e9d408ad761d25308900, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.07136028
+      value: 0.09532307
       objectReference: {fileID: 0}
     - target: {fileID: 4369374164552074167, guid: 65224d9cae94e9d408ad761d25308900, type: 3}
       propertyPath: m_LocalScale.z
@@ -19478,7 +19544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369374164552074167, guid: 65224d9cae94e9d408ad761d25308900, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0057809204
+      value: -0.0197
       objectReference: {fileID: 0}
     - target: {fileID: 4369374164552074167, guid: 65224d9cae94e9d408ad761d25308900, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19516,6 +19582,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 5678752748868267896, guid: 65224d9cae94e9d408ad761d25308900, type: 3}
+      propertyPath: sliderLength
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19531,7 +19601,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5678752748868267896, guid: 65224d9cae94e9d408ad761d25308900, type: 3}
   m_PrefabInstance: {fileID: 2119301622}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1099221311}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3852ba323696d5140ab8fbc25f8caf9c, type: 3}
@@ -19902,6 +19972,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 662777179}
     m_Modifications:
+    - target: {fileID: 945562919457390927, guid: 475d3f3c30627e54e9c1cb42441b8f62, type: 3}
+      propertyPath: m_text
+      value: Press here to continue
+      objectReference: {fileID: 0}
     - target: {fileID: 1095808692537512996, guid: 475d3f3c30627e54e9c1cb42441b8f62, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
@@ -20706,7 +20780,6 @@ SceneRoots:
   - {fileID: 1194974070}
   - {fileID: 814070793}
   - {fileID: 1034311494}
-  - {fileID: 937725998}
   - {fileID: 393805693}
   - {fileID: 1526527596}
   - {fileID: 768668759}

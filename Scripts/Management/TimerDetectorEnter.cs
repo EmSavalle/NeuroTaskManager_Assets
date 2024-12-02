@@ -5,6 +5,7 @@ using UnityEngine;
 public class TimerDetectorEnter : MonoBehaviour
 {
     public Blocker timerDetector;
+    public bool isOriginal;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +22,19 @@ public class TimerDetectorEnter : MonoBehaviour
         if(i == null && other.transform.parent != null){
             i = other.transform.parent.gameObject.GetComponent<Item>();
         }
-        if(i != null){
+        if(i != null && !isOriginal){
             timerDetector.objectEntered = other.gameObject;
             timerDetector.timeEntered = Time.time;
             timerDetector.waitingForObject = false;
             timerDetector.moveObject = false;
+        }
+        else if(i!= null && isOriginal){
+            timerDetector.objectEntered = other.gameObject;
+            timerDetector.timeEntered = Time.time;
+            timerDetector.waitingForObject = false;
+            timerDetector.moveObject = false;
+            
+            StartCoroutine(timerDetector.ResetObjectExited());
         }
     } 
 }

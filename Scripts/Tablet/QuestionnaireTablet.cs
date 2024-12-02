@@ -14,10 +14,11 @@ public class QuestionnaireTablet : Tablet
     public List<GameObject> buttonRelated;
     public List<GameObject> SliderRelated;
     public VRSlider vRSlider;
-    public int currentAnswer;
+    public float currentAnswer;
     public QuestionnaireButton validation;
-    public List<int> answers = new List<int>();
+    public List<float> answers = new List<float>();
     public bool validated;
+    public bool isSlider;
 
     public GameObject rayCastInteractor ;
     public GameObject rayCastInteractor2 ;
@@ -40,15 +41,23 @@ public class QuestionnaireTablet : Tablet
         question.text = "Bye";
         tmax.text="";
         tmin.text ="";
+        foreach (GameObject go in buttonRelated){
+            go.SetActive(false);
+        }
+        
+        foreach (GameObject go in SliderRelated){
+            go.SetActive(false);
+        }
         yield return StartCoroutine(base.EndTablet());
     }
     public IEnumerator LaunchQuestionnaire(Questionnaire q){
         Reset();
         validated = false;
-        answers = new List<int>();
+        answers = new List<float>();
         for(int i = 0; i < q.questions.Count; i++){
             Reset();
             if(q.withSlider[i]){
+                isSlider = true;
                 foreach (GameObject go in buttonRelated){
                     go.SetActive(false);
                 }
@@ -58,6 +67,7 @@ public class QuestionnaireTablet : Tablet
                 }
             }
             else if(!q.withSlider[i]){
+                isSlider = false;
                 foreach (GameObject go in buttonRelated){
                     go.SetActive(true);
                 }
@@ -86,29 +96,41 @@ public class QuestionnaireTablet : Tablet
     }
     public void Select(int value){
         if(value != 0){
-            for(int i = 0; i < answer.Count ; i++){
-                if(answer[i].isTriggered && answer[i].value != value){
-                    answer[i].Unselect();
+            if(!isSlider){
+                
+                for(int i = 0; i < answer.Count ; i++){
+                    if(answer[i].isTriggered && answer[i].value != value){
+                        answer[i].Unselect();
+                    }
                 }
+                currentAnswer = value;
             }
-            currentAnswer = value;
         }
         else{
             validation.Unselect();
             //Questionnaire validated
             validation.GetComponent<UnityEngine.UI.Image>().color = validation.backupColor;
-            bool anySelection = false;
-            for(int i = 0; i < answer.Count ; i++){
-                if(answer[i].isTriggered){
-                    anySelection=true;
-                }
-            }
-            if(anySelection){
+            
+            if(isSlider){
+                currentAnswer = vRSlider.sliderValue;
                 validated = true;
             }
             else{
-                validation.Unselect();
+                bool anySelection = false;
+                for(int i = 0; i < answer.Count ; i++){
+                    if(answer[i].isTriggered){
+                        anySelection=true;
+                    }
+                }
+                if(anySelection){
+                    validated = true;
+                }
+                else{
+                    validation.Unselect();
+                }
             }
+            
+            
             
         }
     }

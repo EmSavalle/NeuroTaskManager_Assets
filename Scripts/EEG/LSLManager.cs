@@ -8,7 +8,7 @@ public class LSLManager : MonoBehaviour
     public TaskManager taskManager;
     public List<LSLStream> lSLStreams;
     public int experimentMarkerIndex=-1;
-    public int maxSamples = 1000; // Maximum number of samples to store
+    public int maxSamples = 200; // Maximum number of samples to store
     public Dictionary<ExperimentStep,int> stepConv = new Dictionary<ExperimentStep, int>();
     // Start is called before the first frame update
     void Start()
@@ -19,6 +19,7 @@ public class LSLManager : MonoBehaviour
         stepConv[ExperimentStep.QUESTIONNAIREEND]=4;
         stepConv[ExperimentStep.EXPERIMENTSTART]=5;
         stepConv[ExperimentStep.EXPERIMENTSTOP]=6;
+        stepConv[ExperimentStep.SOUND]=7;
 
         for (int i = 0; i < lSLStreams.Count; i++){
             LSLStream ls = lSLStreams[i];
@@ -105,7 +106,7 @@ public class LSLManager : MonoBehaviour
             }
 
             // Adjust this delay based on your data rate
-            yield return new WaitForSeconds(0.01f);
+            yield return null;
         }
     }
     public void SendStringToOutlet(LSLStream ls, string data)
@@ -125,6 +126,15 @@ public class LSLManager : MonoBehaviour
         if(experimentMarkerIndex != -1){
             string message = stepConv[experimentStep].ToString()+"_"+taskManager.currentTask.ToString()+"_"+taskManager.currentDifficulty.ToString()+"_"+taskManager.currentCondition.ToString();
             SendStringToOutlet(lSLStreams[experimentMarkerIndex],message);
+        }
+    }
+    public void ResetListWorkload(){
+        for (int i = 0; i < lSLStreams.Count; i++){
+            LSLStream ls = lSLStreams[i];
+            if(ls.letType == LetType.WORKLOAD){
+                ls.receivedData = new List<float>();
+            }
+            //lSLStreams[i]=ls;
         }
     }
 }

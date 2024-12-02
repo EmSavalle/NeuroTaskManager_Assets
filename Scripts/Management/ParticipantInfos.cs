@@ -23,6 +23,24 @@ public class ParticipantInfos : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        string filePath = "ParticipantNumber.txt";
+        string content ="";
+        try
+        {
+            // Read all text from the file
+            content = File.ReadAllText(filePath);
+            Console.WriteLine("Content of the file:");
+            Console.WriteLine(content);
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("File not found. Please check the file path.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+        participantId = content;
         participantId += System.DateTime.Now.ToString("_yyyy_MM_dd_HH_mm_ss");
     }
 
@@ -161,7 +179,7 @@ public struct QuestionnaireResults{
     public ConditionType conditionType;
     public TaskType taskType;
     public TaskDifficulty taskDifficulty;
-    public List<int> questionnaireAnswers;
+    public List<float> questionnaireAnswers;
 }
 
 public enum QuestionnaireType {NASA,STFA,COMP}

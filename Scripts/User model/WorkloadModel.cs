@@ -59,11 +59,11 @@ public class WorkloadModel : UserModel
         float workMean = wtr.meanWorkload;
         float workMax = wtr.maxWorkload;
         float workMin = wtr.minWorkload;
-        return (workMean - ((workMax+workMin)/2))/(workMax-workMin);
+        return Math.Abs((workMean - ((workMax+workMin)/2))/(workMax-workMin));
     }
     public float ComputeScore(WorkloadTaskResult wtr,float avgWork, float minWork, float maxWork){
         float workMean = wtr.meanWorkload;
-        return (workMean - avgWork)/(maxWork-minWork);
+        return Math.Abs((workMean - avgWork)/(maxWork-minWork));
     }
     public static float Median(List<float> numbers)
     {

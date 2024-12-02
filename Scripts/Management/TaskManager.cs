@@ -190,7 +190,7 @@ public class TaskManager : MonoBehaviour
 
         // 2. Instructions
         informationDisplay.text=t.initInstructions;//Display instructions
-        informationDisplay.text+="\nTouch the green button to start the task.";
+        //informationDisplay.text+="\nTouch the green button to start the task.";
         instructionsDone = false;
         //Present tablet to stop instructions
         if(validationtablet){
@@ -209,7 +209,7 @@ public class TaskManager : MonoBehaviour
             writer.WriteLine("start task");
         }
         // Tablet initialization for counting task
-        informationDisplay.text=t.duringInstructions+ "\n Touch the button when ready to start";
+        //informationDisplay.text=t.duringInstructions+ "\n Touch the button when ready to start";
         
         if(t.taskType == TaskType.COUNTING){yield return StartCoroutine(cTablet.StartTablet());}
         if(t.taskType == TaskType.MATCHING){belt.StartDelivery(t.baseObjects);}
@@ -396,8 +396,6 @@ public class TaskManager : MonoBehaviour
                 yield return StartCoroutine(StartBreak());
             }
         }
-        participantInfos.SaveQuestionnaireResultsToFile();
-        participantInfos.SaveTaskResultsToFile();
         //Second part
         //Model calibration
         if(verbose){Debug.Log("Paradigm - Start Calibration");}
@@ -412,11 +410,6 @@ public class TaskManager : MonoBehaviour
             
             currentCondition = ConditionType.PREVALIDATION;
             //Questionnaire
-            yield return StartCoroutine(qTablet.StartTablet());
-            if(verbose){Debug.Log("Paradigm - Start stfa");}
-            yield return StartCoroutine(StartQuestionnaire(stfa,TaskType.PREVALIDATION,ConditionType.PREVALIDATION,TaskDifficulty.NONE));
-            if(verbose){Debug.Log("Paradigm - End Tablet");}
-            yield return StartCoroutine(qTablet.EndTablet());
 
             
             if(verbose){Debug.Log("Paradigm - Start Validation");}
@@ -466,10 +459,7 @@ public class TaskManager : MonoBehaviour
                 participantInfos.SaveTaskResultsToFile();
             }
         }
-        else{
-            Application.Quit();
-        }
-        
+        lSLManager.SendExperimentStep(ExperimentStep.EXPERIMENTSTOP);
         yield break;
     }
 
@@ -539,7 +529,7 @@ public class TaskManager : MonoBehaviour
             else{
                 ep.taskDifficulty = TaskDifficulty.HIGH;
             }
-            ep.nasaQ=false;
+            ep.nasaQ=true;
             ep.stfaQ=true;
             ep.postBreak= i == workType.Count-1;
             
@@ -558,16 +548,16 @@ public class TaskManager : MonoBehaviour
                 ep.conditionType = ConditionType.VALIDATIONPERFORMANCE1;
             }
             done.Add(t1);
-            if(t1==lowWork){
+            if(t1==lowPerf){
                 ep.taskDifficulty = TaskDifficulty.LOW;
             }
-            else if(t1==medWork){
+            else if(t1==midPerf){
                 ep.taskDifficulty = TaskDifficulty.MEDIUM;
             }
             else{
                 ep.taskDifficulty = TaskDifficulty.HIGH;
             }
-            ep.nasaQ=false;
+            ep.nasaQ=true;
             ep.stfaQ=true;
             ep.postBreak= i == workType.Count-1;
             

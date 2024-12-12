@@ -9,7 +9,10 @@ public class LSLManager : MonoBehaviour
     public List<LSLStream> lSLStreams;
     public int experimentMarkerIndex=-1;
     public int maxSamples = 200; // Maximum number of samples to store
-    public Dictionary<ExperimentStep,int> stepConv = new Dictionary<ExperimentStep, int>();
+    public Dictionary<ExperimentStep, int> stepConv = new Dictionary<ExperimentStep, int>();
+    public Dictionary<TaskType, int> taskConv = new Dictionary<TaskType, int>();
+    public Dictionary<TaskDifficulty, int> diffConv = new Dictionary<TaskDifficulty, int>();
+    public Dictionary<ConditionType, int> condConv = new Dictionary<ConditionType, int>();
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +21,23 @@ public class LSLManager : MonoBehaviour
         stepConv[ExperimentStep.QUESTIONNAIRESTART]=3;
         stepConv[ExperimentStep.QUESTIONNAIREEND]=4;
         stepConv[ExperimentStep.EXPERIMENTSTART]=5;
-        stepConv[ExperimentStep.EXPERIMENTSTOP]=6;
-        stepConv[ExperimentStep.SOUND]=7;
+        stepConv[ExperimentStep.EXPERIMENTSTOP] = 6;
+        stepConv[ExperimentStep.SOUND] = 7;
+        stepConv[ExperimentStep.BREAKSTART] = 8;
+        stepConv[ExperimentStep.BREAKEND] = 9;
+
+        taskConv[TaskType.COLORSHAPE] = 1;
+        taskConv[TaskType.GONOGO] = 2;
+        taskConv[TaskType.NBACK] = 3;
+
+        diffConv[TaskDifficulty.LOW] = 1;
+        diffConv[TaskDifficulty.MEDIUM] = 2;
+        diffConv[TaskDifficulty.HIGH] = 3;
+
+        condConv[ConditionType.CALIBRATION] = 1;
+        condConv[ConditionType.VALIDATIONPERFORMANCE] = 2;
+        condConv[ConditionType.VALIDATIONWORKLOAD] = 3;
+        condConv[ConditionType.VALIDATION] = 4;
 
         for (int i = 0; i < lSLStreams.Count; i++){
             LSLStream ls = lSLStreams[i];
@@ -124,7 +142,11 @@ public class LSLManager : MonoBehaviour
     }
     public void SendExperimentStep(ExperimentStep experimentStep){
         if(experimentMarkerIndex != -1){
-            string message = stepConv[experimentStep].ToString()+"_"+taskManager.currentTask.ToString()+"_"+taskManager.currentDifficulty.ToString()+"_"+taskManager.currentCondition.ToString();
+
+            string message = experimentStep.ToString()+"_"+taskManager.currentTaskType.ToString()+"_"+taskManager.currentDifficulty.ToString()+"_"+taskManager.currentCondition.ToString();
+            int val = stepConv[experimentStep] * 10000 + taskConv[taskManager.currentTaskType] * 1000 + diffConv[taskManager.currentDifficulty]*100+condConv[taskManager.currentCondition]*10;
+            message = val.ToString();
+            Debug.Log("Marker sent "+message);
             SendStringToOutlet(lSLStreams[experimentMarkerIndex],message);
         }
     }

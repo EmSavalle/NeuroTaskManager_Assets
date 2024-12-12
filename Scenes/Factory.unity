@@ -315,6 +315,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &16198080
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -508,8 +510,8 @@ Transform:
   m_GameObject: {fileID: 18256587}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.737}
-  m_LocalScale: {x: 0.01, y: 0.75, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0.53}
+  m_LocalScale: {x: 0.01, y: 0.543, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1770685062}
@@ -536,6 +538,7 @@ MonoBehaviour:
   triggerPressed: 0
   left: 0
   isTriggered: 0
+  wasPressed: 0
 --- !u!65 &18256590
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1391,7 +1394,7 @@ Transform:
   m_GameObject: {fileID: 109680261}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.249, y: 0.8803, z: 0.213}
+  m_LocalPosition: {x: 0.249, y: 0.8803, z: 0.09}
   m_LocalScale: {x: 0.002, y: 0.21329683, z: 0.66941}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1527,6 +1530,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &131504316
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2964,6 +2969,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!1 &273585622
 GameObject:
   m_ObjectHideFlags: 0
@@ -3583,6 +3590,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!1 &349686295
 GameObject:
   m_ObjectHideFlags: 0
@@ -3701,6 +3710,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!1 &363800170
 GameObject:
   m_ObjectHideFlags: 0
@@ -4163,7 +4174,7 @@ MonoBehaviour:
   rightPosColorShape: {x: -3.91612, y: 0.8958, z: -5.91703}
   rightRotColorShape: {x: 292.5, y: 67.49999, z: -0.0000044620338}
   hiddenPosColorShape: {x: -4.012, y: 0.8958, z: -5.27}
-  discoverSpeedColorShape: 0.4
+  discoverSpeedColorShape: 0.2
   movementSpeed: 20
   blockingSpeed: 5
   objectMovementSpeed: 5
@@ -6714,6 +6725,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!1 &719461830
 GameObject:
   m_ObjectHideFlags: 0
@@ -6773,6 +6786,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &719461833
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9453,7 +9468,7 @@ Transform:
   m_GameObject: {fileID: 1140688552}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.263, y: 0.8803, z: 0.21374}
+  m_LocalPosition: {x: -0.263, y: 0.8803, z: 0.091}
   m_LocalScale: {x: 0.002, y: 0.21329683, z: 0.6704767}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9821,6 +9836,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &1182276016
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10482,7 +10499,7 @@ Transform:
   m_GameObject: {fileID: 1218060183}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -4.596, y: 0.9196, z: -5.9039993}
+  m_LocalPosition: {x: -4.473296, y: 0.9196, z: -5.9040165}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10582,6 +10599,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &1223561665
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12094,6 +12113,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!1001 &1388581640
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12540,6 +12561,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &1447429994
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12732,8 +12755,8 @@ Transform:
   m_GameObject: {fileID: 1479832206}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.7369995}
-  m_LocalScale: {x: 0.01, y: 0.75000006, z: 0.009999999}
+  m_LocalPosition: {x: 0, y: 0, z: 0.3649}
+  m_LocalScale: {x: 0.01, y: 0.37792504, z: 0.009999999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 834937773}
@@ -12810,6 +12833,7 @@ MonoBehaviour:
   triggerPressed: 0
   left: 1
   isTriggered: 0
+  wasPressed: 0
 --- !u!65 &1479832211
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13556,7 +13580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1560123171
 Transform:
   m_ObjectHideFlags: 0
@@ -15243,6 +15267,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &1682284034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15714,7 +15740,7 @@ Transform:
   m_GameObject: {fileID: 1722670424}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.005981853, y: 0.98794854, z: 0.21370386}
+  m_LocalPosition: {x: -0.006, y: 0.98794854, z: 0.091}
   m_LocalScale: {x: 0.002, y: 0.51203656, z: 0.6704051}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17229,6 +17255,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4279103746
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!1 &1906873951
 GameObject:
   m_ObjectHideFlags: 0
@@ -17347,6 +17375,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!1001 &1950876229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17554,6 +17584,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &1964211472
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17849,6 +17881,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!1 &2025778789
 GameObject:
   m_ObjectHideFlags: 0
@@ -18542,7 +18576,7 @@ MonoBehaviour:
     validationType: 1
   onGoingTask: 0
   task1stDuration: 120
-  task2ndDuration: 10
+  task2ndDuration: 480
   informationDisplay: {fileID: 224222170}
   vTablet: {fileID: 1831101202267893834}
   qTablet: {fileID: 1562010849}
@@ -18562,6 +18596,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: Low GoNoGo
     conditionType: 0
@@ -18571,6 +18606,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: Low NBack
     conditionType: 0
@@ -18580,6 +18616,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: Medium NBack
     conditionType: 0
@@ -18589,15 +18626,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
-    postBreak: 0
-  - name: Medium GoNoGo
-    conditionType: 0
-    taskType: 8
-    taskDifficulty: 2
-    taskDuration: 600
-    nasaQ: 1
-    stfaQ: 0
-    compQ: 0
+    single: 0
     postBreak: 0
   - name: Medium ColorShape
     conditionType: 0
@@ -18607,15 +18636,17 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
-  - name: High ColorShape
+  - name: Medium GoNoGo
     conditionType: 0
-    taskType: 7
-    taskDifficulty: 3
+    taskType: 8
+    taskDifficulty: 2
     taskDuration: 600
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 0
   - name: High Nback
     conditionType: 0
@@ -18625,6 +18656,17 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
+    postBreak: 0
+  - name: High ColorShape
+    conditionType: 0
+    taskType: 7
+    taskDifficulty: 3
+    taskDuration: 600
+    nasaQ: 1
+    stfaQ: 0
+    compQ: 0
+    single: 0
     postBreak: 0
   - name: High GoNoGo
     conditionType: 0
@@ -18634,6 +18676,7 @@ MonoBehaviour:
     nasaQ: 1
     stfaQ: 0
     compQ: 0
+    single: 0
     postBreak: 1
   experimentSecondPart: []
   taskOngoing: 0
@@ -18732,26 +18775,26 @@ MonoBehaviour:
     Name: Comparison
     questionnaireType: 2
     questions:
-    - 'Between the two blocks, which one did you prefer? '
-    - 'Between the two blocks, which one was the most stressful? '
-    - Between the two blocks, which one do you feel you performed best on?
-    - 'Between the two blocks, which one was more tiring? '
+    - 'Between the two tasks, which one did you prefer? '
+    - 'Between the two tasks, which one was the most stressful? '
+    - Between the two tasks, which one do you feel you performed best on?
+    - 'Between the two tasks, which one was more tiring? '
     tmin:
-    - Strongly block 1
-    - Strongly block 1
-    - Strongly block 1
-    - Strongly block 1
+    - Strongly task 1
+    - Strongly task 1
+    - Strongly task 1
+    - Strongly task 1
     tmax:
-    - Strongly block 2
-    - Strongly block2
-    - Strongly block 2
-    - Strongly block 2
+    - Strongly task 2
+    - Strongly task
+    - Strongly task 2
+    - Strongly task 2
     withSlider: 00000000
   nbValidationTask: 1
   movementRecorderCSV: {fileID: 2065340272}
   recordMovements: 0
-  instructions: 0
-  validationtablet: 0
+  instructions: 1
+  validationtablet: 1
   launchTasks: 1
   launchingTasks: 0
   clearBatch: 0
@@ -18802,13 +18845,13 @@ MonoBehaviour:
     validationType: 0
   colorShapeDimensionEasy: 0000000001000000
   objectUntilChangeEasy: 050000000600000007000000
-  colorShapeDimensionMedium: 0000000001000000
+  colorShapeDimensionMedium: 02000000
   objectUntilChangeMedium: 040000000500000006000000
   colorShapeDimensionHard: 010000000200000000000000
   objectUntilChangeHard: 030000000400000005000000
   colorShapeTasks: []
   soundColorShapeChange: {fileID: 8300000, guid: d5209d8eee084e440ad3211cd86eb495, type: 3}
-  changeColorShapeTime: 5
+  changeColorShapeTime: 7
   gonoGoTasks:
   - taskDifficulty: 1
     objectDimensions: 00000000
@@ -18841,6 +18884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantId: 1
+  participantNumber: 0
   questionnaireResults: []
   taskResults: []
   currentType: 0
@@ -19019,30 +19063,30 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2065340264}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6311cc69b09fb554caf1a1a19cbeae8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   taskManager: {fileID: 2065340267}
   lSLStreams:
-  - streamName: testlsl
+  - streamName: Unitymarkers
     letType: 2
-    streamType: float
+    streamType: Markers
     channelCount: 1
     outStream: 0
     workloadStream: 0
     receivedData: []
   - streamName: TriggerPress
     letType: 1
-    streamType: string
+    streamType: Markers
     channelCount: 1
     outStream: 1
     workloadStream: 0
     receivedData: []
   - streamName: TrialMarker
     letType: 0
-    streamType: string
+    streamType: Markers
     channelCount: 1
     outStream: 1
     workloadStream: 0
@@ -19666,6 +19710,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &2124138196
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19905,6 +19951,8 @@ MonoBehaviour:
   backupColor:
     serializedVersion: 2
     rgba: 4290295992
+  lastSelect: 0
+  selectdisable: 0.5
 --- !u!65 &2143395829
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20429,7 +20477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8298045291338814965, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.862
+      value: -18.954
       objectReference: {fileID: 0}
     - target: {fileID: 8298045291338814965, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_LocalRotation.w

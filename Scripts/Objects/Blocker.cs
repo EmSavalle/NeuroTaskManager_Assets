@@ -83,14 +83,6 @@ public class Blocker : MonoBehaviour
         leftArrowAction.Enable();
         rightArrowAction.Enable();*/
     }
-    private void OnLeftArrowPressed()
-    {
-        Debug.Log("Left arrow key pressed");
-    }
-    private void OnRightArrowPressed()
-    {
-        Debug.Log("Right arrow key pressed");
-    }
     // Update is called once per frame
     void Update()
     {
@@ -198,16 +190,13 @@ public class Blocker : MonoBehaviour
         movingObject = null;
         switch(tt){
             case TaskType.COLORSHAPE:
-                Debug.Log("Blocker - Readying ColorShape ");
                 yield return StartCoroutine(MoveBlocker(readyPosColorShape,readyRotColorShape));
                 break;
             case TaskType.NBACK:
-                Debug.Log("Blocker - Readying Nback");
                 yield return StartCoroutine(MoveBlocker(readyPosNBack,readyRotNBack));
                 break;
             case TaskType.GONOGO:
                 yield return new WaitForSeconds(0.5f);
-                Debug.Log("Blocker - Readying GoNoGo");
                 yield return StartCoroutine(MoveBlocker(readyPosGoNoGo,readyRotGoNoGo));
                 break;
             default:
@@ -225,16 +214,13 @@ public class Blocker : MonoBehaviour
         movingObject = null;
         switch(tt){
             case TaskType.COLORSHAPE:
-                Debug.Log("Blocker - Readying ColorShape ");
                 yield return StartCoroutine(MoveBlocker(readyPosColorShape,readyRotColorShape));
                 break;
             case TaskType.NBACK:
-                Debug.Log("Blocker - Readying Nback");
                 yield return StartCoroutine(MoveBlocker(readyPosNBack,readyRotNBack));
                 break;
             case TaskType.GONOGO:
                 yield return new WaitForSeconds(0.5f);
-                Debug.Log("Blocker - Readying GoNoGo");
                 yield return StartCoroutine(MoveBlocker(readyPosGoNoGo,readyRotGoNoGo));
                 break;
             default:
@@ -403,7 +389,6 @@ public class Blocker : MonoBehaviour
         
     }
     public void ActivateBlocker(){
-        Debug.Log("Activating blocker");
         StartCoroutine(ObjectExited());
     }
     

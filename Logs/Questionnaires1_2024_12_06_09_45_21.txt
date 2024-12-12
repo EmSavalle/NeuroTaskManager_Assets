@@ -1,0 +1,516 @@
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 6, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 2, 5, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 1, 6, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 3, 1, 3, 4, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 4, 7, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: HIGH
+Questionnaire Answers: 2, 1, 1, 6, 3, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: HIGH
+Questionnaire Answers: 4, 1, 6, 2, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 3, 1, 7, 6, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: POSTBREAK
+Task Type: PREVALIDATION
+Task Difficulty: NONE
+Questionnaire Answers: 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 100, 100, 100, 100, 100, 100, 100, 100
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 5, 4, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 100, 100, 100, 100, 100, 100, 100, 100, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 6, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 2, 5, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 1, 6, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 3, 1, 3, 4, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 4, 7, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: HIGH
+Questionnaire Answers: 2, 1, 1, 6, 3, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: HIGH
+Questionnaire Answers: 4, 1, 6, 2, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 3, 1, 7, 6, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: POSTBREAK
+Task Type: PREVALIDATION
+Task Difficulty: NONE
+Questionnaire Answers: 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 100, 100, 100, 100, 100, 100, 100, 100
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 5, 4, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 100, 100, 100, 100, 100, 100, 100, 100, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 72.45953
+-----
+Questionnaire Type: COMP
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 7, 4, 7, 5
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 6, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 2, 5, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 1, 6, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 3, 1, 3, 4, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 4, 7, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: HIGH
+Questionnaire Answers: 2, 1, 1, 6, 3, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: HIGH
+Questionnaire Answers: 4, 1, 6, 2, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 3, 1, 7, 6, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: POSTBREAK
+Task Type: PREVALIDATION
+Task Difficulty: NONE
+Questionnaire Answers: 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 100, 100, 100, 100, 100, 100, 100, 100
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 5, 4, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 100, 100, 100, 100, 100, 100, 100, 100, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 72.45953
+-----
+Questionnaire Type: COMP
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 7, 4, 7, 5
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 2, 2, 4, 4, 7, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 72.45953, 72.45953, 72.45953, 72.45953, 72.45953, 72.45953, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 92.97969, 92.97969, 92.97969
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 6, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 2, 5, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 1, 6, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 3, 1, 3, 4, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 4, 7, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: HIGH
+Questionnaire Answers: 2, 1, 1, 6, 3, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: HIGH
+Questionnaire Answers: 4, 1, 6, 2, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 3, 1, 7, 6, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: POSTBREAK
+Task Type: PREVALIDATION
+Task Difficulty: NONE
+Questionnaire Answers: 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 100, 100, 100, 100, 100, 100, 100, 100
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 5, 4, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 100, 100, 100, 100, 100, 100, 100, 100, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 72.45953
+-----
+Questionnaire Type: COMP
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 7, 4, 7, 5
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 2, 2, 4, 4, 7, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 72.45953, 72.45953, 72.45953, 72.45953, 72.45953, 72.45953, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 92.97969, 92.97969, 92.97969
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 1, 1, 7, 4, 6, 2
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 92.97969, 92.97969, 92.97969, 92.97969, 92.97969, 83.5228, 83.5228, 83.5228, 83.5228, 83.5228, 83.5228, 29.84359, 29.84359, 29.84359, 29.84359, 29.84359, 29.84359
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 6, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 2, 5, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 1, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 1, 6, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 3, 1, 3, 4, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: MEDIUM
+Questionnaire Answers: 1, 1, 4, 7, 2, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: NBACK
+Task Difficulty: HIGH
+Questionnaire Answers: 2, 1, 1, 6, 3, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: COLORSHAPE
+Task Difficulty: HIGH
+Questionnaire Answers: 4, 1, 6, 2, 5, 1
+-----
+Questionnaire Type: NASA
+Condition Type: CALIBRATION
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 3, 1, 7, 6, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: POSTBREAK
+Task Type: PREVALIDATION
+Task Difficulty: NONE
+Questionnaire Answers: 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 10.35037, 100, 100, 100, 100, 100, 100, 100, 100
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 5, 4, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: NBACK
+Task Difficulty: LOW
+Questionnaire Answers: 100, 100, 100, 100, 100, 100, 100, 100, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 1, 1, 1, 7, 5, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 73.89841, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 86.65765, 72.45953
+-----
+Questionnaire Type: COMP
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: GONOGO
+Task Difficulty: LOW
+Questionnaire Answers: 7, 4, 7, 5
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 2, 2, 4, 4, 7, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: COLORSHAPE
+Task Difficulty: MEDIUM
+Questionnaire Answers: 72.45953, 72.45953, 72.45953, 72.45953, 72.45953, 72.45953, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 36.26771, 92.97969, 92.97969, 92.97969
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 1, 1, 7, 4, 6, 2
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONWORKLOAD
+Task Type: GONOGO
+Task Difficulty: HIGH
+Questionnaire Answers: 92.97969, 92.97969, 92.97969, 92.97969, 92.97969, 83.5228, 83.5228, 83.5228, 83.5228, 83.5228, 83.5228, 29.84359, 29.84359, 29.84359, 29.84359, 29.84359, 29.84359
+-----
+Questionnaire Type: NASA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: NBACK
+Task Difficulty: HIGH
+Questionnaire Answers: 6, 4, 4, 2, 7, 1
+-----
+Questionnaire Type: STFA
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: NBACK
+Task Difficulty: HIGH
+Questionnaire Answers: 29.84359, 29.84359, 29.84359, 94.3279, 94.3279, 94.3279, 55.23426, 55.23426, 55.23426, 55.23426, 55.23426, 55.23426, 55.23426, 80.00612, 80.00612, 80.00612, 80.00612
+-----
+Questionnaire Type: COMP
+Condition Type: VALIDATIONPERFORMANCE
+Task Type: NBACK
+Task Difficulty: HIGH
+Questionnaire Answers: 1, 6, 1, 7
+-----
+Questionnaire Type: STFA
+Condition Type: POSTBREAK
+Task Type: PREVALIDATION
+Task Difficulty: NONE
+Questionnaire Answers: 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245, 91.59245
+-----

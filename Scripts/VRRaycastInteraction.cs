@@ -19,6 +19,7 @@ public class VRRaycastInteraction : MonoBehaviour
     public bool triggerPressed;
     public bool left;
     public bool isTriggered;
+    public bool wasPressed = false;
     void Start()
     {
     }
@@ -37,14 +38,17 @@ public class VRRaycastInteraction : MonoBehaviour
             }
             inputDeviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.trigger, out triggerValue);
             inputDeviceRight.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerPressed);
-            if(triggerValue != 0 || triggerPressed ){
+            if((triggerValue != 0 || triggerPressed) && !wasPressed)
+            {
                 Debug.Log("Questionnaire trigger press");
                 triggerPressed = true;
                 isTriggered = true;
+                wasPressed = true;
             }
             else{
                 triggerPressed = false;
                 isTriggered = false;
+                wasPressed = false;
             }
         }
         else{
@@ -56,14 +60,17 @@ public class VRRaycastInteraction : MonoBehaviour
             }
             inputDeviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.trigger, out triggerValue);
             inputDeviceLeft.TryGetFeatureValue(UnityEngine.XR.CommonUsages.triggerButton, out triggerPressed);
-            if(triggerValue != 0 || triggerPressed ){
+            if((triggerValue != 0 || triggerPressed ) && !wasPressed)
+            {
                 Debug.Log("Questionnaire trigger press");
                 triggerPressed = true;
                 isTriggered = true;
+                wasPressed = true;
             }
             else{
                 triggerPressed = false;
                 isTriggered = false;
+                wasPressed = false;
             }
         }
 
@@ -79,8 +86,23 @@ public class VRRaycastInteraction : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<QuestionnaireButton>() != null){
+        if (other.gameObject.GetComponent<QuestionnaireButton>() != null)
+        {
             hit = other.gameObject.GetComponent<QuestionnaireButton>();
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.GetComponent<QuestionnaireButton>() != null)
+        {
+            hit = other.gameObject.GetComponent<QuestionnaireButton>();
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<QuestionnaireButton>() != null)
+        {
+            hit = null;
         }
     }
 }

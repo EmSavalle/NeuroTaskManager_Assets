@@ -42,9 +42,9 @@ public class PerformanceModel : UserModel
 
     public PerformanceTaskResult ComputeScore(PerformanceTaskResult ptr){
         if(ptr.numberOfError+ptr.numberOfSuccess+ptr.numberOfMissed == 0){
-            ptr.performance = 0;
-            ptr.errorRate = 0;
-            ptr.score = 0;
+            ptr.performance = 0f;
+            ptr.errorRate = 0f;
+            ptr.score = 0f;
             return ptr;
         }
         float performance,errorRate,score;
@@ -56,7 +56,7 @@ public class PerformanceModel : UserModel
             else{
                 errorRate = 1;
             }
-            score = (ptr.numberOfSuccess-ptr.numberOfError)/taskMaxPerformances[ptr.taskType];
+            score = (ptr.numberOfSuccess)/taskMaxPerformances[ptr.taskType];
         }
         else{
             performance = (ptr.numberOfError+ptr.numberOfSuccess)/(ptr.numberOfError+ptr.numberOfSuccess+ptr.numberOfMissed);
@@ -66,8 +66,9 @@ public class PerformanceModel : UserModel
             else{
                 errorRate = 1;
             }
-            score = (ptr.numberOfSuccess-ptr.numberOfError)/(ptr.numberOfError+ptr.numberOfSuccess+ptr.numberOfMissed);
+            score = (ptr.numberOfSuccess)/(ptr.numberOfError+ptr.numberOfSuccess+ptr.numberOfMissed);
         }
+        score = Math.Max(0, score);
         ptr.performance = performance;
         ptr.errorRate = errorRate;
         ptr.score = score;
@@ -81,9 +82,9 @@ public struct PerformanceTaskResult{
     public TaskType taskType;
     
     public TaskDifficulty taskDifficulty;
-    public int numberOfError;
-    public int numberOfMissed;
-    public int numberOfSuccess;
+    public float numberOfError;
+    public float numberOfMissed;
+    public float numberOfSuccess;
     public float performance;
     public float errorRate;
     public float score;

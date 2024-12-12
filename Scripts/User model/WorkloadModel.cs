@@ -21,7 +21,9 @@ public class WorkloadModel : UserModel
     }
     public override void ProcessResults(){
         float minWork=1,maxWork=0,avgWork=0;
+        List<float> allworks = new List<float>();
         foreach(WorkloadTaskResult wtr in workloadTaskResults){
+            allworks.AddRange(wtr.workloads);
             minWork = Mathf.Min(wtr.minWorkload, minWork);
             maxWork = Mathf.Max(wtr.maxWorkload, maxWork);
         }
@@ -33,6 +35,7 @@ public class WorkloadModel : UserModel
             wtr.overallMaxWorkload = maxWork;
             wtr.overallMeanWorkload = avgWork;
             wtr.overallMinWorkload = minWork;
+            wtr.overallMedianWorkload = Median(allworks);
             workloadTaskResults[i]=wtr;
             Tuple<TaskType,TaskDifficulty,float> tp = new Tuple<TaskType, TaskDifficulty, float>(wtr.taskType, wtr.taskDifficulty,wtr.score);
             taskScore.Add(tp);
@@ -59,11 +62,18 @@ public class WorkloadModel : UserModel
         float workMean = wtr.meanWorkload;
         float workMax = wtr.maxWorkload;
         float workMin = wtr.minWorkload;
-        return Math.Abs((workMean - ((workMax+workMin)/2))/(workMax-workMin));
+        float median = wtr.overallMedianWorkload;
+        //MAD Score
+        /*List<float> madScore= new List<float>();
+        for(int i = 0; i < wtr.workloads.Count; i++){
+            madScore.Add(Math.Abs(median-wtr.workloads[i]));
+        }
+        return Median(madScore);*/
+        return 1-Math.Abs((workMean - ((workMax+workMin)/2))/(workMax-workMin));
     }
     public float ComputeScore(WorkloadTaskResult wtr,float avgWork, float minWork, float maxWork){
         float workMean = wtr.meanWorkload;
-        return Math.Abs((workMean - avgWork)/(maxWork-minWork));
+        return 1-Math.Abs((workMean - avgWork)/(maxWork-minWork));
     }
     public static float Median(List<float> numbers)
     {
@@ -109,6 +119,7 @@ public struct WorkloadTaskResult{
     public float minWorkload;
     public float maxWorkload;
     public float meanWorkload;
+    public float overallMedianWorkload;
     public List<float> workloads;
 
     public float localScore;

@@ -109,13 +109,17 @@ public class UserModel : MonoBehaviour
     }
     public void SaveSolution()
     {
-        string filePath = Application.dataPath+"Solution_"+modelType.ToString()+participantInfos.participantId+".txt";
+        string filePath = Application.dataPath+"/Logs/"+"Solution_"+modelType.ToString()+participantInfos.participantId+".txt";
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
             writer.WriteLine("Model type : "+solution.modelType.ToString());
             writer.WriteLine("Task Low : "+solution.taskTypeLow.ToString());
             writer.WriteLine("Task Medium : "+solution.taskTypeMedium.ToString());
-            writer.WriteLine("Task High : "+solution.taskTypeHigh.ToString());            
+            writer.WriteLine("Task High : "+solution.taskTypeHigh.ToString());
+            for (int i = 0; i < taskScore.Count; i++)
+            {
+                writer.WriteLine("Type : " + taskScore[i].Item1.ToString() + " Difficulty : " + taskScore[i].Item2.ToString() + " Score : " + taskScore[i].Item3.ToString());
+            }
         }
     }
 }

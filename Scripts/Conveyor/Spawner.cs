@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour
             Debug.Log("Spawner - Spawning started");
         }
         if(t.taskType == TaskType.COLORSHAPE){
-            yield return StartCoroutine(tm.UpdateColorShapeTask());
+            yield return StartCoroutine(tm.UpdateColorShapeTask(true));
         }
         spawning=true;
         System.Random rnd = new System.Random();

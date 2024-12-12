@@ -7,6 +7,7 @@ using UnityEngine;
 public class ParticipantInfos : MonoBehaviour
 {
     public string participantId;
+    public int participantNumber;
 
     public List<QuestionnaireResults> questionnaireResults;
     public List<TaskResults> taskResults;
@@ -41,6 +42,9 @@ public class ParticipantInfos : MonoBehaviour
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
         participantId = content;
+        int number = 0;
+        int.TryParse(participantId, out number);
+        participantNumber = number;
         participantId += System.DateTime.Now.ToString("_yyyy_MM_dd_HH_mm_ss");
     }
 
@@ -57,7 +61,7 @@ public class ParticipantInfos : MonoBehaviour
     }
     public void SaveQuestionnaireResultsToFile()
     {
-        string filePath = Application.dataPath+"Questionnaires"+participantId+".txt";
+        string filePath = Application.dataPath + "/Logs/" + "Questionnaires"+participantId+".txt";
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
             foreach (var result in questionnaireResults)
@@ -73,7 +77,7 @@ public class ParticipantInfos : MonoBehaviour
     }
     public void SaveTaskResultsToFile()
     {
-        string filePath = Application.dataPath+"Results"+participantId+".txt";
+        string filePath = Application.dataPath + "/Logs/" + "Results"+participantId+".txt";
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
             foreach (var result in taskResults)
@@ -91,9 +95,6 @@ public class ParticipantInfos : MonoBehaviour
                 writer.WriteLine("Number of Successes: " + result.numberOfSuccess);
                 writer.WriteLine("Number of Missed: " + result.numberOfMissed);
 
-                // Write task status
-                writer.WriteLine("Ongoing Task: " + result.ongoingTask);
-                writer.WriteLine("Ended: " + result.ended);
 
                 writer.WriteLine("-----"); // Separate entries with a line
             }
@@ -133,19 +134,19 @@ public class ParticipantInfos : MonoBehaviour
         }
     }
     public void TaskSuccess(){
-        Debug.Log("Task Process - Success !");
+        //Debug.Log("Task Process - Success !");
         TaskResults tr = taskResults[^1];
         tr.numberOfSuccess+=1;
         taskResults[^1]=tr;
     }
     public void TaskError(){
-        Debug.Log("Task Process - Error !");
+        //Debug.Log("Task Process - Error !");
         TaskResults tr = taskResults[^1];
         tr.numberOfError+=1;
         taskResults[^1]=tr;
     }
     public void TaskMissed(){
-        Debug.Log("Task Process - Missed !");
+        //Debug.Log("Task Process - Missed !");
         TaskResults tr = taskResults[^1];
         tr.numberOfMissed+=1;
         taskResults[^1]=tr;

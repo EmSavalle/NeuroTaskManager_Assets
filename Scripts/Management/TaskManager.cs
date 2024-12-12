@@ -80,7 +80,6 @@ public class TaskManager : MonoBehaviour
         for( int i = 0; i < tasks.Count; i++){
              
             if(tasks[i].items.used){
-                Debug.Log("Setup tasks items "+tasks[i].taskType.ToString());
                 tasks[i]=GenerateItemsTask(tasks[i]);
             }       
         }
@@ -165,16 +164,23 @@ public class TaskManager : MonoBehaviour
     public IEnumerator StartTask(Task t){
         onGoingTask = true;
         currentTask = t;
-        if(verbose){
-            Debug.Log("Task started");
-        }
         lSLManager.SendExperimentStep(ExperimentStep.TASKSTART);
         currentTaskType = t.taskType;
         participantInfos.StartNewTask(t,currentTaskType,currentCondition,currentDifficulty);
         taskOngoing=true;
         //1. Task setup
-        int duration=task1stDuration;
+        int duration = task1stDuration;
         t.duration = task1stDuration;
+        if (currentCondition == ConditionType.CALIBRATION)
+        {
+            duration = task1stDuration;
+            t.duration = task1stDuration;
+        }
+        else
+        {
+            duration = task2ndDuration;
+            t.duration = task2ndDuration;
+        }
         List<GameObject> objects=t.objects;
         List<string> objectGoal=t.objectGoal;
         bool continuousBelt=t.continuousBelt;
@@ -186,7 +192,6 @@ public class TaskManager : MonoBehaviour
         prepTasks();
         //Initializing belt & spawner
         yield return StartCoroutine(belt.InitialyzeBelt(t));
-        Debug.Log("Belt initialyzed");
 
         // 2. Instructions
         informationDisplay.text=t.initInstructions;//Display instructions
@@ -250,7 +255,6 @@ public class TaskManager : MonoBehaviour
             movementRecorderCSV.StopRecording();
         }
         participantInfos.EndTask();
-        Debug.Log("Waiting for clearance");
         using (StreamWriter writer = new StreamWriter(filePath, append: true)) // 'append: true' to append if file exists
         {
             writer.WriteLine("Waiting for clearance");
@@ -272,7 +276,6 @@ public class TaskManager : MonoBehaviour
         }
         
         lSLManager.SendExperimentStep(ExperimentStep.TASKEND);
-        Debug.Log("Clearance attained");
         yield break;
     }
     
@@ -321,6 +324,9 @@ public class TaskManager : MonoBehaviour
             Debug.Log("Break ended");
         }
         breakOngoing = false;
+        yield return StartCoroutine(qTablet.StartTablet());
+        yield return StartCoroutine(StartQuestionnaire(stfa, TaskType.PREVALIDATION, ConditionType.POSTBREAK, TaskDifficulty.NONE));
+        yield return StartCoroutine(qTablet.EndTablet());
         yield break;
     }
     public IEnumerator StartQuestionnaire(Questionnaire q,TaskType tt, ConditionType ct, TaskDifficulty td){
@@ -384,6 +390,10 @@ public class TaskManager : MonoBehaviour
                 }if(ep.compQ){
                     yield return StartCoroutine(StartQuestionnaire(comp,currentTaskType,currentCondition,currentDifficulty));
                 }
+                if (ep.single)
+                {
+                    yield return StartCoroutine(StartSingle());
+                }
                 if(ep.nasaQ || ep.stfaQ || ep.compQ){
                     
                     yield return StartCoroutine(qTablet.EndTablet());
@@ -393,7 +403,9 @@ public class TaskManager : MonoBehaviour
             //Break
             if(ep.postBreak){
                 if(verbose){Debug.Log("Paradigm - Start Break");}
+                lSLManager.SendExperimentStep(ExperimentStep.BREAKSTART);
                 yield return StartCoroutine(StartBreak());
+                lSLManager.SendExperimentStep(ExperimentStep.BREAKEND);
             }
         }
         //Second part
@@ -418,7 +430,7 @@ public class TaskManager : MonoBehaviour
                 TaskType tt = ep.taskType;
                 Task t = new Task();
                 foreach (Task check in tasks){
-                    if(check.taskType==tt){
+                    if(check.taskType==tt && check.taskDifficulty == ep.taskDifficulty){
                         t=check;
                     }
                 }
@@ -431,27 +443,33 @@ public class TaskManager : MonoBehaviour
                 yield return StartCoroutine(StartTask(t));
 
 
-                if(verbose){Debug.Log("Paradigm - Start Tablet");}
-                //Questionnaire
-                yield return StartCoroutine(qTablet.StartTablet());
-                
-                //NASA Questionnaire
-                if(verbose){Debug.Log("Paradigm - Start NASA");}
-                if(ep.nasaQ){yield return StartCoroutine(StartQuestionnaire(nasa,tt,ep.conditionType,ep.taskDifficulty));}
-                
-                //Fatigue & stress Questionnaire
-                if(verbose){Debug.Log("Paradigm - Start stfa");}
-                if(ep.stfaQ){yield return StartCoroutine(StartQuestionnaire(stfa,tt,ep.conditionType,ep.taskDifficulty));}
-                
-                //Comparison Questionnaire
-                if(verbose){Debug.Log("Paradigm - Start Comb");}
-                if(ep.compQ){yield return StartCoroutine(StartQuestionnaire(comp,tt,ep.conditionType,ep.taskDifficulty));}
 
-                if(verbose){Debug.Log("Paradigm - End Tablet");}
-                yield return StartCoroutine(qTablet.EndTablet());
+                if (!bypassQuestionnaires)
+                {
+                    if (verbose) { Debug.Log("Paradigm - Start Tablet"); }
+                    //Questionnaire
+                    yield return StartCoroutine(qTablet.StartTablet());
+                    //NASA Questionnaire
+                    if (verbose) { Debug.Log("Paradigm - Start NASA"); }
+                    if (ep.nasaQ) { yield return StartCoroutine(StartQuestionnaire(nasa, tt, ep.conditionType, ep.taskDifficulty)); }
 
+                    //Fatigue & stress Questionnaire
+                    if (verbose) { Debug.Log("Paradigm - Start stfa"); }
+                    if (ep.stfaQ) { yield return StartCoroutine(StartQuestionnaire(stfa, tt, ep.conditionType, ep.taskDifficulty)); }
+
+                    //Comparison Questionnaire
+                    if (verbose) { Debug.Log("Paradigm - Start Comb"); }
+                    if (ep.compQ) { yield return StartCoroutine(StartQuestionnaire(comp, tt, ep.conditionType, ep.taskDifficulty)); }
+
+                    if (verbose) { Debug.Log("Paradigm - End Tablet"); }
+                    yield return StartCoroutine(qTablet.EndTablet());
+                }
+                if (ep.single)
+                {
+                    yield return StartCoroutine(StartSingle());
+                }
                 //Break
-                if(ep.postBreak){
+                if (ep.postBreak){
                     if(verbose){Debug.Log("Paradigm - Start Break");}
                     yield return StartCoroutine(StartBreak());
                 }
@@ -484,107 +502,1137 @@ public class TaskManager : MonoBehaviour
         }
         workloadSolution = models[indW].solution;
         performanceSolution = models[indP].solution;
-
+        int nb = participantInfos.participantNumber;
         // Low diff
         //Workload
-        TaskType lowWork = workloadSolution.taskTypeLow;
-        TaskType medWork = workloadSolution.taskTypeMedium;
-        TaskType highWork = workloadSolution.taskTypeHigh;
-        TaskType lowPerf = performanceSolution.taskTypeLow;
-        TaskType midPerf = performanceSolution.taskTypeMedium;
-        TaskType highPerf = performanceSolution.taskTypeHigh;
+
         ExperimentPart ep = new ExperimentPart();
-        List<TaskType> workType = new List<TaskType>{lowWork,lowWork,medWork,medWork,highWork,highWork};
-        List<TaskType> perfType = new List<TaskType>{lowPerf,lowPerf,midPerf,midPerf,highPerf,highPerf};
-        while(HasConsecutiveDuplicates(workType)){
-            RandomizeList(workType);
-        }
-        while(HasConsecutiveDuplicates(perfType)){
-            RandomizeList(perfType);
-        }
-        List<ExperimentPart> work = new List<ExperimentPart>();
-        List<ExperimentPart> perf = new List<ExperimentPart>();
-        
-        int result = int.TryParse(participantInfos.participantId, out int number) && number % 2 == 0 ? 0 : 1;
-        List<TaskType> done = new List<TaskType>();
-        TaskType t1;
-        for (int i = 0; i < workType.Count; i++){
-            ep = new ExperimentPart();
-            t1 = workType[i];
-            ep.taskType = t1;
-            
-            if(done.Contains(t1)){
-                ep.conditionType = ConditionType.VALIDATIONWORKLOAD2;
-            }
-            else{
-                ep.conditionType = ConditionType.VALIDATIONWORKLOAD1;
-            }
-            done.Add(t1);
-            if(t1==lowWork){
+        if (nb % 6 == 0 )
+        {
+            if (workloadSolution.taskTypeLow == performanceSolution.taskTypeLow)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeLow;
                 ep.taskDifficulty = TaskDifficulty.LOW;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
             }
-            else if(t1==medWork){
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 2 || nb % 8 == 3)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+
+            // Medium diff
+            //Workload
+            if (workloadSolution.taskTypeMedium == performanceSolution.taskTypeMedium)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeMedium;
                 ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
             }
-            else{
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 4 || nb % 8 == 5)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+            // High diff
+            //Workload
+            if (workloadSolution.taskTypeHigh == performanceSolution.taskTypeHigh)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeHigh;
                 ep.taskDifficulty = TaskDifficulty.HIGH;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
             }
-            ep.nasaQ=true;
-            ep.stfaQ=true;
-            ep.postBreak= i == workType.Count-1;
-            
-            work.Add(ep);
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 2 || nb % 8 == 4 || nb % 8 == 6)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+
+            }
+
         }
-        done = new List<TaskType>();
-        for (int i = 0; i < perfType.Count; i++){
-            ep = new ExperimentPart();
-            t1 = perfType[i];
-            ep.taskType = t1;
-            
-            if(done.Contains(t1)){
-                ep.conditionType = ConditionType.VALIDATIONPERFORMANCE2;
-            }
-            else{
-                ep.conditionType = ConditionType.VALIDATIONPERFORMANCE1;
-            }
-            done.Add(t1);
-            if(t1==lowPerf){
+        else if (nb % 6 == 1)
+        {
+            if (workloadSolution.taskTypeLow == performanceSolution.taskTypeLow)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeLow;
                 ep.taskDifficulty = TaskDifficulty.LOW;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
             }
-            else if(t1==midPerf){
-                ep.taskDifficulty = TaskDifficulty.MEDIUM;
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 2 || nb % 8 == 3)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
             }
-            else{
+            // High diff
+            //Workload
+            if (workloadSolution.taskTypeHigh == performanceSolution.taskTypeHigh)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeHigh;
                 ep.taskDifficulty = TaskDifficulty.HIGH;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
             }
-            ep.nasaQ=true;
-            ep.stfaQ=true;
-            ep.postBreak= i == workType.Count-1;
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 2 || nb % 8 == 4 || nb % 8 == 6)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+
+            }
+
+            // Medium diff
+            //Workload
+            if (workloadSolution.taskTypeMedium == performanceSolution.taskTypeMedium)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeMedium;
+                ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 4 || nb % 8 == 5)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
             
-            perf.Add(ep);
         }
-        if(result == 1){
-            for (int i = 0; i < work.Count; i++){
-                experimentSecondPart.Add(work[i]);
+        else if (nb % 6 == 2)
+        {
+            
+            // Medium diff
+            //Workload
+            if (workloadSolution.taskTypeMedium == performanceSolution.taskTypeMedium)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeMedium;
+                ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
             }
-            for (int i = 0; i < perf.Count; i++){
-                experimentSecondPart.Add(perf[i]);
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 4 || nb % 8 == 5)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+            // High diff
+            //Workload
+            if (workloadSolution.taskTypeHigh == performanceSolution.taskTypeHigh)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeHigh;
+                ep.taskDifficulty = TaskDifficulty.HIGH;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 2 || nb % 8 == 4 || nb % 8 == 6)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.compQ = false;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+
+            }
+            
+            if (workloadSolution.taskTypeLow == performanceSolution.taskTypeLow)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeLow;
+                ep.taskDifficulty = TaskDifficulty.LOW;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 2 || nb % 8 == 3)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.compQ = false;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.compQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+
+        }
+        else if (nb % 6 == 3)
+        {
+            // Medium diff
+            //Workload
+            if (workloadSolution.taskTypeMedium == performanceSolution.taskTypeMedium)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeMedium;
+                ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 4 || nb % 8 == 5)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+            
+            if (workloadSolution.taskTypeLow == performanceSolution.taskTypeLow)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeLow;
+                ep.taskDifficulty = TaskDifficulty.LOW;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 2 || nb % 8 == 3)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+            // High diff
+            //Workload
+            if (workloadSolution.taskTypeHigh == performanceSolution.taskTypeHigh)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeHigh;
+                ep.taskDifficulty = TaskDifficulty.HIGH;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 2 || nb % 8 == 4 || nb % 8 == 6)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+
+            }
+
+            
+        }
+        else if (nb % 6 == 4)
+        {
+            // High diff
+            //Workload
+            if (workloadSolution.taskTypeHigh == performanceSolution.taskTypeHigh)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeHigh;
+                ep.taskDifficulty = TaskDifficulty.HIGH;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 2 || nb % 8 == 4 || nb % 8 == 6)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.nasaQ = true;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+
+            }
+            if (workloadSolution.taskTypeLow == performanceSolution.taskTypeLow)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeLow;
+                ep.taskDifficulty = TaskDifficulty.LOW;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 2 || nb % 8 == 3)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+
+            // Medium diff
+            //Workload
+            if (workloadSolution.taskTypeMedium == performanceSolution.taskTypeMedium)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeMedium;
+                ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 4 || nb % 8 == 5)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
             }
             
         }
-        else{
-            for (int i = 0; i < perf.Count; i++){
-                experimentSecondPart.Add(perf[i]);
+        else if (nb % 6 == 5)
+        {
+            // High diff
+            //Workload
+            if (workloadSolution.taskTypeHigh == performanceSolution.taskTypeHigh)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeHigh;
+                ep.taskDifficulty = TaskDifficulty.HIGH;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
             }
-            for (int i = 0; i < work.Count; i++){
-                experimentSecondPart.Add(work[i]);
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 2 || nb % 8 == 4 || nb % 8 == 6)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeHigh;
+                    ep.taskDifficulty = TaskDifficulty.HIGH;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+
             }
-            
+
+            // Medium diff
+            //Workload
+            if (workloadSolution.taskTypeMedium == performanceSolution.taskTypeMedium)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeMedium;
+                ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 4 || nb % 8 == 5)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = false;
+                    ep.nasaQ = true;
+                    ep.stfaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeMedium;
+                    ep.taskDifficulty = TaskDifficulty.MEDIUM;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+            if (workloadSolution.taskTypeLow == performanceSolution.taskTypeLow)
+            {
+                ep = new ExperimentPart();
+                ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                ep.taskType = workloadSolution.taskTypeLow;
+                ep.taskDifficulty = TaskDifficulty.LOW;
+                ep.compQ = false;
+                ep.stfaQ = true;
+                ep.nasaQ = true;
+                ep.single = true;
+                experimentSecondPart.Add(ep);
+            }
+            else
+            {
+                if (nb % 8 == 0 || nb % 8 == 1 || nb % 8 == 2 || nb % 8 == 3)
+                {
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = false;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    experimentSecondPart.Add(ep);
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+                else
+                {
+                    //Performance
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONPERFORMANCE;
+                    ep.taskType = performanceSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.compQ = false;
+                    experimentSecondPart.Add(ep);
+                    //Workload
+                    ep = new ExperimentPart();
+                    ep.conditionType = ConditionType.VALIDATIONWORKLOAD;
+                    ep.taskType = workloadSolution.taskTypeLow;
+                    ep.taskDifficulty = TaskDifficulty.LOW;
+                    ep.compQ = true;
+                    ep.stfaQ = true;
+                    ep.nasaQ = true;
+                    ep.postBreak = true;
+                    experimentSecondPart.Add(ep);
+                }
+            }
+
         }
-        ExperimentPart eplast = experimentSecondPart[^1];
-        eplast.compQ = true;
-        experimentSecondPart[^1] = eplast;
-        
+
     }
 
     public static (List<int> generatedList, int nBackCount, List<bool> nBackIndicators) GenerateNBackList(int a, int b, int X, float percentage, int n)
@@ -633,8 +1681,12 @@ public class TaskManager : MonoBehaviour
 
         return (result, Y, nBackIndicators); // Return the list, the count of n-back values, and the indicator list
     }
-
-    public IEnumerator UpdateColorShapeTask(){
+    public IEnumerator UpdateColorShapeTask()
+    {
+        yield return StartCoroutine(UpdateColorShapeTask(false));
+    }
+    public IEnumerator UpdateColorShapeTask(bool force){
+        
         ColorShapeTask cst; 
         List<ObjectDimension> ods;
         int currentTasColor= -1;
@@ -661,7 +1713,11 @@ public class TaskManager : MonoBehaviour
                 break;
         }
         cst.nbObjectSinceChange+=1;
-        if(cst.nbObjectSinceChange>=cst.currentObjectsUntilChange){
+        if (force)
+        {
+            cst.nbObjectSinceChange = 100;
+        }
+        if (cst.nbObjectSinceChange>=cst.currentObjectsUntilChange){
             cst.nbObjectSinceChange=0;
             ObjectDimension od = cst.currentDimension;
             ObjectDimension newOd = od;
@@ -673,19 +1729,21 @@ public class TaskManager : MonoBehaviour
             }
             if(cst.swapMiniParameter){
                 // Randomize the selection of the hyper parameter
-                if(UnityEngine.Random.Range(0, 2)==0){
+                if(UnityEngine.Random.Range(0, 2) == 0 || cst.forceSwap){
                     // Swap values in textSorting
                     var tempText = cst.textSorting[ItemText.NUMBER];
                     cst.textSorting[ItemText.NUMBER] =cst.textSorting[ItemText.LETTER];
                     cst.textSorting[ItemText.LETTER] = tempText;
                 }
-                if(UnityEngine.Random.Range(0, 2)==0){
+                if(UnityEngine.Random.Range(0, 2)== 0 || cst.forceSwap)
+                {
                     // Swap values in shapeSorting
                     var tempShape = cst.shapeSorting[ItemShape.CUBE];
                     cst.shapeSorting[ItemShape.CUBE] = cst.shapeSorting[ItemShape.SPHERE];
                     cst.shapeSorting[ItemShape.SPHERE] = tempShape;
                 }
-                if(UnityEngine.Random.Range(0, 2)==0){
+                if(UnityEngine.Random.Range(0, 2)== 0 || cst.forceSwap)
+                {
                     // Swap values in colorSorting
                     var tempColor = cst.colorSorting[ItemColor.RED];
                     cst.colorSorting[ItemColor.RED] = cst.colorSorting[ItemColor.GREEN];
@@ -693,7 +1751,6 @@ public class TaskManager : MonoBehaviour
                 }
             }
             infoPannelSetter.UpdateColorShape();
-            Debug.Log("Color shape text changed");
             if(soundColorShapeChange != null){
                 lSLManager.SendExperimentStep(ExperimentStep.SOUND);
                 AudioSource aso = gameObject.GetComponent<AudioSource>();
@@ -701,10 +1758,8 @@ public class TaskManager : MonoBehaviour
                     aso.PlayOneShot(soundColorShapeChange);
                 }
             }
-            Debug.Log("Color shape wait");
             yield return new WaitForSeconds(changeColorShapeTime);
             
-            Debug.Log("Color shape waited");
         }
         colorShapeTasks[currentTasColor]=cst;
         yield break;
@@ -832,7 +1887,7 @@ public struct ExperimentPart{
     public TaskType taskType;
     public TaskDifficulty taskDifficulty;
     public int taskDuration;
-    public bool nasaQ,stfaQ,compQ;
+    public bool nasaQ,stfaQ,compQ,single;
     public bool postBreak;
 }
 [Serializable]
@@ -859,7 +1914,7 @@ public struct ItemsRequirements{
     public bool exactValue;
 }
 public enum RequirementType {COLOR,SHAPE,NUMBER};
-public enum ConditionType {POSTBREAK,CALIBRATION,VALIDATION,PREVALIDATION,VALIDATIONWORKLOAD1,VALIDATIONWORKLOAD2,VALIDATIONPERFORMANCE1,VALIDATIONPERFORMANCE2};
+public enum ConditionType { POSTBREAK, CALIBRATION, VALIDATION, PREVALIDATION, VALIDATIONWORKLOAD, VALIDATIONPERFORMANCE }//,VALIDATIONWORKLOAD1,VALIDATIONWORKLOAD2,VALIDATIONPERFORMANCE1,VALIDATIONPERFORMANCE2, VALIDATIONWORKLOAD };
 public enum MicroTaskEnd {NONE,BUTTONPRESS,DELIVERY};
 
 public enum TaskType {SORTING,MATCHING,ASSEMBLY,QUALITY,COUNTING,NBACK,PREVALIDATION,COLORSHAPE,GONOGO};
@@ -921,6 +1976,7 @@ public struct ColorShapeTask{
     public int currentObjectsUntilChange;
     public bool test;
     public bool swapMiniParameter;
+    public bool forceSwap;
     public bool hasHyperDimension;
     public Dictionary<ItemColor, string> colorSorting;
     public Dictionary<ItemShape, string> shapeSorting;
@@ -948,21 +2004,24 @@ public struct ColorShapeTask{
             objectsUntilChange = tm.objectUntilChangeEasy;
             currentDimension = ObjectDimension.COLOR;
             swapMiniParameter=false;
-            hasHyperDimension=false;
+            forceSwap = false;
+            hasHyperDimension =false;
         }
         else if (diff == TaskDifficulty.MEDIUM){
-            currentDimension = ObjectDimension.COLOR;
+            currentDimension = ObjectDimension.TEXT;
             taskDifficulty = TaskDifficulty.MEDIUM;
             objectsUntilChange = tm.objectUntilChangeMedium;
-            swapMiniParameter=false;
-            hasHyperDimension=true;
+            swapMiniParameter=true;
+            forceSwap = true;
+            hasHyperDimension =true;
         }
         else{
             currentDimension = ObjectDimension.TEXT;
             taskDifficulty = TaskDifficulty.HIGH;
             objectsUntilChange = tm.objectUntilChangeHard;
             swapMiniParameter=true;
-            hasHyperDimension=true;
+            forceSwap = false;
+            hasHyperDimension =true;
         }
         currentObjectsUntilChange = objectsUntilChange[UnityEngine.Random.Range(0, objectsUntilChange.Count)];
         colorSort = new Tuple<ItemColor, ItemColor>(ItemColor.RED,ItemColor.GREEN);
@@ -990,4 +2049,4 @@ public struct GonoGoTask{
 public enum ItemText {NUMBER,LETTER};
 [Serializable]
 public enum ObjectDimension {COLOR,SHAPE,TEXT,NONE};
-public enum ExperimentStep {TASKSTART,QUESTIONNAIRESTART,TASKEND,QUESTIONNAIREEND,SOUND,EXPERIMENTSTART,EXPERIMENTSTOP}
+public enum ExperimentStep {TASKSTART,QUESTIONNAIRESTART,TASKEND,QUESTIONNAIREEND,SOUND,EXPERIMENTSTART,EXPERIMENTSTOP, BREAKSTART,BREAKEND}

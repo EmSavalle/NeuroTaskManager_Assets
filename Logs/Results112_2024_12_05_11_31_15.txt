@@ -1,0 +1,297 @@
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.826275, -1.814161, -1.794869, -1.797988, -1.832083, -1.809865, -1.801678, -1.845942, -1.828431, -1.825614, -1.843347, -1.775833, -1.792544, -1.810425, -1.851726, -1.819262, -1.825369
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.816524, -1.832636, -1.805516, -1.862799, -1.805737, -1.826027, -1.839267, -1.795854, -1.790502, -1.78318, -1.801764, -1.825647, -1.858341, -1.808236
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.801857, -1.803815, -1.800951, -1.795087, -1.812773, -1.828257, -1.844944, -1.819373, -1.848155, -1.791183, -1.814339, -1.786875
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.816548, -1.800258, -1.836632, -1.790679, -1.825824, -1.817614, -1.79232, -1.835593, -1.804535, -1.833012, -1.819508, -1.836272
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.837267, -1.818939, -1.799233, -1.821882, -1.780922, -1.836772, -1.781221, -1.841833, -1.814999, -1.840287, -1.8335, -1.860398, -1.798688
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.825299, -1.805474, -1.800116, -1.806249, -1.827151, -1.841667, -1.814728, -1.839159, -1.814709, -1.808579, -1.825838, -1.854326, -1.837172, -1.800101, -1.828021, -1.783025, -1.804143
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.835723, -1.793578, -1.810703, -1.78905, -1.812243, -1.779893, -1.807136, -1.817125, -1.814515, -1.836902, -1.789034, -1.856124
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.814362, -1.827811, -1.787087, -1.852702, -1.796275, -1.805879, -1.804182, -1.828131, -1.804333, -1.795764, -1.843235, -1.82581, -1.833322, -1.797689, -1.798596, -1.800145, -1.803493
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.795216, -1.854532, -1.795273, -1.84709, -1.80621, -1.842834, -1.82473, -1.807642, -1.772728, -1.790735, -1.821354, -1.781707
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: VALIDATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.813128, -1.772922, -1.794393, -1.836236, -1.835537, -1.798133, -1.82785, -1.796853, -1.821567, -1.79516, -1.803236, -1.764015
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.826275, -1.814161, -1.794869, -1.797988, -1.832083, -1.809865, -1.801678, -1.845942, -1.828431, -1.825614, -1.843347, -1.775833, -1.792544, -1.810425, -1.851726, -1.819262, -1.825369
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.816524, -1.832636, -1.805516, -1.862799, -1.805737, -1.826027, -1.839267, -1.795854, -1.790502, -1.78318, -1.801764, -1.825647, -1.858341, -1.808236
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.801857, -1.803815, -1.800951, -1.795087, -1.812773, -1.828257, -1.844944, -1.819373, -1.848155, -1.791183, -1.814339, -1.786875
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.816548, -1.800258, -1.836632, -1.790679, -1.825824, -1.817614, -1.79232, -1.835593, -1.804535, -1.833012, -1.819508, -1.836272
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.837267, -1.818939, -1.799233, -1.821882, -1.780922, -1.836772, -1.781221, -1.841833, -1.814999, -1.840287, -1.8335, -1.860398, -1.798688
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.825299, -1.805474, -1.800116, -1.806249, -1.827151, -1.841667, -1.814728, -1.839159, -1.814709, -1.808579, -1.825838, -1.854326, -1.837172, -1.800101, -1.828021, -1.783025, -1.804143
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.835723, -1.793578, -1.810703, -1.78905, -1.812243, -1.779893, -1.807136, -1.817125, -1.814515, -1.836902, -1.789034, -1.856124
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.814362, -1.827811, -1.787087, -1.852702, -1.796275, -1.805879, -1.804182, -1.828131, -1.804333, -1.795764, -1.843235, -1.82581, -1.833322, -1.797689, -1.798596, -1.800145, -1.803493
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.795216, -1.854532, -1.795273, -1.84709, -1.80621, -1.842834, -1.82473, -1.807642, -1.772728, -1.790735, -1.821354, -1.781707
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: VALIDATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.813128, -1.772922, -1.794393, -1.836236, -1.835537, -1.798133, -1.82785, -1.796853, -1.821567, -1.79516, -1.803236, -1.764015
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: GONOGO
+Condition Type: VALIDATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.765777, -1.814512, -1.802247, -1.837005, -1.823169, -1.837579, -1.818473, -1.839601, -1.789603, -1.808014, -1.812819, -1.851375, -1.854817, -1.817281
+Number of Errors: 2
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.826275, -1.814161, -1.794869, -1.797988, -1.832083, -1.809865, -1.801678, -1.845942, -1.828431, -1.825614, -1.843347, -1.775833, -1.792544, -1.810425, -1.851726, -1.819262, -1.825369
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.816524, -1.832636, -1.805516, -1.862799, -1.805737, -1.826027, -1.839267, -1.795854, -1.790502, -1.78318, -1.801764, -1.825647, -1.858341, -1.808236
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.801857, -1.803815, -1.800951, -1.795087, -1.812773, -1.828257, -1.844944, -1.819373, -1.848155, -1.791183, -1.814339, -1.786875
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.816548, -1.800258, -1.836632, -1.790679, -1.825824, -1.817614, -1.79232, -1.835593, -1.804535, -1.833012, -1.819508, -1.836272
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.837267, -1.818939, -1.799233, -1.821882, -1.780922, -1.836772, -1.781221, -1.841833, -1.814999, -1.840287, -1.8335, -1.860398, -1.798688
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.825299, -1.805474, -1.800116, -1.806249, -1.827151, -1.841667, -1.814728, -1.839159, -1.814709, -1.808579, -1.825838, -1.854326, -1.837172, -1.800101, -1.828021, -1.783025, -1.804143
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.835723, -1.793578, -1.810703, -1.78905, -1.812243, -1.779893, -1.807136, -1.817125, -1.814515, -1.836902, -1.789034, -1.856124
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.814362, -1.827811, -1.787087, -1.852702, -1.796275, -1.805879, -1.804182, -1.828131, -1.804333, -1.795764, -1.843235, -1.82581, -1.833322, -1.797689, -1.798596, -1.800145, -1.803493
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: -1.795216, -1.854532, -1.795273, -1.84709, -1.80621, -1.842834, -1.82473, -1.807642, -1.772728, -1.790735, -1.821354, -1.781707
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: NBACK
+Condition Type: VALIDATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.813128, -1.772922, -1.794393, -1.836236, -1.835537, -1.798133, -1.82785, -1.796853, -1.821567, -1.79516, -1.803236, -1.764015
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: GONOGO
+Condition Type: VALIDATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: -1.765777, -1.814512, -1.802247, -1.837005, -1.823169, -1.837579, -1.818473, -1.839601, -1.789603, -1.808014, -1.812819, -1.851375, -1.854817, -1.817281
+Number of Errors: 2
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: VALIDATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: -1.836405, -1.806429, -1.824512, -1.803764, -1.832991, -1.806613, -1.8076, -1.832781, -1.78751, -1.827975, -1.799436
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----

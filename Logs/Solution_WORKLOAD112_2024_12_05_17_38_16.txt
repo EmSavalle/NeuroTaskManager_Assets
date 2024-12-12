@@ -1,0 +1,13 @@
+Model type : WORKLOAD
+Task Low : GONOGO
+Task Medium : NBACK
+Task High : COLORSHAPE
+Type : COLORSHAPE Difficulty : LOW Score : NaN
+Type : GONOGO Difficulty : LOW Score : NaN
+Type : NBACK Difficulty : LOW Score : NaN
+Type : NBACK Difficulty : MEDIUM Score : NaN
+Type : COLORSHAPE Difficulty : MEDIUM Score : NaN
+Type : GONOGO Difficulty : MEDIUM Score : NaN
+Type : NBACK Difficulty : HIGH Score : NaN
+Type : COLORSHAPE Difficulty : HIGH Score : NaN
+Type : GONOGO Difficulty : HIGH Score : NaN

@@ -1,0 +1,189 @@
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 2
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 2
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: VALIDATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 18
+Number of Successes: 0
+Number of Missed: 9
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 2
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 2
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: NBACK
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 0
+-----
+Task Type: COLORSHAPE
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 0
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: CALIBRATION
+Task Difficulty: HIGH
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 1
+Number of Successes: 0
+Number of Missed: 1
+-----
+Task Type: GONOGO
+Condition Type: VALIDATION
+Task Difficulty: LOW
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 18
+Number of Successes: 0
+Number of Missed: 9
+-----
+Task Type: NBACK
+Condition Type: VALIDATION
+Task Difficulty: MEDIUM
+Duration: 60 seconds
+Workloads: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Number of Errors: 12
+Number of Successes: 0
+Number of Missed: 0
+-----

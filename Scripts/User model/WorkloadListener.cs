@@ -22,7 +22,6 @@ public class WorkloadListener : WorkloadManager
     }
 
     public override float GenerateWorkload(){
-        Debug.Log("Generate workload");
         float workload = 0f;
         if(streamIndex == -1 && lSLManager!=null){
             for (int i = 0; i < lSLManager.lSLStreams.Count; i++){
@@ -35,7 +34,7 @@ public class WorkloadListener : WorkloadManager
             LSLStream ls = lSLManager.lSLStreams[streamIndex];
             
             if(ls.receivedData.Count>0){
-                workload = ls.receivedData.Average();
+                workload = Median(ls.receivedData);
                 lSLManager.ResetListWorkload();
             }
             

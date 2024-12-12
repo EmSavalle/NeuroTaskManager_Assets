@@ -11,11 +11,17 @@ public class QuestionnaireButton : Button
     public int value;
 
     public Color32 backupColor;
+    public float lastSelect;
+    public float selectdisable = 0.5f;
     public override void Select()
     {
-        base.Select();
-        qt.Select(value);
-        if(value != 0){gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color32(0,255,0,0);}
+        if (Time.time > selectdisable + lastSelect)
+        {
+            lastSelect = Time.time;
+            base.Select();
+            qt.Select(value);
+            if (value != 0) { gameObject.GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 255, 0, 0); }
+        }
     }public override void Unselect()
     {
         base.Unselect();

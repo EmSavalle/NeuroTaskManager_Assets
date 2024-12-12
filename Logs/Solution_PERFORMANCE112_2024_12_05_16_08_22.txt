@@ -1,0 +1,13 @@
+Model type : PERFORMANCE
+Task Low : GONOGO
+Task Medium : NBACK
+Task High : COLORSHAPE
+Type : COLORSHAPE Difficulty : LOW Score : 0.5
+Type : GONOGO Difficulty : LOW Score : 0.7058824
+Type : NBACK Difficulty : LOW Score : 0.9166667
+Type : NBACK Difficulty : MEDIUM Score : 0.875
+Type : COLORSHAPE Difficulty : MEDIUM Score : 0.2
+Type : GONOGO Difficulty : MEDIUM Score : 0.5882353
+Type : NBACK Difficulty : HIGH Score : 0.8461539
+Type : COLORSHAPE Difficulty : HIGH Score : 0.55
+Type : GONOGO Difficulty : HIGH Score : 0.4411765
